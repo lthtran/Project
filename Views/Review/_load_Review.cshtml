@@ -1,0 +1,77 @@
+﻿@model IEnumerable<WebsiteThuCungBento.Models.DANHGIA>
+
+<h2>NHẬN XÉT CỦA KHÁCH HÀNG (@ViewBag.Count)</h2>
+
+<div class="review-container" id="load_review">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="d-flex">
+                        @if (item.HINHANH == null)
+                        {
+                            <img src="~/img/account.png" alt="Avatar" class="avatar" style="width: 45px; height: 45px; background-color: #808080">
+                        }
+                        else
+                        {
+                            <img src="~/img/@item.HINHANH" alt="Avatar" class="avatar" style="width: 45px; height: 45px; background-color: #808080">
+                        }
+                        <h4>@item.TENDNKH</h4>
+                    </div>
+                    <span class="review-date">@item.NGAYDG</span>
+                </div>
+                <div class="review-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= item.Rate)
+                        {
+                            <i class='fa fa-star' style='color: #FFD700;'></i>
+                        }
+                        else
+                        {
+                            <i class='fa fa-star' style='color: lightgray;'></i>
+                        }
+                    }
+                </div>
+                <p>@item.NHANXET</p>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center">
+            <h4>Chưa có bất kì đánh giá nào</h4>
+            <p>Hãy là người đầu tiên nhận xét sản phẩm này!</p>
+        </div>
+    }
+</div>
+
+<style>
+    .review-container {
+        max-height: 550px; /* Set a fixed height */
+        overflow-y: auto; /* Enable vertical scrolling */
+        border: 1px solid #ccc; /* Optional: border around the reviews */
+        padding: 10px; /* Optional: padding for better spacing */
+        border-radius: 5px; /* Optional: rounded corners */
+        background-color: #f9f9f9; /* Optional: background color */
+    }
+
+    .review-item {
+        margin-bottom: 15px; /* Space between reviews */
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between; /* Aligns items properly */
+    }
+
+    .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        margin-right: 10px; /* More spacing between avatar and name */
+        object-fit: cover;
+    }
+</style>

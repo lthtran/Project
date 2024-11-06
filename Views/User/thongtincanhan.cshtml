@@ -1,0 +1,206 @@
+﻿
+@{
+    ViewBag.Title = "Thông Tin Cá Nhân ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+    var kh = Session["Taikhoan"] as WebsiteThuCungBento.Models.KHACHHANG;
+}
+<!-- Trở lại đầu trang-->
+<script language="javascript" src="~/Scripts/backtotop.js"></script>
+<!-- Owl carousel init -->
+<script language="javascript" src="~/Scripts/owlcarousel.js"></script>
+<!-- accordion -->
+<script language="javascript" src="~/Scripts/accordion.js"></script>
+
+<section id="breadcrumb-wrapper3" class="breadcrumb-w-img">
+    <div class="breadcrumb-overlay"></div>
+    <div class="breadcrumb-content">
+        <div class="wrapper">
+            <div class="inner text-center">
+                <div class="breadcrumb-big">
+
+                    <h2>
+                        Tài khoản
+                    </h2>
+
+                </div>
+                <div class="breadcrumb-small">
+                    <a href="@Url.Action("index","User")" title="Quay trở về trang chủ">Trang chủ</a>
+
+
+
+                    <span aria-hidden="true">/</span>
+
+                    <span>Thông Tin Cá Nhân</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    ul li {
+        list-style: none;
+    }
+</style>
+<div id="PageContainer" class="is-moved-by-drawer" style="margin-bottom: 20px;">
+    <main class="main-content" role="main">
+        <section id="page-wrapper">
+            <div class="wrapper">
+                <div class="container">
+
+                    @*<h1>Thông tin cá nhân</h1>*@
+                    
+                    @*<div class="grid">
+
+                        <div class="grid__item two-thirds medium-down--one-whole">
+
+                            <br />
+                            <br />
+                            <ul>
+
+                                <img src="@Url.Content("~/img/" + @kh.HINHANH)" style="width: 20%; height: 100%; object-fit: cover;" alt="">
+                                <li>
+                                    Tên khách hàng: @kh.HOTENKH
+                                </li>
+
+
+                                <li>
+                                    Tên đăng nhập: @kh.TENDNKH
+                                </li>
+
+                                <li>
+                                    Ngày sinh : @string.Format("{0:dd/MM/yyyy}", @kh.NGAYSINH)
+                                </li>
+
+
+                                <li>
+                                    Địa Chỉ: @kh.DIACHI
+                                </li>
+
+
+                                <li>
+                                    Số điện thoại: @kh.DIENTHOAI
+                                </li>
+
+
+                                <li>
+                                    Email: @kh.EMAIL
+                                </li>
+                            </ul>
+                            <a href="@Url.Action("Edit","User",new {id = kh.MAKH })">
+                                <button class="btn btn-danger">Sửa Thông Tin Cá Nhân</button>
+                            </a>
+                        </div>
+                    </div>*@
+
+                    <h1 class="text-center">Thông Tin Cá Nhân</h1>
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center">
+                            <img src="@Url.Content("~/img/" + @kh.HINHANH)" class="rounded-circle img-thumbnail" alt="User Image" style="width:150px;height:150px;">
+                            <h3> Tên khách hàng: @kh.HOTENKH</h3>
+
+                            <a href="@Url.Action("ListServiceRegis", "User")"><button class="btn btn-primary">Đơn Đăng Ký Dịch Vụ</button></a>
+                            <a href="@Url.Action("OrderHistory", "User")"><button class="btn btn-primary">Thông Tin Đơn hàng</button></a>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <strong>Tên đăng nhập:</strong> @kh.TENDNKH
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Ngày sinh:</strong> @string.Format("{0:dd/MM/yyyy}", @kh.NGAYSINH)
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Địa Chỉ:</strong> @kh.DIACHI
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Số điện thoại:</strong> @kh.DIENTHOAI
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Email:</strong> @kh.EMAIL
+                                </li>
+                            </ul>
+
+                            <div class="row justify-content-center mt-4">
+                                <div class="col-md-2">
+                                    <a href="@Url.Action("Edit","User",new {id = kh.MAKH })" class="btn btn-warning btn-block">Sửa <i class="fa-regular fa-pen-to-square"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </section>
+
+    </main>
+</div>
+
+
+<div id="modalAddComplete">
+</div>
+
+<button type="button" id="modalAddCompleteBtn" style="display: none;"></button>
+
+<script>
+    // Get the modal
+    var modalAddComplete = document.getElementById('modalAddComplete');
+
+    // Get the button that opens the modal
+    var modalAddCompleteBtn = document.getElementById("modalAddCompleteBtn");
+
+    // When the user clicks the button, open the modal
+    modalAddCompleteBtn.onclick = function () {
+        modalAddComplete.style.display = "block";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modalAddComplete) {
+            modalAddComplete.style.display = "none";
+        }
+    }
+</script>
+
+<script language="javascript" src="~/Scripts/ajax-cart5eef.js"></script>
+<!-- Custom script -->
+<script>
+    if ($(window).width() > 768) {
+        setTimeout(function () {
+            $("#ProductThumbs .thumbnail-item:first-child a").trigger('click');
+        }, 10);
+    };
+</script>
+<script language="javascript" src="~/Scripts/hoverchangeimage.js"></script>
+<!-- accordion -->
+<script language="javascript" src="~/Scripts/accordion.js"></script>
+<!-- Owl carousel init -->
+<script language="javascript" src="~/Scripts/Owlcarousel.js"></script>
+<!-- Back to top -->
+<script language="javascript" src="~/Scripts/backtotop.js"></script>
+<!-- Validate quantity form & trigger zoom -->
+<script language="javascript" src="~/Scripts/triggerzoom.js"></script>
+<!--thuc hiên-->
+<script language="javascript" src="~/Scripts/thuchien.js"></script>
+<!-- popup loaded -->
+<script>
+    $(document).ready(function () {
+        var date = new Date();
+        var minutes = 60;
+        date.setTime(date.getTime() + (minutes * 60 * 1000));
+
+        if (getCookie('popupNewLetterStatus') != 'closed') {
+            $('#popup-btn').trigger('click');
+            setCookie('popupNewLetterStatus', 'closed', date);
+        };
+    })
+</script>
+<script language="javascript" src="~/Scripts/quickview.js"></script>
+<script>
+    $(".hc-search-wrapper > a").click(function () {
+        $(".search-bar-header").toggle();
+    });
+</script>
+
+

@@ -1,0 +1,34 @@
+﻿@model WebsiteThuCungBento.Models.KICHTHUOC
+
+@{
+    ViewBag.Title = "Trang chi tiết kích thước";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG CHI TIẾT</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Mã sản phẩm:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MASP)
+        </dd>
+        <dt>
+            Tên Kích Thước:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENKICHTHUOC)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.MAKICHTHUOC }) |
+    @Html.ActionLink("Quay lại trang quản lý", "Index")
+</p>

@@ -1,0 +1,834 @@
+﻿
+@{
+    ViewBag.Title = "Thú Cưng Theo Giống và phụ kiện ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<div id="PageContainer" class="is-moved-by-drawer">
+    <main class="main-content" role="main">
+
+
+        <section id="collection-wrapper">
+            <div class="wrapper">
+
+                <div class="inner">
+                    <div class="grid">
+                        <div class="grid__item large--three-quarters medium--one-whole small--one-whole float-right">
+
+                            <div class="collection-content-wrapper">
+                                <section id="home-collections">
+                                    <div id="cateProductFagomom">
+                                        <div class="secMainContent">
+                                            <div class="container">
+                                                <div class="stylizedIcon">
+                                                    <img alt="item" src="~/images/item_1MM.png">
+                                                </div>
+                                                <div class="titleBlock_1">
+                                                    <a href="#">
+                                                        <h1 class="title">Thú Cưng Theo Giống Và Phụ Kiện - @ViewBag.tenth</h1>
+                                                    </a>
+                                                </div>
+                                                 <div class="productBlock">
+                                    <div class="row">
+                                        @foreach (var i in Model)
+                                        {
+                                            <div class="col-lg-3 col-md-4 col-6 wrapBox">
+                                                <div class="detailProductBlock" style="background-color: #ffffff; padding: 20px; color: red;">
+                                                    <a href="@Url.Action("Chitiet", "User", new { id = i.MASP })" >
+                                                        <div class="imgPart figure1" >
+                                                            <img alt="@i.TENSP" src="@Url.Content("~/img/" + @i.HINHANH)">
+                                                        </div>
+                                                    </a>
+                                                    <a href="@Url.Action("Chitiet", "User", new { id = i.MASP })" style="color: #cd5c5c;">
+                                                        <div class="textPart" style="color: #cd5c5c;">
+                                                            <p class="titleProduct" title="@i.TENSP" style=" color: #f0ffff; font-weight: bold; font-size: 25px; text-shadow: 1px 1px 0 blue, -1px -1px 0 blue, 1px -1px 0 blue, -1px 1px 0 blue;">@i.TENSP</p>
+                                                        </div>
+                                                    </a>
+                                                    <div class="btnAddCart">
+                                                        <a class="btnType_3" title="Đơn Giá">@String.Format("{0:0,0}", i.DONGIABAN)đ</a>
+                                                    </div>
+                                                    <div class="btnAddCart">
+                                                        <a class="btnType_3" href="@Url.Action("ThemGiohang", "GioHang", new { @iMASP = i.MASP, @strURL = Request.Url.ToString() })" title="Xem chi tiết">Thêm Giỏ Hàng</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+ 
+<div id="modalAddComplete">
+</div>
+
+<button type="button" id="modalAddCompleteBtn" style="display: none;"></button>
+
+<script>
+    // Get the modal
+    var modalAddComplete = document.getElementById('modalAddComplete');
+
+    // Get the button that opens the modal
+    var modalAddCompleteBtn = document.getElementById("modalAddCompleteBtn");
+
+    // When the user clicks the button, open the modal
+    modalAddCompleteBtn.onclick = function () {
+        modalAddComplete.style.display = "block";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modalAddComplete) {
+            modalAddComplete.style.display = "none";
+        }
+    }
+</script>
+
+<script src='../../theme.hstatic.net/1000359177/1000456422/14/fastclick.min5eef.js?v=110' type='text/javascript'></script>
+<script src='../../theme.hstatic.net/1000359177/1000456422/14/script5eef.js?v=110' type='text/javascript'></script>
+<script src='../../theme.hstatic.net/1000359177/1000456422/14/timber5eef.js?v=110' type='text/javascript'></script>
+
+
+
+
+
+<script>
+
+</script>
+
+<script src='../../theme.hstatic.net/1000359177/1000456422/14/handlebars.min5eef.js?v=110' type='text/javascript'></script>
+<!-- /snippets/ajax-cart-template.liquid -->
+
+
+
+<script src='../../theme.hstatic.net/1000359177/1000456422/14/ajax-cart5eef.js?v=110' type='text/javascript'></script>
+
+
+
+
+<!-- Custom script -->
+<script>
+    if ($(window).width() > 768) {
+        setTimeout(function () {
+            $("#ProductThumbs .thumbnail-item:first-child a").trigger('click');
+        }, 10);
+    };
+</script>
+
+
+
+
+
+
+
+<script>
+    /* Hover to change product item image */
+    $(document).on("mouseover", ".variant-image-loop", function (e) {
+        e.preventDefault();
+        var id = $(this).data('feature-image');
+        var img = $(this).data('img');
+        $('#' + id).attr('src', img);
+    });
+
+    $(document).on("mouseover", ".variant-image-loop1", function (a) {
+        a.preventDefault();
+        var id = $(this).data('feature-image1');
+        var img = $(this).data('img1');
+        $('#' + id + 'a').attr('src', img);
+    });
+
+    $(document).on("mouseover", ".variant-image-loop2", function (a) {
+        a.preventDefault();
+        var id = $(this).data('feature-image2');
+        var img = $(this).data('img2');
+        $('#' + id + 'b').attr('src', img);
+    });
+
+    $(document).on("mouseover", ".variant-image-loop3", function (a) {
+        a.preventDefault();
+        var id = $(this).data('feature-image3');
+        var img = $(this).data('img3');
+        $('#' + id + 'c').attr('src', img);
+    });
+
+    $(document).on("mouseover", ".variant-image-loop4", function (a) {
+        a.preventDefault();
+        var id = $(this).data('feature-image4');
+        var img = $(this).data('img4');
+        $('#' + id + 'd').attr('src', img);
+    });
+
+    $(document).on("mouseover", ".variant-image-loop5", function (a) {
+        a.preventDefault();
+        var id = $(this).data('feature-image5');
+        var img = $(this).data('img5');
+        $('#' + id + 'e').attr('src', img);
+    });
+</script>
+
+<script>
+    $(".hc-search-wrapper > a").click(function () {
+        $(".search-bar-header").toggle();
+    });
+</script>
+
+<!-- Main slider video bg -->
+
+
+<script>
+    $(".mobile-btnSearch > a").click(function () {
+        $(".mobile-search-wrapper").toggle();
+    });
+</script>
+
+
+
+<!-- accordion -->
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].onclick = function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        }
+    }
+
+    if ($(window).width() > 769) {
+        $('.accordion.col-sb-trigger').trigger('click');
+    }
+</script>
+
+
+
+
+<!-- Owl carousel init -->
+<script language="javascript" src="~/Scripts/owlcarousel.js"></script>
+
+<!-- Back to top -->
+<script>
+    jQuery(document).ready(function () {
+        var offset = 220;
+        var duration = 500;
+        jQuery(window).scroll(function () {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('#back-to-top').fadeIn(duration);
+            } else {
+                jQuery('#back-to-top').fadeOut(duration);
+            }
+        });
+
+        jQuery('#back-to-top').click(function (event) {
+            event.preventDefault();
+            jQuery('html, body').animate({
+                scrollTop: 0
+            }, duration);
+            return false;
+        });
+
+        window.onscroll = changePos;
+
+        function changePos() {
+            var header = $("#header");
+            var headerheight = $("#header").height();
+            if (window.pageYOffset > headerheight) {
+                header.addClass('scrolldown');
+            } else {
+                header.removeClass('scrolldown');
+            }
+        }
+    });
+</script>
+
+<!-- Validate quantity form & trigger zoom -->
+<script>
+    $("document").ready(function () {
+        $(function () {
+            $(".js-qty__num").keypress(function (event) {
+                if (event.which != 8 && event.which != 0 && (event.which < 48 || event.which > 57)) {
+                    return false;
+                }
+            });
+        });
+        if ($(window).width() > 768) {
+            setTimeout(function () {
+                $("#ProductThumbs .thumbnail-item:first-child a").trigger('click');
+            }, 10);
+        };
+    });
+</script>
+
+
+
+
+<script>
+    // Đầu tiên chúng ta sẽ cần 3 biến
+    // total_page, cur_page và một câu truy vấn dữ liệu
+
+    var total_page, cur_page, collectionid, collectionSize;
+    total_page = 6 // Tổng trang
+    cur_page = 1; // Trang hiện tại
+    collectionid = '0'; // Lưu collection id, để khi buyer click bỏ hết filter thì mình sẽ dựa vào id này để quay trở về trang bắt đầu.
+    collectionSize = 102;
+    var pageLimit = 18;
+    var timeOutFilter;
+    var check_slided_price = false; // Biến này để check phần filter price ( Nếu dùng input checkbox thì ko cần biến này )
+    var check_url_param = false; // Biến này để check link url có filter hay ko vd :
+    var query = '';
+
+    var quantityProductLeft = collectionSize - (cur_page * pageLimit);
+    var loadingText = '<i class="fa fa-spinner fa-spin"></i> Loading...';
+    var productLeftText = ('Xem Thêm (còn ' + quantityProductLeft + ' Thú Cưng)');
+    var btnLoading = $('.btn-loading'), productsContainer = $('.product-list'), hideFilter = $('.not-filter'), imgResize = $('.image-resize');
+
+    function getProductLeft() {
+        var quantityProductLeft = collectionSize - (cur_page * pageLimit);
+        var _text = ('Xem Thêm (còn ' + quantityProductLeft + ' Thú Cưng)');
+        return _text;
+    }
+
+    if (quantityProductLeft > 0) {
+        btnLoading.html(getProductLeft());
+    } else {
+        btnLoading.hide();
+    }
+
+    if (collectionid == 0) {
+        query = "/search?q=filter=((collectionid:product>" + collectionid + ')';
+    } else {
+        query = "/search?q=filter=((collectionid:product=" + collectionid + ')';
+    }
+    var genQuery = function () {
+        url_param = ''; // Biến này dùng để lưu phần filter của buyer đưa lên url
+        _query = query; // Biến này để lưu câu truy vấn dữ liệu
+        price = '', vendor = '', size1 = '', size2 = '', size3 = '', color = '', type = '';
+        url_price = 'price=', url_vendor = 'vendor=', url_color = 'color=', url_size1 = 'size=', url_size2 = 'size=', url_size3 = 'size=', url_type = 'type=';
+
+        if (check_slided_price) {
+            price = jQuery('.filter-price input[type=radio]:checked').val();
+            url_price = url_price + jQuery('.filter-price input[type=radio]:checked').attr('data-price');
+            url_param = url_param + url_price + '&';
+            _query = _query + '&&' + price;
+        } else {
+            url_price = '';
+        }
+
+        if (jQuery('.filter-vendor input:checked').length > 0) {
+            jQuery('.filter-vendor li').each(function () {
+                if (jQuery(this).find('input').is(':checked')) {
+                    vendor = vendor + jQuery(this).find('input').val() + '||';
+                    url_vendor = url_vendor + $(this).find('label').attr('data-filter') + ',';
+                }
+            });
+            vendor = vendor + '####';
+            vendor = '(' + vendor.split('||####')[0] + ')';
+            url_vendor = url_vendor + '####';
+            url_vendor = url_vendor.split(',####')[0];
+            url_param = url_param + url_vendor + '&';
+            _query = _query + '&&' + vendor;
+        } else {
+            url_vendor = '';
+        }
+
+        if (jQuery('.filter-type input:checked').length > 0) {
+            jQuery('.filter-type li').each(function () {
+                if (jQuery(this).find('input').is(':checked')) {
+                    type = type + jQuery(this).find('input').val() + '||';
+                    url_type = url_type + $(this).find('label').attr('data-filter') + ',';
+                }
+            });
+            type = type + '####';
+            type = '(' + type.split('||####')[0] + ')';
+            url_type = url_type + '####';
+            url_type = url_type.split(',####')[0];
+            url_param = url_param + url_type + '&';
+            _query = _query + '&&' + type;
+        } else {
+            url_type = '';
+        }
+
+        if (jQuery('.filter-size1 input:checked').length > 0) {
+            jQuery('.filter-size1 li').each(function () {
+                if (jQuery(this).find('input').is(':checked')) {
+                    size1 = size1 + jQuery(this).find('input').val() + '||';
+                    url_size1 = url_size1 + $(this).find('label').attr('data-filter') + ',';
+                }
+            });
+            size1 = size1 + '####';
+            size1 = '(' + size1.split('||####')[0] + ')';
+            url_size1 = url_size1 + '####';
+            url_size1 = url_size1.split(',####')[0];
+            url_param = url_param + url_size1 + '&';
+            _query = _query + '&&' + size1;
+            console.log('a');
+        } else {
+            url_size1 = '';
+        }
+
+        if (jQuery('.filter-size2 input:checked').length > 0) {
+            jQuery('.filter-size2 li').each(function () {
+                if (jQuery(this).find('input').is(':checked')) {
+                    size2 = size2 + jQuery(this).find('input').val() + '||';
+                    url_size2 = url_size2 + $(this).find('label').attr('data-filter') + ',';
+                }
+            });
+            size2 = size2 + '####';
+            size2 = '(' + size2.split('||####')[0] + ')';
+            url_size2 = url_size2 + '####';
+            url_size2 = url_size2.split(',####')[0];
+            url_param = url_param + url_size2 + '&';
+            _query = _query + '&&' + size2;
+        } else {
+            url_size2 = '';
+        }
+
+        if (jQuery('.filter-size3 input:checked').length > 0) {
+            jQuery('.filter-size3 li').each(function () {
+                if (jQuery(this).find('input').is(':checked')) {
+                    size3 = size3 + jQuery(this).find('input').val() + '||';
+                    url_size3 = url_size3 + $(this).find('label').attr('data-filter') + ',';
+                }
+            });
+            size3 = size3 + '####';
+            size3 = '(' + size3.split('||####')[0] + ')';
+            url_size3 = url_size3 + '####';
+            url_size3 = url_size3.split(',####')[0];
+            url_param = url_param + url_size3 + '&';
+            _query = _query + '&&' + size3;
+        } else {
+            url_size3 = '';
+        }
+
+        if (jQuery('.filter-color input:checked').length > 0) {
+            jQuery('.filter-color li').each(function () {
+                if (jQuery(this).find('input').is(':checked')) {
+                    color = color + jQuery(this).find('input').val() + '||';
+                    url_color = url_color + $(this).find('label').attr('data-filter') + ',';
+                }
+            });
+            color = color + '####';
+            color = '(' + color.split('||####')[0] + ')';
+            url_color = url_color + '####';
+            url_color = url_color.split(',####')[0];
+            url_param = url_param + url_color + '&';
+            _query = _query + '&&' + color;
+        } else {
+            url_color = '';
+        }
+
+        var query_final = _query + ')';
+        if (check_slided_price == false && jQuery('.filter-type input:checked').length == 0 && jQuery('.filter-vendor input:checked').length == 0 && jQuery('.filter-variant input:checked').length == 0) {
+            if (collectionid == 0) {
+                query_final = "/search?q=filter=(collectionid:product>" + collectionid + ")";
+            } else {
+                query_final = "/search?q=filter=(collectionid:product=" + collectionid + ")";
+            }
+            if (check_url_param) {
+                history.pushState(null, null, window.location.pathname);
+            }
+        } else {
+            url_param = url_param + '####';
+            url_param = url_param.split('&####')[0];
+            if (check_url_param) {
+                history.pushState(null, null, '?' + url_param);
+            }
+            if (cur_page >= 1 && check_url_param) {
+                history.pushState(null, null, '?' + url_param);
+            }
+        }
+        query_final = query_final.replace('/search?q=filter=', '');
+        query_final = encodeURIComponent(query_final);
+        query_final = '/search?q=filter=' + query_final;
+        return query_final;
+    }
+
+    // Ở đây chúng ta sẽ setTimeout cho function này vì khi khách sản click liên tục sẽ dẫn đến
+    // trạng request nhiều lần, nên mình sẽ setTimeout 1s để khi khách hàng click liên tục
+    // sẽ không bị request nhiều lần nữa.
+    var filter_append_product = function () {
+        clearTimeout(timeOutFilter);
+        timeOutFilter = setTimeout(function () {
+            total_page = 0, cur_page = 1;
+            url = genQuery();
+            jQuery.ajax({
+                url: url + '&view=pagesize',
+                success: function (data) {
+                    total_page = parseInt(data.split('####')[0]);
+                    collectionSize = parseInt(data.split('####')[1]);
+                    console.log('collection-size=' + collectionSize);
+                    btnLoading.hide();
+                    if (total_page > 1) {
+                        btnLoading.html(getProductLeft());
+                        btnLoading.show();
+                    }
+                }
+            });
+            //lay trang dau tien
+            jQuery.ajax({
+                url: url + '&view=filter',
+                success: function (data) {
+                    loadingcomplete = true;
+                    //$('.empty').remove(); // Xóa phần thông báo hết hàng or không tìm thấy khi filter -> đặt class empty vào đoạn html đó
+                    productsContainer.html(''); // Xóa dữ liệu củ
+                    hideFilter.remove();
+                    productsContainer.append(data);
+                }
+            });
+        }, 1000);
+    }
+
+    var filter_append_product_by_page = function (queryByPage) {
+        jQuery.ajax({
+            url: queryByPage,
+            success: function (data) {
+                loadingcomplete = true;
+                productsContainer.html(data);
+                hideFilter.remove();
+            }
+        });
+    }
+
+    // Khi buyer click vào input mình sẽ bắt sự kiện change của nó và chạy function filter_append_product() để get dữ liệu.
+    jQuery(document).ready(function () {
+        jQuery('.filter-vendor input').change(function () {
+            filter_append_product();
+        });
+        jQuery('.filter-type input').change(function () {
+            filter_append_product();
+        });
+        jQuery('.filter-size1 input').change(function () {
+            filter_append_product();
+        });
+        jQuery('.filter-size2 input').change(function () {
+            filter_append_product();
+        });
+        jQuery('.filter-size3 input').change(function () {
+            filter_append_product();
+        });
+        jQuery('.filter-color input').change(function () {
+            filter_append_product();
+        });
+        jQuery('.filter-price input').change(function () {
+            check_slided_price = true;
+            filter_append_product();
+        });
+
+        // Phần điều kiện này dùng để lấy dữ liệu filter từ url nếu có vd : /collections/all?price=0:500000&vendor=juno
+        if (window.location.search != '' && window.location.search.indexOf('?page=') != 0) {
+            $('.filter-vendor input:checkbox,.filter-type input:checkbox,.filter-variant input:checkbox,.filter-price input:radio').prop('checked', false);// Unclock checked input filter
+            filter_value = [];
+            link_url = window.location.search.replace('?', '').split('&');
+            if (link_url.length > 0) {
+                $.each(link_url, function (i, v) {
+                    filter_value[v.split('=')[0]] = v.split('=')[1];
+                });
+            }
+            if (filter_value["price"] != undefined) {
+                if (jQuery(".filter-price input[data-price='" + filter_value["price"] + "']").length > 0) {
+                    jQuery(".filter-price input[data-price='" + filter_value["price"] + "']").click();
+                }
+            }
+            if (filter_value["vendor"] != undefined) {
+                $.each(filter_value["vendor"].split(','), function (i, v) {
+                    $('.filter-vendor .' + convertToSlug(decodeURIComponent(v)) + ' input').click();
+                });
+            }
+            if (filter_value["type"] != undefined) {
+                $.each(filter_value["type"].split(','), function (i, v) {
+                    $('.filter-type .' + convertToSlug(decodeURIComponent(v)) + ' input').click();
+                });
+            }
+            if (filter_value["color"] != undefined) {
+                $.each(filter_value["color"].split(','), function (i, v) {
+                    $('.filter-color .' + convertToSlug(decodeURIComponent(v)) + ' input').click();
+                });
+            }
+            if (filter_value["size1"] != undefined) {
+                $.each(filter_value["size1"].split(','), function (i, v) {
+                    $('.filter-size1 .' + convertToSlug(decodeURIComponent(v)) + ' input').click();
+                });
+            }
+            if (filter_value["size2"] != undefined) {
+                $.each(filter_value["size2"].split(','), function (i, v) {
+                    $('.filter-size2 .' + convertToSlug(decodeURIComponent(v)) + ' input').click();
+                });
+            }
+            if (filter_value["size3"] != undefined) {
+                $.each(filter_value["size3"].split(','), function (i, v) {
+                    $('.filter-size3 .' + convertToSlug(decodeURIComponent(v)) + ' input').click();
+                });
+            }
+            check_url_param = true;
+        } else {
+            check_url_param = true;
+        }
+    });
+
+    var loadingcomplete = true, isloading = false;
+
+
+    // Xữ lý nút load more
+    jQuery(document).on("click", '.btn-loading', function () {
+        loadingcomplete = false;
+        if (!isloading && cur_page < total_page) {
+            isloading = true;
+            cur_page++;
+            btnLoading.html(loadingText);
+            $.ajax({
+                url: genQuery() + '&view=filter&page=' + cur_page,
+                success: function (data) {
+                    pos_scrollTop = jQuery(window).scrollTop();
+                    jQuery('.empty').remove();
+                    productsContainer.append(data);
+                    jQuery(window).scrollTop(pos_scrollTop);
+                    isloading = false;
+                    loadingcomplete = true;
+                    if (cur_page == total_page) {
+                        btnLoading.hide();
+                    } else {
+                        btnLoading.html(getProductLeft());
+                    }
+                }
+            });
+        }
+    });
+
+</script>
+
+
+
+
+<!-- popup loaded -->
+
+<script>
+$('#AddToCardQuickView').on('click', function(e){
+	e.preventDefault();
+	jQuery.ajax({
+		type: 'POST',
+		url: '/cart/add.js',
+		async : false,
+		data: jQuery('#form-quick-view').serialize(),
+		dataType: 'json',
+		success: function() {
+			$(".close").trigger('click');
+			updateCart();
+			updateCartModal();
+		},
+		error: function(XMLHttpRequest, textStatus) {
+			Haravan.onError(XMLHttpRequest, textStatus);
+		}
+	});
+});
+var callBack = function (variant, selector) {
+	if (variant) {
+		modal = $('#productQuickView');
+		$('.p-price').html(Haravan.formatMoney(variant.price, "{{amount}}₫"));
+		if(variant.sku){
+			$('#ProductSku').html(variant.sku);
+			$('.product-sku').show();
+		}else{
+			$('.product-sku').hide();
+		}
+		if(variant.compare_at_price - variant.price > 0){
+			$('#PriceSaving').html('(Bạn đã tích kiệm được ' + Haravan.formatMoney(variant.compare_at_price - variant.price, "{{amount}}₫")+')')
+		}else{
+			$('#PriceSaving').html('')
+		}
+		if (variant.compare_at_price > 0)
+			modal.find('del').html(Haravan.formatMoney(variant.compare_at_price, "{{amount}}₫"));
+		else
+			modal.find('del').html('');
+		if (variant.available) {
+			modal.find('.btn-addcart').css('display', 'block');
+			modal.find('.btn-soldout').css('display', 'none');
+			if (variant.featured_image) {
+				var newImg = variant.featured_image,
+						el = $('.p-product-image-feature')[0];
+				Haravan.Image.switchImage(newImg, el, timber.switchImage);
+			}
+			check_variant_quickview = true;
+		}
+		else {
+			modal.find('.btn-addcart').css('display', 'none');
+			modal.find('.btn-soldout').css('display', 'block');
+
+		}
+	}
+	else {
+		modal.find('.btn-addcart').css('display', 'none');
+		modal.find('.btn-soldout').css('display', 'block');
+		check_variant_quickview = false;
+
+	}
+}
+var p_select_data = $('.p-option-wrapper').html();
+var p_zoom = $('.image-zoom').html();
+$('#productQuickView').on('click', '.item img', function (event) {
+	event.preventDefault();
+	modal = $('#quick-view-modal');
+	modal.find('.p-product-image-feature').attr('src', $(this).attr('data-zoom-image'));
+	modal.find('.item').removeClass('active');
+	$(this).parents('li').addClass('active');
+	return false;
+});
+$(function(){
+	$('#close').click(function(){
+		$('#productQuickView .modal-content').css('opacity', '0');
+		$('#productQuickView .modal-content').css('transform', 'translateY(-30px)');
+		$('#productQuickView').css('background-color', 'rgba(0,0,0,0)');
+		setTimeout(function(){
+			$('#productQuickView').hide();
+		}, 500);
+		document.getElementById("form-quick-view").reset();
+	})
+	window.onclick = function(event) {
+		if (event.target == document.getElementById('productQuickView')) {
+			$('#productQuickView .modal-content').css('opacity', '0');
+			$('#productQuickView .modal-content').css('transform', 'translateY(-30px)');
+			$('#productQuickView').css('background-color', 'rgba(0,0,0,0)');
+			setTimeout(function(){
+				$('#productQuickView').hide();
+			}, 500);
+			document.getElementById("form-quick-view").reset();
+		}
+	}
+})
+$(document).on("click",".quick-view", function(event){
+	event.preventDefault();
+
+	if(!quickViewProduct($(this).attr('data-handle'))){
+		if ($(window).width() > 680) {
+			$('#productQuickView .modal-content').css('opacity', '0');
+			$('#productQuickView').show();
+			$('#productQuickView').css('background-color', 'rgba(0,0,0,0.4)');
+			$('#loading').show();
+
+			var images = $("#productQuickView img");
+			var loadedImgNum = 0;
+
+			images.on('load', function(){
+				loadedImgNum += 1;
+				if (loadedImgNum == images.length) {
+					var topPQZ =  ($('#productQuickView').height() - $('.modal-content').height())/2;
+					$('#loading').hide();
+					$('#productQuickView .modal-content').css('opacity', '1');
+					$('#productQuickView .modal-content').css('transform', 'translateY(0)');
+					$('#productQuickView .modal-content').css('margin-top', topPQZ - 50);
+				}
+			});
+		}
+		$('#p-sliderproduct a').on('click', function(evt) {
+			evt.preventDefault();
+			var newImage = $(this).data('zoom-image');
+			$('.p-product-image-feature').attr('src', newImage);
+		});
+	}
+});
+function callFirstVariantQuickView(){
+	var _chage = '';
+	$('#productQuickView .swatch-element[data-value="'+$('.selector-wrapper .single-option-selector').eq(0).val()+'"]').find('input').click();
+	$('#productQuickView .swatch-element[data-value="'+$('.selector-wrapper .single-option-selector').eq(1).val()+'"]').find('input').click();
+	if(swatch_size == 2){
+		var _avi_op1 = '';
+		var _avi_op2 = '';
+		var _count = $('#variant-swatch-1-quickview .swatch-element').size();
+		$('#variant-swatch-0-quickview .swatch-element').each(function(ind,value){
+			var _key = $(this).data('value');
+			var _unavi = 0;
+			$('#productQuickView .single-option-selector').eq(0).val(_key).change();
+			$('#variant-swatch-1-quickview .swatch-element').each(function(i,v){
+				var _val = $(this).data('value');
+				$('#productQuickView .single-option-selector').eq(1).val(_val).change();
+				if(check_variant_quickview == true){
+					if(_avi_op1 == ''){
+						_avi_op1 = _key;
+					}
+					if(_avi_op2 == ''){
+						_avi_op2 = _val;
+					}
+				}else{
+					_unavi += 1;
+				}
+			})
+			if(_unavi == _count){
+				$('#variant-swatch-0-quickview .swatch-element[data-value = "'+_key+'"]').addClass('soldout');
+				$('#variant-swatch-0-quickview .swatch-element[data-value = "'+_key+'"]').find('input').attr('disabled','disabled');
+			}
+		})
+		$('#variant-swatch-1-quickview .swatch-element[data-value = "'+_avi_op2+'"] input').click();
+		$('#variant-swatch-0-quickview .swatch-element[data-value = "'+_avi_op1+'"] input').click();
+	}else if(swatch_size == 3){
+		var _avi_op1 = '';
+		var _avi_op2 = '';
+		var _avi_op3 = '';
+		var _size_op2 = $('#variant-swatch-1-quickview .swatch-element').size();
+		var _size_op3 = $('#variant-swatch-2-quickview .swatch-element').size();
+
+		$('#variant-swatch-0-quickview .swatch-element').each(function(ind,value){
+			var _key_va1 = $(this).data('value');
+			var _count_unavi = 0;
+			$('#productQuickView .single-option-selector').eq(0).val(_key_va1).change();
+			$('#variant-swatch-1-quickview .swatch-element').each(function(i,v){
+				var _key_va2 = $(this).data('value');
+				var _unavi_2 = 0;
+				$('#productQuickView .single-option-selector').eq(1).val(_key_va2).change();
+				$('#variant-swatch-2-quickview .swatch-element').each(function(j,z){
+					var _key_va3 = $(this).data('value');
+					$('#productQuickView .single-option-selector').eq(2).val(_key_va3).change();
+					if(check_variant_quickview == true){
+						if(_avi_op1 == ''){
+							_avi_op1 = _key_va1;
+						}
+						if(_avi_op2 == ''){
+							_avi_op2 = _key_va2;
+						}
+						if(_avi_op3 == ''){
+							_avi_op3 = _key_va3;
+						}
+					}else{
+						_unavi_2 += 1;
+					}
+				})
+				if(_unavi_2 == _size_op3){
+					_count_unavi += 1;
+				}
+			})
+			if(_size_op2 == _count_unavi){
+				$('#variant-swatch-0-quickview .swatch-element[data-value = "'+_key_va1+'"]').addClass('soldout');
+				$('#variant-swatch-0-quickview .swatch-element[data-value = "'+_key_va1+'"]').find('input').attr('disabled','disabled');
+			}
+		})
+		$('#variant-swatch-0-quickview .swatch-element[data-value = "'+_avi_op1+'"] input').click();
+	}
+	var img_ = $('#variant-swatch-0-quickview .swatch-element[data-value = "'+_avi_op1+'"] input').data('img-src');
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Code injected by live-server -->

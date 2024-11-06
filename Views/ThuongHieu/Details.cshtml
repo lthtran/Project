@@ -1,0 +1,35 @@
+﻿@model WebsiteThuCungBento.Models.THUONGHIEU
+
+@{
+    ViewBag.Title = "Trang chi tiết Giống và phụ kiện";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>TRANG CHI TIẾT Giống và phụ kiện CỦA 1 Thú Cưng</h1>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên Giống và phụ kiện:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENTH)
+        </dd>
+
+        <dt>
+           Logo Giống và phụ kiện:
+        </dt>
+
+        <dd>           
+            <img src="@Url.Content("~/img/"+@Model.LOGO)" />
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.MATH }) |
+    @Html.ActionLink("Quay lại trang quản lý Giống và phụ kiện", "Index")
+</p>

@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Thông báo ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<section id="breadcrumb-wrapper3" class="breadcrumb-w-img">
+    <div class="breadcrumb-overlay"></div>
+    <div class="breadcrumb-content">
+        <div class="wrapper">
+            <div class="inner text-center">
+                <div class="breadcrumb-big">
+
+                    <h2>
+                        Thông Báo 
+                    </h2>
+
+                </div>
+                <div class="breadcrumb-small">
+                    <a href="@Url.Action("index","User")" title="Quay trở về trang chủ">Trang chủ</a>
+
+
+
+                    <span aria-hidden="true">/</span>
+
+                    <span>Thông Báo</span>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="PageContainer" class="is-moved-by-drawer">
+    <main class="main-content" role="main">
+        <section id="page-wrapper">
+            <div class="wrapper">
+                <div class="inner">
+
+                    <div class="grid">
+                        <div class="grid__item large--one-third push--large--one-third text-center">
+                            <h1>Email đã được gửi thành công</h1>
+                            <h2>Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất</h2>
+                            <a href="@Url.Action("Lienhe","User")" style="border:1px solid;padding:5px 20px;">OK</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+

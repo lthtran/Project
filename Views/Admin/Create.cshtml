@@ -1,0 +1,92 @@
+﻿@model WebsiteThuCungBento.Models.ADMIN
+
+@{
+    ViewBag.Title = "Trang thêm mới admin";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG THÊM MỚI ADMIN</h2>
+
+@using (Html.BeginForm("Create", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">      
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label><strong>Họ Tên:</strong></label>
+            <div class="col-md-10">
+                <input class="input-full" required="required" htmlattributes="{ class = form-control }" id="HOTEN" name="HOTEN" type="text" value="" placeholder="Nhập họ tên">
+               
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label><strong>Email: </strong></label>
+            <div class="col-md-10">
+                <input class="input-full" required="required"  htmlattributes="{ class = form-control }" id="EMAIL" name="EMAIL" type="email" value="" placeholder="Nhập e-mail">               
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Số Điện Thoại:</strong></label>
+            <div class="col-md-10 ">
+                <input class="input-full" required="required"  htmlattributes="{ class = form-control }" id="DIENTHOAI" name="DIENTHOAI" type="text" onkeypress="return isNumberKey(event)" value="" placeholder="Nhập số điện thoại">               
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Loại: </strong></label>
+            <div class="col-md-10">
+                <input class="input-full" required = "required" htmlattributes="{ class = form-control }" id="TENLOAI" name="TENLOAI" type="text" value="" placeholder="Nhập loại">
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Tên Đăng Nhập: </strong></label>          
+            <div class="col-md-10">              
+                <input class="input-full" required = "required" htmlattributes="{ class = form-control }" id="TENDN" name="TENDN" type="text" value="" placeholder="Nhập tên đăng nhập">
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Mật Khẩu: </strong> </label>
+            <div class="col-md-10">
+                <input class="input-full" Required = "required" maxlength="20" min-length="6" pattern="[A-Za-z0-9]+" htmlattributes="{ class = form-control }" id="MATKHAU" name="MATKHAU" type="password" placeholder="Nhập mật khẩu">
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Hình Ảnh: </strong> </label>          
+            <div class="col-md-10">
+                <input class="form-control text-box single-line" Required = "required" id="fileUpload" name="fileUpload" type="file" value="">               
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Địa Chỉ:</strong></label>           
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.DIACHI, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })              
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo Mới " class="btn btn-default" /> |
+                @Html.ActionLink("Quay Lại Trang Quản Lý", "listadmin")
+            </div>
+        </div>
+    </div>
+}
+<script language='javascript'>
+ 
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+ 
+</script>

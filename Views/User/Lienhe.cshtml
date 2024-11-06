@@ -1,0 +1,234 @@
+﻿@model WebsiteThuCungBento.Models.LienheModel
+@{
+    ViewBag.Title = "Liên hệ ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+
+@*<section id="breadcrumb-wrapper5" class="breadcrumb-w-img">
+        <div class="breadcrumb-overlay"></div>
+        <div class="breadcrumb-content">
+            <div class="wrapper">
+                <div class="inner text-center">
+                    <div class="breadcrumb-big">
+
+                        <h2>
+                            Liên Hệ
+                        </h2>
+
+                    </div>
+                    <div class="breadcrumb-small">
+                        <a href="@Url.Action("index","User")" title="Quay trở về trang chủ">Trang chủ</a>
+
+
+
+                        <span aria-hidden="true">/</span>
+                        <span>Liên Hệ</span>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>*@
+
+
+<style>
+    #mapCanvas {
+        height: 500px;
+        width: 500px;
+    }
+
+    .sidebar {
+        margin-right: 100px;
+    }
+
+        .sidebar .left {
+            margin-right: 100px;
+        }
+
+    .ft-lienhe {
+        font-size: 25px;
+        padding-bottom: 2px;
+    }
+
+    .send {
+        border: 1px solid #2d485a;
+        padding: 10px;
+        color: #ffffff;
+        background-color: #2d485a;
+    }
+
+        .send:hover {
+            border: 1px solid #e35450;
+            background-color: #e35450;
+        }
+</style>
+<div id="PageContainer" class="is-moved-by-drawer">
+    <main class="main-content" role="main">
+        <section id="collection-wrapper">
+            <div class="wrapper">
+                <div class="inner">
+                    <div class="grid">
+
+                        <div class="wrap">
+                            <div class="sidebar right">
+                                <div class="sidebar-content">
+                                    <div class="order-summary order-summary-is-collapsed">
+                                        <h1 style="color:black;text-align:center"><b>Bản Đồ</b></h1><hr />
+                                        <div class="order-summary-sections">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.4205909621646!2d106.78291301471481!3d10.85558036069626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175276e812813e1%3A0x6e4c23af96c88480!2zVHJ1bmcgVMOibSDEkMOgbyBU4bqhbyBOaMOibiBM4buxYyBDaOG6pXQgTMaw4bujbmcgQ2FvIC0gSFVURUNI!5e0!3m2!1sen!2sus!4v1656350168167!5m2!1sen!2sus" width="450" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sidebar left">
+                                <div class="sidebar-content">
+                                    <div class="order-summary order-summary-is-collapsed">
+                                        <h1 style="color:black;text-align:center"> <b>Thông Tin Liên Hệ</b></h1><hr />
+                                        <div class="order-summary-sections">
+                                            <div class="ft-lienhe">
+                                                Quản lý: Nhóm 08
+                                            </div>
+                                            <div class="ft-lienhe">
+                                                Địa chỉ: 19DTHC5 - Đại học Công Nghệ TP.HCM
+                                            </div>
+                                            <div class="ft-lienhe">
+                                                Số điện thoại: <a href="tel:099999999">099999999</a>
+                                            </div>
+                                            <div class="ft-lienhe">
+                                                Email: <a href="mailto:a@gmail.com">a@gmail.com</a>
+                                                
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sidebar left" style="width:450px;">
+                                <div class="sidebar-content">
+                                    <div class="order-summary order-summary-is-collapsed">
+                                        <hr />
+                                        <h1 style="color:black;text-align:center">Liên Hệ Với Shop</h1><hr />
+                                        <div class="order-summary-sections">
+
+                                            @using (Html.BeginForm("Lienhe", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <div class="form-group" style="text-align:left;">
+
+                                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input class="form-control text-box single-line input-full" data-val="true" data-val-required=" Họ tên không được để trống. " id="Name" name="Name" type="text" value="" placeholder="Họ tên">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" style="text-align:left;">
+
+                                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input class="form-control text-box single-line input-full" data-val="true" data-val-email="The Email: field is not a valid e-mail address." placeholder="Email" data-val-required=" Email không được để trống. " id="Email" name="Email" type="email" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" style="text-align:left;">
+
+                                                    @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input class="form-control text-box single-line input-full" data-val="true" data-val-required=" Tiêu đề không được để trống. " placeholder="Tiêu đề" id="Subject" name="Subject" type="text" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" style="text-align:left;">
+
+                                                    @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-10">
+                                                        <textarea class="form-control text-box single-line input-full" data-val="true" data-val-required=" Nội dung không được để trống. " id="Message" name="Message"></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <div class="col-md-offset-2 col-md-10">
+                                                        <input type="submit" onclick="" value="Gửi" class="send btn btn--full" />
+                                                    </div>
+                                                </div>
+
+
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+
+<div id="modalAddComplete">
+</div>
+
+<button type="button" id="modalAddCompleteBtn" style="display: none;"></button>
+
+<script>
+    // Get the modal
+    var modalAddComplete = document.getElementById('modalAddComplete');
+
+    // Get the button that opens the modal
+    var modalAddCompleteBtn = document.getElementById("modalAddCompleteBtn");
+
+    // When the user clicks the button, open the modal
+    modalAddCompleteBtn.onclick = function () {
+        modalAddComplete.style.display = "block";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modalAddComplete) {
+            modalAddComplete.style.display = "none";
+        }
+    }
+</script>
+
+<script language="javascript" src="~/Scripts/ajax-cart5eef.js"></script>
+<!-- Custom script -->
+<script>
+    if ($(window).width() > 768) {
+        setTimeout(function () {
+            $("#ProductThumbs .thumbnail-item:first-child a").trigger('click');
+        }, 10);
+    };
+</script>
+<script language="javascript" src="~/Scripts/hoverchangeimage.js"></script>
+<!-- accordion -->
+<script language="javascript" src="~/Scripts/accordion.js"></script>
+<!-- Owl carousel init -->
+<script language="javascript" src="~/Scripts/Owlcarousel.js"></script>
+<!-- Back to top -->
+<script language="javascript" src="~/Scripts/backtotop.js"></script>
+<!-- Validate quantity form & trigger zoom -->
+<script language="javascript" src="~/Scripts/triggerzoom.js"></script>
+<!--thuc hiên-->
+<script language="javascript" src="~/Scripts/thuchien.js"></script>
+<!-- popup loaded -->
+
+<script language="javascript" src="~/Scripts/quickview.js"></script>
+<script>
+    $(".hc-search-wrapper > a").click(function () {
+        $(".search-bar-header").toggle();
+    });
+</script>

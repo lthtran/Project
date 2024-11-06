@@ -1,0 +1,115 @@
+﻿@using WebsiteThuCungBento.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<WebsiteThuCungBento.Models.SANPHAM>
+@{
+    int itemsPerPage = Model.PageSize; // Số mục trên mỗi trang
+    int startIndex = (Model.PageNumber - 1) * itemsPerPage + 1; // Tính chỉ số bắt đầu
+}
+@{
+    ViewBag.Title = "Trang quản lý sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@helper Truncate(string input, int length)
+{
+    if (input.Length < length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+
+<h2>TRANG QUẢN LÝ Thú Cưng</h2>
+
+<h5 style="width:100%; padding-top:10px">
+    <u>
+        <i class="fas fa-plus-circle" style="margin-left:20px; font-size: 20px;"></i>
+        @Html.ActionLink("THÊM MỚI SẢN PHẨM", "Create")
+    </u>
+</h5>
+<table class="table align-items-center justify-content-center" border="1">
+    <tr>
+        <th style="width:10px">STT</th>
+        <th style="width:200px"> Tên Sản Phẩm </th>
+        <th style="width:70px">  Giá Mua  </th>
+        <th style="width:70px">  Giá Bán  </th>
+        <th style="width:120px"> Giống và phụ kiện   </th>
+        <th style="width:100px"> Loại   </th>
+        @* <th style="width:80px">  Màu Sắc </th>*@
+        <th style="width:50px">  SL.Tồn </th>
+        <th style="width:150px"> Ảnh bìa  </th>
+        <th style="width:300px"> Mô tả    </th>
+        <th style="width:200px"> </th>
+    </tr>
+    @{int stt = 1;}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@(startIndex++)</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TENSP)
+            </td>
+            <td>
+                @(item.DONGIAMUA.HasValue ? item.DONGIAMUA.Value.ToString("N0") + "₫" : "0₫")
+            </td>
+            <td>
+                @(item.DONGIABAN.HasValue ? item.DONGIABAN.Value.ToString("N0") + "₫" : "0₫")
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.THUONGHIEU.TENTH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LOAI.TENLOAI)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.MAUSAC.TENMAUSAC)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.SOLUONG)
+            </td>
+            <td>
+                <img src="@Url.Content("~/img/"+  item.HINHANH)" width="150" />
+            </td>
+            <td>
+                @Truncate(item.MOTA, 50)
+            </td>
+            @*<td>
+                    @Truncate(item.THANHTOANON,10)
+                </td>*@
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.MASP }) |
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.MASP }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.MASP })
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    Trang @(@Model.PageNumber>Model.PageCount?Model.PageCount: Model.PageNumber)/@Model.PageCount
+</div>
+<div align="center">@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))</div>
+<link href="~/Content/phantrang.css" rel="stylesheet" />
+
+
+
+@*Scrip thực hiện Update lại Ẩn Hiện*@
+<script type="text/javascript">
+    $(function () {
+        //Thực hiện Cập nhật khi Click <a href="#" class="AnHienClick">
+        $(".AnHienClick").click(function () {
+            //Lấy Mã SP từ liên kết Click <a href> trên
+            var _MaSP = $(this).attr("data-id");
+
+            // Thực hiện xử lý Ajax: gọi hàm UpdateProduct để xử lý
+            $.post("/SanPham/UpdateProduct", { "id": _MaSP },
+
+                function (data) {
+                    //Thực hiện cập nhật lại Url hình ẩn hiện
+                    $('#img_AnHien-' + _MaSP).attr('src', data);
+                });
+        });
+    });
+</script>

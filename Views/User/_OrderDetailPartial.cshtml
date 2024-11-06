@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WebsiteThuCungBento.Models.CTDONDATHANG>
+
+<div class="">
+    <h2>Chi tiết đơn hàng @Model.First().MADH</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                // Declare a variable to hold the total amount
+                decimal totalAmount = 0;
+            }
+
+            @foreach (var order in Model)
+            {
+                var tongtien = order.SOLUONG * order.DONGIA;
+                totalAmount += tongtien;
+                <tr>
+                    <td>@order.SANPHAM.TENSP</td>
+                    <td><img src="~/img/@order.SANPHAM.HINHANH" style="width:70px; height:70px; border-radius:1px" /></td>
+                    <td>@order.SOLUONG</td>
+                    <td>@order.DONGIA.ToString("N0")₫</td>
+                    <td>@tongtien.ToString("N0")₫</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right"><strong>Tổng cộng:</strong></td>
+                <td>@(totalAmount.ToString("N0") + " ₫")</td> <!-- Display the total amount -->
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<!-- CSS cho đánh giá sao -->
+<style>
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        font-size: 1.5em;
+        justify-content: center;
+    }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ccc; /* Màu ngôi sao trắng */
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+            .star-rating input[type="radio"]:checked ~ label,
+            .star-rating label:hover,
+            .star-rating label:hover ~ label {
+                color: #ffd700; /* Màu vàng cho ngôi sao khi chọn */
+            }
+</style>

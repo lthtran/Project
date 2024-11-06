@@ -1,0 +1,222 @@
+﻿@using WebsiteThuCungBento.Models
+@model List<Giohang>
+
+@{
+    ViewBag.Title = "ĐƠN ĐẶT HÀNG ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<link href="~/Content/checkouts.css" rel="stylesheet" type="text/css" media="all">
+<link href="~/Content/QuickView.css" rel="stylesheet" />
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<div class="wrap">
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <div class="order-summary order-summary-is-collapsed">
+                <h1 style="color:black;"><b>Thông tin đơn hàng</b></h1><hr />
+                <div class="order-summary-sections">
+                    <div class="order-summary-section order-summary-section-product-list">
+                        <table class="product-table">
+                            @foreach (var item in Model)
+                            {
+                                <thead>
+                                    <tr>
+                                        <th scope="col"><span class="visually-hidden">Hình ảnh</span></th>
+                                        <th scope="col"><span class="visually-hidden">Số lượng</span></th>
+                                        <th scope="col"><span class="visually-hidden">Giá</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr class="product">
+                                        <td class="product-image">
+                                            <div class="product-thumbnail">
+                                                <div class="product-thumbnail-wrapper">
+                                                    <img class="product-thumbnail-image" src="~/img/@item.gHINHANH">
+                                                </div>
+                                                <span class="product-thumbnail-quantity" aria-hidden="true">@item.iSOLUONG</span>
+                                            </div>
+                                        </td>
+                                        <td>Tên sản phẩm:<a href="@Url.Action("Chitiet", "User", new { id = item.iMASP })" target="_blank"><span class="product-description-name order-summary-emphasis">@item.gTENSP</span></a></td>
+                                        <td class="product-quantity" style="width:40px">@item.iSOLUONG</td>
+                                        <td class="product-price">
+                                            <a><span class="order-summary-emphasis">@item.dTHANHTIEN VNĐ</span></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                    <div class="order-summary-section order-summary-section-total-lines payment-lines" data-order-summary-section="payment-lines">
+                        <table class="total-line-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><span class="visually-hidden">Mô tả</span></th>
+                                    <th scope="col"><span class="visually-hidden">Số lượng</span></th>
+                                    <th scope="col"><span class="visually-hidden">Giá</span></th>
+                                </tr>
+                            </thead>
+                            @*<tbody>
+                                    <tr class="total-line total-line-subtotal">
+                                        <td class="total-line-name">Số lượng giày:</td>
+                                        <td class="total-line-price">
+                                            <span class="order-summary-emphasis">@ViewBag.Tongsoluong</span>
+                                        </td>
+                                    </tr>
+                                </tbody>*@
+                            <tfoot class="total-line-table-footer">
+                                <tr class="total-line">
+                                    <td class="total-line-name payment-due-label">
+                                        <span class="payment-due-label-total"><b>Tổng cộng</b></span>
+                                    </td>
+                                    <td class="total-line-name payment-due">
+                                        <span class="payment-due-price">
+                                            @String.Format("{0:0,0}", ViewBag.Tongtien) VNĐ
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <h1 style="margin-left:10px; margin-top:35px; color:black"><b>THÔNG TIN ĐẶT HÀNG</b></h1>
+    @{
+        KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
+        DONDATHANG ddh;
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="main">
+            <div class="main-content">
+                <div class="section">
+                    <div class="section-content section-customer-information no-mb">
+                        <div class="fieldset">
+                            <div class="field field-required field-two-thirds">
+                                <div class="field-input-wrapper">
+                                    <label class="field-label" for="billing_address_full_name">Họ và tên</label>
+                                    <label>Họ và tên:</label>
+                                    <input placeholder="Họ và tên" autocapitalize="off" spellcheck="false" class="field-input text-capitalize" type="text" id="billing_address_full_name" name="billing_address_full_name" value="@kh.HOTENKH">
+                                </div>
+                            </div>
+
+                            <div class="field field-required field-third">
+                                <div class="field-input-wrapper">
+                                    <label class="field-label" for="billing_address_phone">Số điện thoại</label>
+                                    <label>Số điện thoại:</label>
+                                    <input type="tel" pattern="\d*" placeholder="Số điện thoại" autocapitalize="off" spellcheck="false" class="field-input" id="billing_address_phone" name="billing_address_phone" value="@kh.DIENTHOAI">
+                                </div>
+                            </div>
+
+                            <div class="field field-required">
+                                <div class="field-input-wrapper">
+                                    <label class="field-label" for="billing_address_address">Địa chỉ</label>
+                                    <label>Địa chỉ:</label>
+                                    <input placeholder="Địa chỉ" autocapitalize="off" spellcheck="false" class="field-input text-capitalize" id="billing_address_address" name="billing_address_address" type="text" value="@kh.DIACHI">
+                                </div>
+                            </div>
+                            <div class="field field-required">
+                                <div class="field-input-wrapper">
+                                    <label class="field-label" for="billing_address_address">Email</label>
+                                    <label>Email:</label>
+                                    <input placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input text-capitalize" id="billing_address_address" name="billing_address_address" type="text" value="@kh.EMAIL">
+                                </div>
+                            </div>
+                            <div class="field field-required">
+                                <div class="field-input-wrapper">
+                                    <label>Ngày giao hàng:</label>
+
+                                    <input type="date" name="Ngaygiao" />
+
+                                </div>
+                            </div>
+                            <div class="field field-required">
+                                <div style="padding: 20px 0">
+                                    <p style="color: #666; font-style: italic; font-size: 12px; text-align: left;">
+                                        Vui lòng chọn một hình thức thanh toán để mua hàng
+                                    </p>
+                                    <select id="sl_ThanhToan" name="sl_ThanhToan" class="form-control" onchange="ThayDoi();" style="width: 100%; padding: 6px; border: 2px solid #ccc;">
+                                        <option value="0">Chuyển khoản</option>
+                                        <option value="1" selected="selected">Ship COD thanh toán khi nhận hàng</option>
+                                        <option value="2">VNPAY</option>
+                                    </select>
+                                </div>
+
+                                <div id="ThanhToanDetails" style="display: none;">
+                                    <table style="width: 100%; border: 1px solid #d0d0d0; margin-top: 20px; padding: 15px; border-radius: 10px;">
+                                        <tr>
+                                            <td style="padding-left: 20px; text-align: left;">
+                                                <p class="Thanhtoan" style="color: #2d485a; padding-top: 10px; padding-bottom: 10px;">
+                                                    <b style="color: rebeccapurple; font-size: 15px;">LƯU Ý:</b><br>
+                                                    - Chỉ nên chuyển khoản sau khi nhân viên bán hàng liên hệ để xác nhận đơn hàng.<br><br>
+                                                    Ngân hàng Quốc tế VIB - Số TK: <b style="color: #2d485a">69283737373778383</b><br>
+                                                    MOMO - <b style="color: #2d485a">SĐT: 099988889098</b><br>
+                                                    Chủ TK: <b style="color: #2d485a">Covid 19</b>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-footer">
+                    <input type="Submit" class="step-footer-continue-btn btn" value="ĐẶT HÀNG" />
+                </div>
+
+                <div class="step-footer">
+                    @Html.ActionLink("TRỞ VỀ GIỎ HÀNG", "Giohang", "GioHang")
+                </div>
+            </div>
+        </div>
+     }
+</div>
+
+<script>
+    function ThayDoi() {
+        var selectedValue = document.getElementById("sl_ThanhToan").value;
+        var details = document.getElementById("ThanhToanDetails");
+
+        // Show details only for "Chuyển khoản" (value "0")
+        if (selectedValue == "0") {
+            details.style.display = "block"; // Show transfer details
+        } else {
+            details.style.display = "none"; // Hide transfer details for COD or VNPAY
+        }
+        if (selectedValue == "2") {
+             var orderUrl = '@Url.Action("CreatePaymentUrl", "Payment")';
+             window.location.href = orderUrl;
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        ThayDoi();
+    });
+</script>
+@*<script type="text/javascript">
+      function ThayDoi() {
+            var Chon = document.getElementById("sl_ThanhToan").value;
+
+            // Show payment options based on selected payment type
+            if (Chon == "0") {
+                $('.Thanhtoan').show(); // Show cash payment options
+            }
+           if (Chon == "2") {
+                var orderUrl = '@Url.Action("CreatePaymentUrl", "Payment")';
+                window.location.href = orderUrl;
+           } else {
+                $('.Thanhtoan').hide(); // Hide all payment options
+           }
+        }
+</script>*@

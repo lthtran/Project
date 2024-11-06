@@ -1,0 +1,42 @@
+﻿@model WebsiteThuCungBento.Models.HINH
+
+@{
+    ViewBag.Title = "Trang thêm mới hình";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG THÊM MỚI HÌNH CHO SẢN PHẨM</h2>
+
+@using (Html.BeginForm("Create", "Hinh", FormMethod.Post, new { @enctype = "multipart/form-data" })) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label><strong>Tên Sản Phẩm:</strong></label>
+        <div class="col-md-10">
+            @Html.DropDownList("MASP")
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label><strong>Hình Ảnh:</strong></label>
+        <div class="col-md-10">
+            <input type="file" name="fileUpload" Required = "required"/>
+            @ViewBag.Thongbao
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại trang quản lý", "Index")
+        </div>
+    </div>
+</div>
+}
+
+

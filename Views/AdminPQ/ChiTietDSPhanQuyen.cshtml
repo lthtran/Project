@@ -1,0 +1,69 @@
+﻿
+
+@model IEnumerable<WebsiteThuCungBento.Models.PHANQUYEN>
+@{
+    ViewBag.Title = "Danh sách phân quyền";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG QUẢN LÝ QUYỀN</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Mã quyền
+        </th>
+        <th>
+            Mã chức năng
+        </th>
+        <th>
+            Tên chức năng
+        </th>
+        <th>
+            Loại tài khoản
+        </th>
+        <th>
+            Họ và tên
+        </th>
+        <th>
+            Xóa
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MAPQ)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MACHUCNANG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CHUCNANG_QUYEN.TENCN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ADMIN.TENLOAI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ADMIN.HOTEN)
+            </td>
+            <td>
+                @*@Html.ActionLink("Sửa", "Edit", new { id = item.MAPQ }) |*@
+                @*@Html.ActionLink*@
+                <a href="@Url.Action("Delete", "AdminPQ", new { id = item.MAPQ })">
+                    <img style="margin-left:25px" src="~/img/icons/icon_Xoa.png" />
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@*roadlinktop*@
+<ul class="roadlinktop">
+    <a href="/AdminPQ/DSPhanQuyen">
+        <i class="fas fa-chevron-left"></i><span style="font-size:15px"> Trở lại trang người quản trị</span>
+    </a>
+</ul>

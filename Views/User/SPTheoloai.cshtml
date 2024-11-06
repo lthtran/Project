@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Thú Cưng Theo Loại ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<div id="PageContainer" class="is-moved-by-drawer">
+    <main class="main-content" role="main">
+
+
+        <section id="collection-wrapper">
+            <div class="wrapper">
+
+                <div class="inner">
+                    <div class="grid">
+                        <div class="grid__item large--three-quarters medium--one-whole small--one-whole float-right">
+                            <div class="collection-content-wrapper">
+                                <section id="home-collections">
+                                    <div id="cateProductFagomom">
+                                        <div class="secMainContent">
+                                            <div class="container">
+                                                <div class="stylizedIcon">
+                                                    <img alt="item" src="~/images/item_1MM.png">
+                                                </div>
+                                                <div class="titleBlock_1">
+                                                    <a href="#">
+                                                        <h1 class="title">Thú Cưng Theo Loại - @ViewBag.tenloai</h1>
+                                                    </a>
+                                                </div>
+                                                 <div class="productBlock">
+                                    <div class="row">
+                                        @foreach (var i in Model)
+                                        {
+                                            <div class="col-lg-3 col-md-4 col-6 wrapBox">
+                                                <div class="detailProductBlock" style="background-color: #ffffff; padding: 20px; color: red;">
+                                                    <a href="@Url.Action("Chitiet", "User", new { id = i.MASP })" >
+                                                        <div class="imgPart figure1" >
+                                                            <img alt="@i.TENSP" src="@Url.Content("~/img/" + @i.HINHANH)">
+                                                        </div>
+                                                    </a>
+                                                    <a href="@Url.Action("Chitiet", "User", new { id = i.MASP })" style="color: #cd5c5c;">
+                                                        <div class="textPart" style="color: #cd5c5c;">
+                                                            <p class="titleProduct" title="@i.TENSP" style=" color: #f0ffff; font-weight: bold; font-size: 25px; text-shadow: 1px 1px 0 blue, -1px -1px 0 blue, 1px -1px 0 blue, -1px 1px 0 blue;">@i.TENSP</p>
+                                                        </div>
+                                                    </a>
+                                                    <div class="btnAddCart">
+                                                        <a class="btnType_3" title="Đơn Giá">@String.Format("{0:0,0}", i.DONGIABAN)đ</a>
+                                                    </div>
+                                                    <div class="btnAddCart">
+                                                        <a class="btnType_3" href="@Url.Action("ThemGiohang", "GioHang", new { @iMASP = i.MASP, @strURL = Request.Url.ToString() })" title="Xem chi tiết">Thêm Giỏ Hàng</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+ 
+
+<div id="modalAddComplete">
+</div>
+
+<button type="button" id="modalAddCompleteBtn" style="display: none;"></button>
+
+<script>
+    // Get the modal
+    var modalAddComplete = document.getElementById('modalAddComplete');
+
+    // Get the button that opens the modal
+    var modalAddCompleteBtn = document.getElementById("modalAddCompleteBtn");
+
+    // When the user clicks the button, open the modal
+    modalAddCompleteBtn.onclick = function () {
+        modalAddComplete.style.display = "block";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modalAddComplete) {
+            modalAddComplete.style.display = "none";
+        }
+    }
+</script>
+
+<script language="javascript" src="~/Scripts/ajax-cart5eef.js"></script>
+<!-- Custom script -->
+<script>
+    if ($(window).width() > 768) {
+        setTimeout(function () {
+            $("#ProductThumbs .thumbnail-item:first-child a").trigger('click');
+        }, 10);
+    };
+</script>
+<script language="javascript" src="~/Scripts/hoverchangeimage.js"></script>
+<!-- accordion -->
+<script language="javascript" src="~/Scripts/accordion.js"></script>
+<!-- Owl carousel init -->
+<script language="javascript" src="~/Scripts/Owlcarousel.js"></script>
+<!-- Back to top -->
+<script language="javascript" src="~/Scripts/backtotop.js"></script>
+<!-- Validate quantity form & trigger zoom -->
+<script language="javascript" src="~/Scripts/triggerzoom.js"></script>
+<!--thuc hiên-->
+<script language="javascript" src="~/Scripts/thuchien.js"></script>
+<!-- popup loaded -->
+@*<script>
+        $(document).ready(function () {
+            var date = new Date();
+            var minutes = 60;
+            date.setTime(date.getTime() + (minutes * 60 * 1000));
+
+            if (getCookie('popupNewLetterStatus') != 'closed') {
+                $('#popup-btn').trigger('click');
+                setCookie('popupNewLetterStatus', 'closed', date);
+            };
+        })
+    </script>*@
+<script language="javascript" src="~/Scripts/quickview.js"></script>
+<script>
+    $(".hc-search-wrapper > a").click(function () {
+        $(".search-bar-header").toggle();
+    });
+</script>
+
+
+

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebsiteThuCungBento.Models.THUONGHIEU>
+
+@{
+    ViewBag.Title = "Trang quản lý Giống và phụ kiện ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG QUẢN LÝ Giống và phụ kiện Thú Cưng</h2>
+<h5 style="width:100%; padding-top:10px">
+    <u>
+        <i class="fas fa-plus-circle" style="margin-left:20px; font-size: 20px;"></i>
+        @Html.ActionLink("THÊM MỚI Giống và phụ kiện", "Create")
+    </u>
+</h5>
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Mã Giống và phụ kiện
+        </th>
+        <th>
+            Tên Giống và phụ kiện
+        </th>
+        <th>
+            Logo của Giống và phụ kiện
+        </th>
+        <th>
+            Hành động
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MATH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TENTH)
+            </td>
+            <td>
+                <img src="@Url.Content("~/img/" + @item.LOGO)" height="100" width="100" />
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.MATH }) |
+                @Html.ActionLink("Chi Tiết", "Details", new { id = item.MATH }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.MATH })
+            </td>
+        </tr>
+    }
+
+</table>

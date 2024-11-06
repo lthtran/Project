@@ -1,0 +1,28 @@
+.searchform {position:relative;color:#eeeeee; }
+.suggestions{ position: absolute; left:0px; width:auto; display:none; z-index:100000;background:#fff; width:100%;  font-size:14px; border: 1px solid #f1f1f1;border-top: 0;box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; box-shadow: 0px 6px 10px rgba(0,0,0,0.2); -moz-box-shadow: 0px 6px 10px rgba(0,0,0,0.2); -webkit-box-shadow: 0px 6px 10px rgba(0,0,0,0.2); color:#333; }
+.suggestions ul{position:relative; padding:5px;}
+.suggestions ul:before{content:""; height:0; width:0; border:0 20px 20px 20px; border-color:transparent transparent #333 transparent; position:absolute; top:0; left:15px;}
+.suggestions ul{float: left;width: 100%; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
+.suggestions ul li {border-bottom: 1px dotted #ccc;float: left;margin:0 0 3px 0;padding-bottom: 3px;width: 100%;}
+.search_auto .image_left{float:left; width:80px; padding-bottom: 5px; text-align:center;}
+.search_auto .image_left img{height:100%; width:100%; max-width:100%; max-height:100%; margin:0 auto; display:inline-block;}
+.search_auto .name_price{float:left; width: calc(100% - 80px); width: -webkit-calc(100% - 80px); width: -moz-calc(100% - 80px); text-align:left; padding-left:10px; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box}
+.name_price .name{color:#333; font-size:14px; font-weight:bold;}
+.suggestions ul li .name_price span.price{
+	color: red;
+    font-size: 12px;
+    border-top: 0;
+    font-weight: bold;
+}
+.suggestions ul li .name_price del{font-size:12px; color:#9a9a9a;}
+.suggestions ul li:last-child{margin:0; padding:0; border-bottom:0px;}
+.suggestions ul li span.red {
+    color: red;
+    font-style: italic;
+    font-size: 13px;
+    font-weight: 500;
+}
+.name_price span.price{width:100%; text-align:left;}
+@media(max-width:767px){
+	.suggestions{width:100%;}
+}

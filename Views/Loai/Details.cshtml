@@ -1,0 +1,27 @@
+﻿@model WebsiteThuCungBento.Models.LOAI
+
+@{
+    ViewBag.Title = "Trang Chi tiết Loại";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>TRANG CHI TIẾT LOẠI</h1>
+
+<div>
+   
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+           Tên Loại:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENLOAI)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.MALOAI }) |
+    @Html.ActionLink("Quay loại trang quản lý loại", "Index")
+</p>

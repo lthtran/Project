@@ -1,0 +1,193 @@
+﻿@model IEnumerable<WebsiteThuCungBento.Models.DONDATHANG>
+@{
+    ViewBag.Title = "Lịch Sử mua Hàng";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<h2>Lịch Sử Đơn Hàng</h2>
+
+@if (Model.Count() == 0)
+{
+    <p>Bạn chưa có đơn hàng nào.</p>
+}
+else
+{
+    <table class="table table-bordered container">
+        <thead>
+            <tr>
+                <th>Mã Đơn Hàng</th>
+                <th>Ngày Đặt Hàng</th>
+                <th>Tổng Tiền</th>
+                <th>Trạng Thái Thanh Toán</th>
+                <th>Trạng Thái Đơn hàng</th>
+                <th>Chi Tiết</th>
+                <th>Xác Nhận Nhận Hàng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.MADH</td>
+                    <td>@order.NGAYDAT.ToString("dd/MM/yyyy")</td>
+                    @{
+                        var tongtien = order.TONGTIEN;
+                        var formattedAmount = tongtien.ToString().Replace(",", "").Replace(".", "").Trim();
+                        var amountWithSeparator = string.Empty;
+                        int length = formattedAmount.Length;
+
+                        for (int i = 0; i < length; i++)
+                        {
+                            amountWithSeparator += formattedAmount[length - 1 - i];
+                            if ((i + 1) % 3 == 0 && (i + 1) != length)
+                            {
+                                amountWithSeparator += ".";
+                            }
+                        }
+
+                        char[] charArray = amountWithSeparator.ToCharArray();
+                        Array.Reverse(charArray);
+                        amountWithSeparator = new string(charArray);
+                    }
+
+                    <td>@amountWithSeparator ₫</td>
+
+                    @if (order.DATHANHTOAN == true)
+                    {
+                        <td>Đã thanh toán  <span style="color: green;">✔</span></td>
+                    }
+                    else
+                    {
+                        <td>Chưa thanh toán <span style="color: red;">✖</span></td>
+                    }
+                    @if(order.TINHTRANGDH == false)
+                    {
+                        <td>Đang chờ xác nhận</td>
+                        
+                    }
+                    else
+                    {
+                        if(order.DATHANHTOAN == true)
+                        { 
+                        <td>
+                            Đã giao thành công  <span style="color: green;">✔</span>
+                        </td>
+                        }
+                        else
+                        {
+                            <td>Đang giao </td>
+                        }
+                    }
+
+                    <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderDetailModal" onclick="loadOrderDetails(@order.MADH)">
+                            Xem <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </td>
+                    <td>
+                        @if (order.TINHTRANGDH == true)
+                        {
+                            if (order.DATHANHTOAN == true && order.HINHTHUCTT == "Chuyển khoản VNPAY")
+                            {
+                                <span>Cảm ơn quý khách</span>
+
+                                //?<button type="button" class="btn btn-success" onclick="confirmReceived(@order.MADH)">Xác Nhận</button>
+                            }
+                            else if (order.DATHANHTOAN == true)
+                            {
+                                <span>Đã nhận được hàng</span>
+                            }
+                            else if (order.DATHANHTOAN == false)
+                            {
+                                <button type="button" class="btn btn-success" onclick="confirmReceived(@order.MADH)">Xác Nhận</button>
+                            }
+                        }
+                        else
+                        {
+                            <button disabled type="button" class="btn btn-warning">Xác Nhận</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<!-- Modal for displaying order details -->
+<div class="modal fade" id="orderDetailModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body" id="orderDetailContent">
+                <!-- Order details will be loaded here via AJAX -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script>
+        function loadOrderDetails(orderId) {
+            // Make an AJAX request to fetch order details
+            $.ajax({
+                url: '@Url.Action("OrderDetail", "User")',
+                type: 'GET',
+                data: { id: orderId },
+                success: function (data) {
+                    // Load the returned HTML into the modal's content area
+                    $('#orderDetailContent').html(data);
+                },
+                error: function () {
+                    alert('Error loading order details.');
+                }
+            });
+        }
+    </script>*@
+<script>
+    function loadOrderDetails(orderId) {
+        $.ajax({
+            url: '@Url.Action("OrderDetail", "User")',
+            type: 'GET',
+            data: { id: orderId },
+            success: function (data) {
+                $('#orderDetailContent').html(data);
+            },
+            error: function () {
+                alert('Error loading order details.');
+            }
+        });
+    }
+
+    @*function confirmReceived(orderId) {
+        if (confirm("Bạn có chắc chắn đã nhận được hàng?")) {
+            $.ajax({
+                url: '@Url.Action("ConfirmReceived", "User")',
+                type: 'POST',
+                data: { id: orderId },
+                success: function () {
+                    location.reload(); // Reload để cập nhật trạng thái
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi xác nhận đơn hàng.');
+                }
+            });
+        }
+    }*@
+     function confirmReceived(orderId) {
+        if (confirm("Bạn có chắc chắn đã nhận được hàng?")) {
+            $.ajax({
+                url: '@Url.Action("ConfirmReceived", "User")',
+                type: 'POST',
+                data: { id: orderId },
+                success: function () {
+                    // Update the UI to reflect the new status
+                    location.reload(); // Reload to update status
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi xác nhận đơn hàng.');
+                }
+            });
+        }
+    }
+</script>
+

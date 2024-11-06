@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Xác nhận quên mật khẩu ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<section id="breadcrumb-wrapper3" class="breadcrumb-w-img">
+    <div class="breadcrumb-overlay"></div>
+    <div class="breadcrumb-content">
+        <div class="wrapper">
+            <div class="inner text-center">
+                <div class="breadcrumb-big">
+
+                    <h2>
+                        Thông Báo Xác Nhận Quên Mật Khẩu
+                    </h2>
+
+                </div>
+                <div class="breadcrumb-small">
+                    <a href="@Url.Action("index","User")" title="Quay trở về trang chủ">Trang chủ</a>
+
+
+
+                    <span aria-hidden="true">/</span>
+
+                    <span>Thông Báo Xác Nhận Quên Mật Khẩu</span>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="PageContainer" class="is-moved-by-drawer">
+    <main class="main-content" role="main">
+        <section id="page-wrapper">
+            <div class="wrapper">
+                <div class="inner">
+
+                    <div class="grid">
+                        <h1 style="font-size: 45px; color: #2d485a">Email đã được gửi thành công</h1>
+                        <p style="font-size:30px; text-align:center; padding-top:25px; padding-bottom:20px">Hãy kiểm tra email của bạn để đặt lại mật khẩu</p>
+                        <div class="grid__item large--one-third push--large--one-third text-center">
+                            <a href="@Url.Action("index","User")" style="border:1px solid;padding:5px 30px;">Đồng ý</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+
+

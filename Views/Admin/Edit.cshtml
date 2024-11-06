@@ -1,0 +1,89 @@
+﻿@model WebsiteThuCungBento.Models.ADMIN
+
+@{
+    ViewBag.Title = "Trang chỉnh sửa thông tin admin";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG CHỈNH SỬA THÔNG TIN ADMIN</h2>
+
+@using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MAADMIN)
+
+        <div class="form-group">
+            <label><strong>Họ Tên:</strong></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HOTEN, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+                @Html.ValidationMessageFor(model => model.HOTEN, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Địa Chỉ:</strong></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DIACHI, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+                @Html.ValidationMessageFor(model => model.DIACHI, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Số Điện Thoại:</strong></label>
+            <div class="col-md-10" onkeypress="return isNumberKey(event)">
+                @Html.EditorFor(model => model.DIENTHOAI, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+                @Html.ValidationMessageFor(model => model.DIENTHOAI, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Loại:</strong></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TENLOAI, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+                @Html.ValidationMessageFor(model => model.TENLOAI, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Hình Ảnh:</strong></label>
+            @Html.ValidationMessageFor(model => model.AVATAR, "", new { @class = "text-danger" })
+            <div class="col-md-10">
+                <img src="@Url.Content("~/img/" + @Model.AVATAR)" alt="" height="100" width="100" /> |
+                <input class="form-control text-box single-line" Required = "required" id="fileUpload" name="fileUpload" type="file" value="">                
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label><strong>Email:</strong></label>
+            @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EMAIL, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Cập nhật" class="btn btn-default" /> |
+
+                @Html.ActionLink("Quay Lại Trang Quản Lý", "listadmin")
+
+            </div>
+        </div>
+    </div>
+}
+<script language='javascript'>
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+</script>
+

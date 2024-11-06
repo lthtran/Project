@@ -1,0 +1,47 @@
+﻿@model WebsiteThuCungBento.Models.THUONGHIEU
+
+@{
+    ViewBag.Title = "Trang xóa Giống và phụ kiện";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>TRANG XÓA Giống và phụ kiện Thú Cưng</h1>
+
+<h3>Bạn có chắc chắn muốn xóa Giống và phụ kiện này không?</h3>
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Mã Giống và phụ kiện:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MATH)
+        </dd>
+        <dt>
+            Tên Giống và phụ kiện:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENTH)
+        </dd>
+
+        <dt>
+            Logo Giống và phụ kiện:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOGO)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại trang quản lý Giống và phụ kiện", "Index")
+        </div>
+    }
+</div>

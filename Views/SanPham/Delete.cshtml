@@ -1,0 +1,104 @@
+﻿@model WebsiteThuCungBento.Models.SANPHAM
+
+@{
+    ViewBag.Title = "Trang xóa sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2> TRANG XÓA SẢN PHẨM </h2>
+
+<h3>Bạn có chắc chắn muốn xóa không?</h3>
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên sản phẩm:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENSP)
+        </dd>
+
+        <dt>
+            Giá mua:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DONGIAMUA)
+        </dd>
+
+        <dt>
+            Giá bán:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DONGIABAN)
+        </dd>
+
+        <dt>
+            Mã Giống và phụ kiện:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MATH)
+        </dd>
+
+        <dt>
+            Mã loại:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MALOAI)
+        </dd>
+
+        @*<dt>
+            Mã màu:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MAMAUSAC)
+        </dd>*@
+
+        <dt>
+            Số lượng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SOLUONG)
+        </dd>
+
+        @*<dt>
+            Link thanh toán online:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.THANHTOANON)
+        </dd>*@
+
+        <dt>
+           Hình ảnh:
+        </dt>
+
+        <dd>
+            <img src="@Url.Content("~/img/"+  Model.HINHANH)" width="120" />
+        </dd>
+
+        <dt>
+            Mô tả:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOTA)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại trang quản lý", "Index")
+        </div>
+    }
+</div>

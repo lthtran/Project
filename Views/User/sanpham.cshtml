@@ -1,0 +1,176 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WebsiteThuCungBento.Models.ProductViewModel>
+@{
+    ViewBag.Title = "Tất cả Thú Cưng ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+</head>
+<body>
+    @*<div class="tuaRuaBlock tuaRuaHuanHuyenCHo">
+        <div class="container containerFix">
+            <img alt="img" class="imgTag" src="~/images/img_12.png">
+        </div>
+    </div>*@
+    <div id="cateProductFagomom">
+        <div class="secMainContent">
+            <div class="container">
+                @*<div class="stylizedIcon">
+                    <img alt="item" src="~/images/item_1MM.png">
+                </div>*@
+                <div class="titleBlock_1">
+                    <a href="#">
+                        <h1 class="title">Tất Cả Thú Cưng</h1>
+                    </a>
+                </div>
+                <div class="smallBlock smallBlock_1" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 20px; transition: transform 0.3s;">
+                    <p class="title" style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #333; text-align: center;">Loại thú cưng</p>
+                    <div class="rightBlock" style="display: flex;">
+                        <div class="innerBlock" style="flex: 1; padding: 10px; background-color: white; transition: background-color 0.3s;">
+                            @Html.Action("loai")
+                        </div>
+                        <div class="blockSubcate_11 Desktop1" style="margin-top: 20px;">
+                            <div class="subBlock" style="padding: 10px; border-radius: 5px; background-color: #444; transition: transform 0.3s;">
+                                <!-- Nội dung của blockSubcate_11 ở đây -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <style>
+                        .innerBlock:hover {
+                            background-color: #f2f2f2;
+                        }
+
+                        .subBlock:hover {
+                            transform: scale(1.05);
+                        }
+                    </style>
+                </div>
+
+                <div class="smallBlock smallBlock_1" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 20px; transition: transform 0.3s;">
+                    <p class="title" style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #333; text-align: center;">Giống và Phụ Kiện</p>
+                    <div class="rightBlock" style="display: flex;">
+                        <div class="innerBlock" style="flex: 1; padding: 10px; background-color: white; transition: background-color 0.3s;">
+                            @Html.Action("thuonghieu")
+                        </div>
+                        <div class="blockSubcate_11 Desktop1" style="margin-top: 20px;">
+                            <div class="subBlock" style="padding: 10px; border-radius: 5px; background-color: #444; transition: transform 0.3s;">
+                                <!-- Nội dung của blockSubcate_11 ở đây -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <style>
+                        .innerBlock:hover {
+                            background-color: #f2f2f2;
+                        }
+
+                        .subBlock:hover {
+                            transform: scale(1.05);
+                        }
+                    </style>
+                </div>
+                <div class="productBlock">
+                    <div class="row">
+                        @foreach (var i in Model)
+
+                        {
+                            if (i.SOLUONG > 0)
+                            {
+                                <div class="col-lg-3 col-md-4 col-6 wrapBox">
+                                    <div class="detailProductBlock" style="background-color: #ffffff; padding: 20px; color: red;">
+                                        <a href="@Url.Action("Chitiet", "User", new { id = i.MASP })">
+                                            <div class="imgPart figure1">
+                                                <img alt="@i.TENSP" src="@Url.Content("~/img/" + @i.HINHANH)">
+                                            </div>
+                                        </a>
+                                        <a href="@Url.Action("Chitiet", "User", new { id = i.MASP })" style="color: #cd5c5c;">
+                                            <div class="textPart" style="color: #cd5c5c;">
+                                                <p class="titleProduct" title="@i.TENSP" style=" color: #f0ffff; font-weight: bold; font-size: 25px; text-shadow: 1px 1px 0 blue, -1px -1px 0 blue, 1px -1px 0 blue, -1px 1px 0 blue;">@i.TENSP</p>
+                                            </div>
+                                        </a>
+                                        <div class="btnAddCart">
+                                            <a class="btnType_3" title="Đơn Giá">@(i.DONGIABAN.HasValue ? i.DONGIABAN.Value.ToString("N0") + "₫" : "0₫") </a>
+                                        </div>
+                                        <div class="btnAddCart">
+                                            <a class="btnType_3" href="@Url.Action("ThemGiohang", "GioHang", new { @iMASP = i.MASP, @strURL = Request.Url.ToString() })" title="Xem chi tiết">Thêm Giỏ Hàng</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                </div>
+                <div>
+                    Trang @(@Model.PageNumber>Model.PageCount?Model.PageCount: Model.PageNumber)/@Model.PageCount
+                </div>
+                <div align="center">@Html.PagedListPager(Model, page => Url.Action("Sanpham", new { page = page }))</div>
+                @*<link href="~/Content/phantrang.css" rel="stylesheet" />*@
+
+
+
+
+
+
+                <div id="modalAddComplete">
+                </div>
+
+                <button type="button" id="modalAddCompleteBtn" style="display: none;"></button>
+
+                <script>
+                    // Get the modal
+                    var modalAddComplete = document.getElementById('modalAddComplete');
+
+                    // Get the button that opens the modal
+                    var modalAddCompleteBtn = document.getElementById("modalAddCompleteBtn");
+
+                    // When the user clicks the button, open the modal
+                    modalAddCompleteBtn.onclick = function () {
+                        modalAddComplete.style.display = "block";
+                    }
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        if (event.target == modalAddComplete) {
+                            modalAddComplete.style.display = "none";
+                        }
+                    }
+                </script>
+                <script language="javascript" src="~/Scripts/ajax-cart5eef.js"></script>
+                <!-- Custom script -->
+                <script>
+                    if ($(window).width() > 768) {
+                        setTimeout(function () {
+                            $("#ProductThumbs .thumbnail-item:first-child a").trigger('click');
+                        }, 10);
+                    };
+                </script>
+                <script language="javascript" src="~/Scripts/hoverchangeimage.js"></script>
+                <!-- accordion -->
+                <script language="javascript" src="~/Scripts/accordion.js"></script>
+                <!-- Owl carousel init -->
+                <script language="javascript" src="~/Scripts/Owlcarousel.js"></script>
+                <!-- Back to top -->
+                <script language="javascript" src="~/Scripts/backtotop.js"></script>
+                <!-- Validate quantity form & trigger zoom -->
+                <script language="javascript" src="~/Scripts/triggerzoom.js"></script>
+                <!--thuc hiên-->
+                <script language="javascript" src="~/Scripts/thuchien.js"></script>
+
+                <!---->
+                <script language="javascript" src="~/Scripts/quickview.js"></script>
+
+                <script>
+                    $(".hc-search-wrapper > a").click(function () {
+                        $(".search-bar-header").toggle();
+                    });
+                </script>

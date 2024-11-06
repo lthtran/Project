@@ -1,0 +1,51 @@
+﻿@model WebsiteThuCungBento.Models.PHIEUNHAPKHO
+
+@{
+    ViewBag.Title = "Thêm Thú Cưng vào kho";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>THÊM Thú Cưng VÀO KHO</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label><strong>Ngày nhập:</strong></label>
+            @Html.ValidationMessageFor(model => model.NGAYNK, "", new { @class = "text-danger" })
+            <div class="col-md-10">
+                <input required="required" class="form-control text-box single-line" data-val="true" data-val-date="The field NGAYNK must be a date." data-val-required="The NGAYNK field is required." id="NGAYNK" name="NGAYNK" type="date" value="">
+                 
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><strong>Tên sản phẩm:</strong></label>
+            <div class="col-md-10">
+                @Html.DropDownList("MASP")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><strong>Số lượng:</strong></label>
+            @Html.ValidationMessageFor(model => model.SOLUONG, "", new { @class = "text-danger" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SOLUONG, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo mới" class="btn btn-default" /> |
+                @Html.ActionLink("Quay lại trang quản lí", "Index")
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,166 @@
+﻿@model WebsiteThuCungBento.Models.DANHGIA
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+<div class="row">
+    @using (Ajax.BeginForm("PostReview", "Review", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "load_review",
+        OnSuccess = "OnSuccessRE",
+        OnFailure = "OnFailureRE",
+        OnBegin = "OnBeginRE"
+    }, new { @Id = "review_form" }))
+    {
+        <script>
+            function OnBeginRE() {
+                $("#review_submit").attr("disabled", "disabled");
+                $("#load_send").html("<h2>Đang gửi....</h2>");
+            }
+
+            function OnSuccessRE(res) {
+                if (res.Success == true) {
+                    // Reset the form and reload the page
+                    $("#review_form")[0].reset();
+                    $("#load_review").load(window.location.href + " #load_review");
+                    location.reload();
+                }
+                else if (res.Failure == true) {
+                    window.location.href = 'https://localhost:44335/User/dangnhap'; 
+                }
+                else {
+                    alert("Failed to submit review. Please try again.");
+                }
+            }
+
+            function OnFailureRE() {
+                alert("An error occurred while submitting the review.");
+            }
+        </script>
+
+
+        @Html.AntiForgeryToken()
+
+        <div class="review-container">
+            @*<h1>Thêm Đánh Giá</h1>*@
+            <div class="form-group mb-3" style="display:none">
+                @Html.TextBoxFor(x => x.TENDNKH, new { @class = "form-control form_input input_name", @placeholder = "Name", @id = "review_name" })
+            </div>
+            <div class="form-group mb-3" style="display:none">
+                @Html.TextBoxFor(x => x.EMAIL, new { @class = "form-control form_inout input_email", @placeholder = "Email", @id = "review_email" })
+            </div>
+            @Html.HiddenFor(x => x.MASP, new { @value = ViewBag.MASP })
+            <input type="text" id="txtRate" name="Rate" style="display:none" />
+
+            <h1 class="mt-4">THÊM ĐÁNH GIÁ CỦA BẠN</h1>
+            <ul class="user_star_rating" id="star-rating">
+                <li data-value="1" class="star"><i class="fa fa-star"></i></li>
+                <li data-value="2" class="star"><i class="fa fa-star"></i></li>
+                <li data-value="3" class="star"><i class="fa fa-star"></i></li>
+                <li data-value="4" class="star"><i class="fa fa-star"></i></li>
+                <li data-value="5" class="star"><i class="fa fa-star"></i></li>
+            </ul>
+
+            <div class="form-group mt-3">
+                @Html.TextAreaFor(x => x.NHANXET, new { @class = "form-control", @rows = "5", @placeholder = "Nhận xét của bạn..." })
+            </div>
+
+            <div class="text-left text-sm-right mt-4">
+                <button id="review_submit" type="submit" class="btn review-submit-btn" value="Submit">Submit</button>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .review-container {
+        max-width: 600px;
+        margin: auto;
+        padding: 2rem;
+        background-color: #f9f9f9#f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2 {
+        font-family: 'Arial', sans-serif;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    .user_star_rating {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+        .user_star_rating .star {
+            font-size: 24px;
+            transition: color 0.3s;
+            cursor: pointer;
+            color: rgba(0, 0, 0, 0.1); /* Default star color */
+        }
+        .user_star_rating .star .fa{
+            color: lightgray;
+        }
+
+        .user_star_rating .star {
+            font-size: 24px;
+            transition: color 0.3s;
+            cursor: pointer;
+            color: #ccc;
+            transition: color 0.2s;
+        }
+            .user_star_rating .star.selected i {
+                color: #FFD700; /* Màu vàng cho các ngôi sao đã chọn */
+            }
+
+            .user_star_rating .star:hover i,
+            .user_star_rating .star.selected i {
+                color: #FFD700;
+            }
+
+    .review-submit-btn {
+        padding: 10px 20px;
+        color: #fff;
+        background-color: #FF5733;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .review-submit-btn:hover {
+            background-color: #FF2E00;
+        }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('#star-rating .star').on('click', function () {
+            var rating = $(this).data('value'); // Lấy giá trị xếp hạng từ thuộc tính data
+            $('#txtRate').val(rating); // Đặt giá trị vào input ẩn
+
+            // Xóa class 'selected' từ tất cả các ngôi sao
+            $('#star-rating .star').removeClass('selected');
+
+            // Thêm class 'selected' cho ngôi sao được chọn và tất cả các ngôi sao phía trước nó
+            $(this).addClass('selected');
+            $(this).prevAll('.star').addClass('selected');
+        });
+    });
+
+</script>
+
+

@@ -1,0 +1,99 @@
+﻿@model WebsiteThuCungBento.Models.DangNhapModel
+@{
+    ViewBag.Title = "Đăng Nhập ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<section class="section">
+    <div class="margin-bottom-20">
+        <div class="wrap_background_aside margin-bottom-40 page_login">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-lg-offset-3 col-md-offset-3">
+                    <div class="page-login">
+                        <h1 class="title_heads a-center"><span>Đăng nhập</span></h1>
+                        <div id="login">
+                            @using (Html.BeginForm("dangnhap", "User", FormMethod.Post))
+                            {
+                                @Html.ValidationSummary(true)
+                                <input name="FormType" type="hidden" value="customer_login"><input name="utf8" type="hidden" value="true">
+                                <div class="form-signup" style="color:red;">
+                                    @ViewBag.Thongbao
+                                </div>
+                                <div class="form-signup clearfix">
+                                    <fieldset class="form-group">
+                                        <label>Tài Khoản <span class="required">*</span></label>
+                                        @Html.TextBox("tendn", null, new { placeholder = "Tài khoản", @class = "form-control form-control-lg" })
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <label>Mật khẩu <span class="required">*</span></label>
+                                        <input type="password" class="form-control form-control-lg" name="matkhau" placeholder="Mật khẩu" required="" />
+                                    </fieldset>
+
+                                    <div class="pull-xs-left" style="margin-top:10px;">
+                                        <input class="btn btn-style btn_50" type="submit" value="Đăng nhập">
+                                        <a href="@Url.Action("QuenMK","User")"><span class="block a-center quenmk">Quên mật khẩu</span></a>
+                                        <span class="block a-center dkm margin-top-40">Chưa có tài khoản, đăng ký <a href="@Url.Action("DangKy", "User")" class="btn-link-style btn-register">tại đây</a></span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script language="javascript" src="~/Scripts/owlcarousel.js">
+</script>
+
+
+
+<script>
+    // Get the modal
+    var modalAddComplete = document.getElementById('modalAddComplete');
+
+    // Get the button that opens the modal
+    var modalAddCompleteBtn = document.getElementById("modalAddCompleteBtn");
+
+    // When the user clicks the button, open the modal
+    modalAddCompleteBtn.onclick = function () {
+        modalAddComplete.style.display = "block";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modalAddComplete) {
+            modalAddComplete.style.display = "none";
+        }
+    }
+</script>
+
+<script language="javascript" src="~/Scripts/ajax-cart5eef.js"></script>
+<!-- Custom script -->
+<script>
+    if ($(window).width() > 768) {
+        setTimeout(function () {
+            $("#ProductThumbs .thumbnail-item:first-child a").trigger('click');
+        }, 10);
+    };
+</script>
+<script language="javascript" src="~/Scripts/hoverchangeimage.js"></script>
+<!-- accordion -->
+<script language="javascript" src="~/Scripts/accordion.js"></script>
+<!-- Owl carousel init -->
+<script language="javascript" src="~/Scripts/Owlcarousel.js"></script>
+<!-- Back to top -->
+<script language="javascript" src="~/Scripts/backtotop.js"></script>
+<!-- Validate quantity form & trigger zoom -->
+<script language="javascript" src="~/Scripts/triggerzoom.js"></script>
+<!--thuc hiên-->
+<script language="javascript" src="~/Scripts/thuchien.js"></script>
+<!-- popup loaded -->
+
+<script language="javascript" src="~/Scripts/quickview.js"></script>
+<script>
+    $(".hc-search-wrapper > a").click(function () {
+        $(".search-bar-header").toggle();
+    });
+</script>

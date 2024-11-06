@@ -1,0 +1,49 @@
+﻿@model WebsiteThuCungBento.Models.PHANQUYEN
+
+@{
+    ViewBag.Title = "Thêm quyền mới";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG THÊM PHÂN QUYỀN MỚI</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @*<div class="form-group">
+        <label><strong>Mã quyền:</strong></label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.MAPQ, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+            @Html.ValidationMessageFor(model => model.MAPQ, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+    <br />
+    <div class="form-group">
+        <label><strong>Tên chức năng:</strong></label>
+        <div class="col-md-10">
+            @Html.DropDownList("MACHUCNANG")
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label><strong>Tên admin:</strong></label>
+        <div class="col-md-10">
+            @Html.DropDownList("MAADMIN")
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="tạo mới" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại trang quản lý", "DSPhanQuyen")
+        </div>
+    </div>
+</div>
+}
+
+

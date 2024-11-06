@@ -1,0 +1,421 @@
+﻿@model WebsiteThuCungBento.Models.DangKyModel
+
+@{
+    ViewBag.Title = "Đăng Ký ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<script language="javascript" src="~/Scripts/dangkyform.js"></script>
+
+<!-- Trở lại đầu trang-->
+@*<section id="breadcrumb-wrapper3" class="breadcrumb-w-img">
+        <div class="breadcrumb-overlay"></div>
+        <div class="breadcrumb-content">
+            <div class="wrapper">
+                <div class="inner text-center">
+                    <div class="breadcrumb-big">
+
+                        <h2>
+                            TẠO TÀI KHOẢN
+                        </h2>
+
+                    </div>
+                    <div class="breadcrumb-small">
+                        <a href="@Url.Action("index","User")" title="Quay trở về trang chủ">Trang chủ</a>
+
+
+
+                        <span aria-hidden="true">/</span>
+
+                        <span>TẠO TÀI KHOẢN</span>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>*@
+
+@*<div id="PageContainer" class="is-moved-by-drawer" style="display:flex; justify-content:center; align-items: center; border-color:dimgray;">
+        <main class="main-content" role="main">
+            <section id="page-wrapper">
+                <div class="wrapper">
+                    <div class="inner">
+                        <div class="grid">
+                            <div class="grid__item large--one-third push--large--one-third text-center">
+                                <h1 style="font-size:30px;" align="center">Đăng ký tài khoản mới</h1>
+                                <div class="form-vertical">
+                                    <form accept-charset="UTF-8" method="post">
+                                        @using (Html.BeginForm("dangky", "User", FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    @if (@ViewBag.Success != null)
+                                                    {
+                                                        <div class="alert alert-success">@ViewBag.Success = "Đăng ký thành công";</div>
+                                                    }
+                                                </div>
+                                                <div class="form-group" style="text-align:left; width:300%">
+
+                                                    @Html.LabelFor(model => model.tendn, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.tendn, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+
+                                                        <input class="input-full" data-val="true" data-val-required=" Tên đăng nhập không được để trống. " htmlattributes="{ class = form-control }" id="tendn" name="tendn" type="text" value="" placeholder="Nhập tên đăng nhập">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group input-full" style="text-align: left; width: 300%">
+                                                    @Html.LabelFor(model => model.matkhau, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.matkhau, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+
+                                                        <input class="input-full" data-val="true" data-val-length="Độ dài mật khẩu ít nhất 6 ký tự. " data-val-length-max="20" data-val-length-min="6" data-val-required=" mật khẩu không được để trống. " htmlattributes="{ class = form-control }" id="matkhau" name="matkhau" type="password" placeholder="Nhập mật khẩu">
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="form-group input-full" style="text-align: left; width: 300%">
+                                                    @Html.LabelFor(model => model.xacnhanmatkhau, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.xacnhanmatkhau, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input class="input-full" data-val="true" data-val-equalto=" Xác nhận mật khẩu không đúng. " data-val-equalto-other="*.matkhau" htmlattributes="{ class = form-control }" id="xacnhanmatkhau" name="xacnhanmatkhau" type="password" placeholder="Nhập lại mật khẩu">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group input-full" style="text-align: left; width:300%">
+                                                    @Html.LabelFor(model => model.hoten, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.hoten, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input class="input-full" data-val="true" data-val-length="Họ tên không hợp lệ" data-val-length-max="20" data-val-length-min="1" data-val-required=" Họ tên không được để trống. " htmlattributes="{ class = form-control }" id="hoten" name="hoten" type="text" value="" placeholder="Nhập họ tên">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group input-full" style="text-align: left; width: 300%">
+                                                    @Html.LabelFor(model => model.dienthoai, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.dienthoai, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input class="input-validation-error input-full" data-val="true" data-val-length="Số điện thoại không hợp lệ" data-val-length-max="11" data-val-length-min="9" data-val-required=" Số điện thoại không được để trống. " htmlattributes="{ class = form-control }" id="dienthoai" name="dienthoai" type="text" onkeypress="return isNumberKey(event)" placeholder="Nhập số điện thoại">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group" style="text-align: left; width: 300%">
+                                                    @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input class="input-validation-error input-full" data-val="true" data-val-required=" Email không được để trống. " htmlattributes="{ class = form-control }" id="email" name="email" type="email" placeholder="Nhập email">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group input-full" style="text-align: left; width: 300%">
+                                                    @Html.LabelFor(model => model.hinhanh, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.hinhanh, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input class="input-full" htmlattributes="{ class = form-control }" id="hinhanh" type="file" name="hinhanh" accept="image/jpeg,image/jpg,image/png" value="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group input-full" style="text-align: left; width: 300%">
+                                                    @Html.LabelFor(model => model.ngaysinh, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.ngaysinh, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-10">
+
+                                                        <input class="input-full" htmlattributes="{ class = form-control }" id="ngaysinh" name="ngaysinh" type="date">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group input-full" style="text-align: left; width: 300%">
+                                                    @Html.LabelFor(model => model.diachi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div style="color:red;font-size:small;text-align:initial">
+                                                        @Html.ValidationMessageFor(model => model.diachi, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                    <div class="col-md-10">
+                                                        <textarea class="input-full" cols="20" htmlattributes="{ class = form-control }" id="diachi" name="diachi" rows="2" placeholder="Nhập địa chỉ"></textarea>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group" style="width: 100%; text-align: center;">
+                                                    <div class="col-md-offset-2 col-md-10">
+                                                        <input type="submit" value="Đăng Ký" class="btn btn--full" style="border: 1px solid black; border-radius: 5px; padding: 10px 20px; cursor: pointer; font-size: 16px;" />
+                                                        <p style="margin-top: 10px;">
+                                                            Bạn đã có tài khoản? Hãy
+                                                            <a href="@Url.Action("dangnhap","User")" style="text-decoration: none; font-weight: bold; color: blue">Đăng nhập</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </form>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>*@
+
+
+<div id="PageContainer" class="is-moved-by-drawer" style="display:flex; justify-content:center; align-items:center; padding: 1rem;">
+    <main class="main-content" role="main" style="width: 100%; max-width: 600px; background-color: #f9f9f9; border-radius: 10px; padding: 2rem; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);">
+        <h1 style="text-align: center; font-size: 25px; margin-bottom: 20px;">Đăng ký</h1>
+        <form accept-charset="UTF-8" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px;">
+            @Html.AntiForgeryToken()
+
+            <!-- Two Column Section -->
+            <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+
+                <!-- Full Name Field -->
+                <div class="form-group" style="flex: 1;">
+                    <label for="hoten">Họ tên</label>
+                    <div class="input-group">
+                        <input type="text" id="hoten" name="hoten" placeholder="Enter your full name" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Enter your full name as it appears on legal documents." />
+                    </div>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.hoten)</span>
+                </div>
+
+                <!-- Phone Number Field -->
+                <div class="form-group" style="flex: 1;">
+                    <label for="dienthoai">Số điện thoại</label>
+                    <div class="input-group">
+                        <input type="text" id="dienthoai" name="dienthoai" placeholder="Enter your phone number" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" onkeypress="return isNumberKey(event)" title="Please enter a valid phone number." />
+                    </div>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.dienthoai)</span>
+                </div>
+
+            </div>
+
+            <!-- Two Column Section -->
+            <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+
+                <!-- Username Field -->
+                <div class="form-group" style="flex: 1;">
+                    <label for="tendn">Tên đăng nhập</label>
+                    <div class="input-group">
+                        <input type="text" id="tendn" name="tendn" placeholder="Enter your username" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Username must be unique and contain 4-16 characters." />
+                    </div>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.tendn)</span>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group" style="flex: 1;">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <input type="email" id="email" name="email" placeholder="Enter your email" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Please enter a valid email address." />
+                    </div>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.email)</span>
+                </div>
+
+            </div>
+
+            <!-- Two Column Section -->
+            <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+
+                <!-- Password -->
+                <div class="form-group" style="flex: 1;">
+                    <label for="matkhau">Mật khẩu</label>
+                    <div class="input-group" style="position: relative;">
+                        <input type="password" id="matkhau" name="matkhau" placeholder="Enter your password" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Password must be 6-20 characters long." />
+                        <i class="fa fa-eye" id="togglePassword" style="position: absolute; right: 12px; top: 12px; cursor: pointer;"></i>
+                    </div>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.matkhau)</span>
+                </div>
+
+                <!-- Profile Image Field -->
+                <div class="form-group" style="flex: 1;">
+                    <label for="hinhanh">Ảnh đại diện</label>
+                    <div class="input-group">
+                        <input type="file" id="hinhanh" name="hinhanh" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" accept="image/jpeg,image/png" title="Upload a profile picture in JPEG or PNG format." />
+                    </div>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.hinhanh)</span>
+                </div>
+
+            </div>
+
+            <!-- Two Column Section -->
+            <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div class="form-group" style="flex: 1;">
+                    <label for="xacnhanmatkhau">Xác nhận mật khẩu</label>
+                    <div class="input-group" style="position: relative;">
+                        <input type="password" id="xacnhanmatkhau" name="xacnhanmatkhau" placeholder="Confirm your password" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Please re-enter the same password to confirm." />
+                        <i class="fa fa-eye" id="toggleConfirmPassword" style="position: absolute; right: 12px; top: 12px; cursor: pointer;"></i>
+                    </div>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.xacnhanmatkhau)</span>
+                </div>
+
+                <div class="form-group" style="flex: 1;">
+                    <label for="ngaysinh">Ngày sinh</label>
+                    <div class="input-group">
+                        <input type="date" id="ngaysinh" name="ngaysinh" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Please select your date of birth." />
+                    </div>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.ngaysinh)</span>
+                </div>
+
+            </div>
+
+            <!-- Single Column -->
+            <!-- Address Field (Full Width) -->
+            <div class="form-group">
+                <label for="diachi">Địa chỉ</label>
+                <div class="input-group col-md-8">
+                    <textarea id="diachi" name="diachi" placeholder="Enter your address" class="form-control" rows="2" style="padding: 10px; border-radius: 8px; width: 100%;" title="Please enter your full address including city and postal code."></textarea>
+                </div>
+                <span class="text-danger">@Html.ValidationMessageFor(model => model.diachi)</span>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary" style="background-color: #007bff; color: white; padding: 12px; border-radius: 8px; cursor: pointer; border: none;">Đăng ký</button>
+
+            <div style="text-align: center;">
+                <p>Bạn đã có tài khoản? <a href="@Url.Action("dangnhap", "User")" style="color: #007bff; text-decoration: none;">Đăng nhập</a></p>
+            </div>
+        </form>
+    </main>
+</div>
+
+<!-- Script to Toggle Password Visibility -->
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#matkhau');
+    togglePassword.addEventListener('click', function (e) {
+        // Toggle the password field type
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // Toggle the eye icon class
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+    const confirmPassword = document.querySelector('#xacnhanmatkhau');
+    toggleConfirmPassword.addEventListener('click', function (e) {
+        // Toggle the confirm password field type
+        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPassword.setAttribute('type', type);
+        // Toggle the eye icon class
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
+
+
+<!-- Styling the Eye Icon and Tooltip -->
+<style>
+    .fa-eye, .fa-eye-slash {
+        font-size: 18px;
+        color: #000000;
+    }
+
+    .form-control {
+        font-size: 16px;
+        border: 1px solid #ccc;
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+</style>
+
+
+<script language="javascript" src="~/Scripts/owlcarousel.js"></script>
+
+
+<div id="modalAddComplete">
+</div>
+
+<button type="button" id="modalAddCompleteBtn" style="display: none;"></button>
+
+<script>
+    // Get the modal
+    var modalAddComplete = document.getElementById('modalAddComplete');
+
+    // Get the button that opens the modal
+    var modalAddCompleteBtn = document.getElementById("modalAddCompleteBtn");
+
+    // When the user clicks the button, open the modal
+    modalAddCompleteBtn.onclick = function () {
+        modalAddComplete.style.display = "block";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modalAddComplete) {
+            modalAddComplete.style.display = "none";
+        }
+    }
+</script>
+
+<script language="javascript" src="~/Scripts/ajax-cart5eef.js"></script>
+<!-- Custom script -->
+<script>
+    if ($(window).width() > 768) {
+        setTimeout(function () {
+            $("#ProductThumbs .thumbnail-item:first-child a").trigger('click');
+        }, 10);
+    };
+</script>
+<script language="javascript" src="~/Scripts/hoverchangeimage.js"></script>
+<!-- accordion -->
+<script language="javascript" src="~/Scripts/accordion.js"></script>
+<!-- Owl carousel init -->
+<script language="javascript" src="~/Scripts/Owlcarousel.js"></script>
+<!-- Back to top -->
+<script language="javascript" src="~/Scripts/backtotop.js"></script>
+<!-- Validate quantity form & trigger zoom -->
+<script language="javascript" src="~/Scripts/triggerzoom.js"></script>
+<!--thuc hiên-->
+<script language="javascript" src="~/Scripts/thuchien.js"></script>
+<!-- popup loaded -->
+
+<script language="javascript" src="~/Scripts/quickview.js"></script>
+<script>
+    $(".hc-search-wrapper > a").click(function () {
+        $(".search-bar-header").toggle();
+    });
+</script>
+<script language='javascript'>
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+</script>
+

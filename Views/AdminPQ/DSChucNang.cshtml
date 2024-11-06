@@ -1,0 +1,46 @@
+﻿
+
+@model IEnumerable<WebsiteThuCungBento.Models.CHUCNANG_QUYEN>
+@{
+    ViewBag.Title = "Danh sách chức năng quyền";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<h2 style="padding-top:10px">DANH SÁCH CHỨC NĂNG PHÂN QUYỀN</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Mã chức năng
+        </th>
+        <th>
+            Tên chức năng
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MACHUCNANG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TENCN)
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "EditCN", new { id = item.MACHUCNANG }) |
+                @Html.ActionLink("Xóa", "DeleteCN", new { id = item.MACHUCNANG })
+            </td>
+        </tr>
+    }
+</table>
+
+@*roadlinktop*@
+<ul class="roadlinktop">
+    <a href="/AdminPQ/DSPhanQuyen">
+        <br />
+        <i class="fas fa-chevron-left"></i><span style="font-size:15px"> Trở lại trang người quản trị</span>
+    </a>
+</ul>

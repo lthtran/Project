@@ -1,0 +1,88 @@
+﻿@model IEnumerable<WebsiteThuCungBento.Models.KHACHHANG>
+
+@{
+    ViewBag.Title = "Trang quản lý khách hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG QUẢN LÝ KHÁCH HÀNG </h2>
+
+<h5 style="width:100%; padding-top:10px">
+    <u>
+        @*<img style="margin-left:25px" src="~/img/icons/add.png" />*@
+        <i class="fas fa-plus-circle" style="margin-left: 20px; font-size: 20px"></i>
+        @Html.ActionLink("THÊM MỚI KHÁCH HÀNG", "Create")
+    </u>
+</h5>
+
+<table class="table">
+    <tr>
+        <th>
+            Họ tên
+        </th>
+        <th>
+            Số Điện Thoại
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Tên đăng nhập
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Ngày Sinh
+        </th>
+        <th>
+            Hình Ảnh
+        </th>
+        <th>
+            Hành động
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HOTENKH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DIENTHOAI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DIACHI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TENDNKH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EMAIL)
+            </td>
+            <td>
+                @string.Format("{0:dd/MM/yyyy}", item.NGAYSINH)
+            </td>
+            <td>
+                @if (item.HINHANH == null)
+                {
+                    <img src="~/img/account.png" height="100" width="100" />
+                }
+                else
+                {
+                    <img src="@Url.Content("~/img/" + @item.HINHANH)" height="100" width="100" />
+                }
+
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.MAKH }) |
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.MAKH }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.MAKH })
+
+
+            </td>
+        </tr>
+    }
+
+</table>

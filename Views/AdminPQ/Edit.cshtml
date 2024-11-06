@@ -1,0 +1,35 @@
+﻿@model WebsiteThuCungBento.Models.PHANQUYEN
+
+@{
+    ViewBag.Title = "Trang chức năng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG CHỈNH SỬA CHỨC NĂNG</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MACHUCNANG)
+
+        <div class="form-group">
+            <label><strong>Tên chức năng:</strong></label>
+            <div class="col-md-10">
+                @Html.DropDownList("MACHUCNANG")
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Cập nhật" class="btn btn-default" /> |
+                @Html.ActionLink("Quay lại trang quản lý", "DSChucNang")
+            </div>
+        </div>
+    </div>
+}
+

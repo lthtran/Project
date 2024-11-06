@@ -1,0 +1,51 @@
+﻿@using WebsiteThuCungBento.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<WebsiteThuCungBento.Models.KICHTHUOC>
+
+@{
+    ViewBag.Title = "Trang quản lý kích thước sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG QUẢN LÝ KÍCH THƯỚC SẢN PHẨM</h2>
+
+<h5 style="width:100%; padding-top:10px">
+    <u>
+        <img style="margin-left:25px" src="~/img/icons/add.png" />
+        @Html.ActionLink("THÊM MỚI KÍCH THƯỚC", "Create")
+    </u>
+</h5>
+
+<table class="table">
+    <tr>
+        <th>Mã sản phẩm</th>
+        <th> Tên sản phẩm </th>
+        <th> Kích Thước </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SANPHAM.MASP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SANPHAM.TENSP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TENKICHTHUOC)
+            </td>
+            <td>
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.MAKICHTHUOC }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.MAKICHTHUOC })
+            </td>
+        </tr>
+    }
+
+</table>
+<div>
+    Trang @(@Model.PageNumber>Model.PageCount?Model.PageCount: Model.PageNumber)/@Model.PageCount
+</div>
+<div align="center">@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))</div>
+<link href="~/Content/phantrang.css" rel="stylesheet" />

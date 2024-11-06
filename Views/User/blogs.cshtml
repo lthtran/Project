@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewBag.Title = "Tin Tức ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<!-- Trở lại đầu trang-->
+<script language="javascript" src="~/Scripts/backtotop.js"></script>
+<!-- Owl carousel init -->
+<script language="javascript" src="~/Scripts/owlcarousel.js"></script>
+<!-- accordion -->
+<script language="javascript" src="~/Scripts/accordion.js"></script>
+
+@*<section id="breadcrumb-wrapper3" class="breadcrumb-w-img">
+    <div class="breadcrumb-overlay"></div>
+    <div class="breadcrumb-content">
+        <div class="wrapper">
+            <div class="inner text-center">
+                <div class="breadcrumb-big">
+
+                    <h2>
+                        Tin tức
+                    </h2>
+
+                </div>
+                <div class="breadcrumb-small">
+                    <a href="@Url.Action("index","User")" title="Quay trở về trang chủ">Trang chủ</a>
+
+
+
+                    <span aria-hidden="true">/</span>
+
+                    <span>Tin tức</span>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>*@
+
+
+
+<div id="PageContainer" class="is-moved-by-drawer">
+    <main class="main-content" role="main">
+
+
+        <section id="blog-wrapper">
+            <div class="wrapper">
+                <div class="inner">
+                    <div class="grid">
+                        <div class="grid__item large--one-half medium--one-half small--one-whole" style="display: flex; justify-content: center; align-items: center; text-align: center; ">
+                            <div class="blog-content">
+
+                                <div class="blog-content-wrapper">
+                                    <div class="blog-head">
+                                        <div class="blog-title">
+                                            <h1>Tin tức</h1>
+                                        </div>
+                                    </div>
+                                    <div class="blog-body">
+                                        <div class="grid-uniform">
+
+
+                                            <div class="grid__item large--one-half medium--one-half small--one-whole">
+                                                <div class="article-item">
+                                                    <div class="article-img">
+                                                        <a href="https://www.youtube.com/embed/_nLUJu4ev_c?si=5NH4VoH6G3o-uAi1">
+                                                            <div class="blog-post-audio">
+                                                                <iframe width="560" height="315" src="https://www.youtube.com/embed/_nLUJu4ev_c?si=5NH4VoH6G3o-uAi1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                              <div class="grid__item large--one-half medium--one-half small--one-whole" style="display: flex; justify-content: center; align-items: center; text-align: center; ">
+
+                                                <div class="article-item">
+                                                    <div class="article-img">
+                                                        <a href="https://www.youtube.com/embed/i15AYGLqOOM?si=GnyM3z5JT5KjFnFT">
+                                                            <div class="blog-post-audio">
+                                                                <iframe width="560" height="315" src="https://www.youtube.com/embed/i15AYGLqOOM?si=GnyM3z5JT5KjFnFT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                              </div>
+
+                                              <div class="grid__item large--one-half medium--one-half small--one-whole" style="display: flex; justify-content: center; align-items: center; text-align: center; ">
+                                                <div class="article-item">
+                                                    <div class="article-img">
+                                                        <a href="https://www.youtube.com/embed/KJxbN4Cv8jQ?si=qaeBYoYC_Jz1rSsZ">
+
+                                                            <div class="blog-post-audio">
+                                                                <iframe width="560" height="315" src="https://www.youtube.com/embed/KJxbN4Cv8jQ?si=qaeBYoYC_Jz1rSsZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                            <br />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+
+
+    </main>
+</div>
+
+
+<div id="modalAddComplete">
+</div>
+
+<button type="button" id="modalAddCompleteBtn" style="display: none;"></button>
+
+<script>
+    // Get the modal
+    var modalAddComplete = document.getElementById('modalAddComplete');
+
+    // Get the button that opens the modal
+    var modalAddCompleteBtn = document.getElementById("modalAddCompleteBtn");
+
+    // When the user clicks the button, open the modal
+    modalAddCompleteBtn.onclick = function () {
+        modalAddComplete.style.display = "block";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modalAddComplete) {
+            modalAddComplete.style.display = "none";
+        }
+    }
+</script>
+
+<script language="javascript" src="~/Scripts/ajax-cart5eef.js"></script>
+<!-- Custom script -->
+<script>
+    if ($(window).width() > 768) {
+        setTimeout(function () {
+            $("#ProductThumbs .thumbnail-item:first-child a").trigger('click');
+        }, 10);
+    };
+</script>
+<script language="javascript" src="~/Scripts/hoverchangeimage.js"></script>
+<!-- accordion -->
+<script language="javascript" src="~/Scripts/accordion.js"></script>
+<!-- Owl carousel init -->
+<script language="javascript" src="~/Scripts/Owlcarousel.js"></script>
+<!-- Back to top -->
+<script language="javascript" src="~/Scripts/backtotop.js"></script>
+<!-- Validate quantity form & trigger zoom -->
+<script language="javascript" src="~/Scripts/triggerzoom.js"></script>
+<!--thuc hiên-->
+<script language="javascript" src="~/Scripts/thuchien.js"></script>
+<!-- popup loaded -->
+
+<script language="javascript" src="~/Scripts/quickview.js"></script>
+<script>
+    $(".hc-search-wrapper > a").click(function () {
+        $(".search-bar-header").toggle();
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

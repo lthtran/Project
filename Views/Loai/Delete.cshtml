@@ -1,0 +1,39 @@
+﻿@model WebsiteThuCungBento.Models.LOAI
+
+@{
+    ViewBag.Title = "Trang xóa loại";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>TRANG XÓA LOẠI Thú Cưng</h1>
+
+<h3>Bạn có chắc chắn muốn xóa loại này?</h3>
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Mã Loại:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MALOAI)
+        </dd>
+        <dt>
+            Tên Loại:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENLOAI)
+        </dd>
+
+    </dl>
+    <br />
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại trang quản lý loại", "Index")
+        </div>
+    }
+</div>

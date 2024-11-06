@@ -1,0 +1,294 @@
+﻿
+@{
+    ViewBag.Title = @Model.TENSP + " ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<script language="javascript" src="~/Scripts/triggerzoom.js"></script>
+
+<section id="breadcrumb-wrapper" class="breadcrumb-w-img">
+    <div class="breadcrumb-overlay"></div>
+    <div class="breadcrumb-content">
+        <div class="wrapper">
+            <div class="inner text-center">
+                <div class="breadcrumb-big">
+
+                    <h2>
+                        @Model.TENSP
+                    </h2>
+
+                </div>
+                <div class="breadcrumb-small">
+                    <a href="/" title="Quay trở về trang chủ">Trang chủ</a>
+                    <span aria-hidden="true">/</span>
+                    <span><a href="/User/sanpham">Sản phẩm</a></span>
+                    <span aria-hidden="true">/</span>
+                    <span>@Model.TENSP</span>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="PageContainer" class="is-moved-by-drawer" style="margin-top: 20px;">
+    <main class="main-content" role="main">
+        <section id="product-wrapper">
+            <div class="wrapper">
+                <div class="container">
+                    <div itemscope="" itemtype="">
+                        <div class="row">
+
+                            <div class="col-lg-5">
+
+                                <div class="customize-product-slider clearfix">
+                                    <div id="surround" class="clearfix">
+                                        <div class="product-images" id="ProductPhoto">
+                                            <a href="@Url.Content("~/img/" + @Model.HINHANH)">
+                                                <img class="product-image-feature" src="@Url.Content("~/img/" + @Model.HINHANH)" alt="@Model.TENSP" data-zoom-image="~/img/@Model.HINHANH" height="443" width="443">
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-7">
+                                <div class="product-content">
+                                    <div class="pro-content-head clearfix">
+                                        <h1 style="text-align: left">@Model.TENSP</h1>
+                                        <div class="d-flex" style="align-items: center; justify-content: space-between; width: 60%">
+                                            <div class="pro-brand">
+                                                <span class="title">Thương hiệu:</span> <a href="~/User/SPTheothuonghieu/@Model.MATH" )>@Model.TENTH</a>
+                                            </div>
+                                            <span>|</span>
+                                            <div class="pro-type">
+                                                <span class="title">Loại: <a href="~/User/SPTheoloai/@Model.MALOAI">@Model.TENLOAI</a></span>
+                                            </div>
+                                            <span>|</span>
+                                            <div class="pro-sku ProductSku">
+                                                <span class="title">Mã SP:</span> <span class="sku-number">@Model.MASP</span>
+                                            </div>
+                                            <span>|</span>
+                                        </div>
+
+                                        <div class="pro-sku ProductSku">
+                                            <span class="title"><br />Số lượng còn:</span> <span class="sku-number">@Model.SOLUONG</span>
+                                        </div>
+                                        <br />
+                                        <strong style="color:#666;">Trạng thái:</strong>
+                                        <label style="color:#333;">
+                                            @if (Model.SOLUONG != 0)
+                                            {<label>Còn hàng</label>}
+                                            @if (Model.SOLUONG == 0)
+                                            {<label>Hết hàng</label>}
+                                        </label>
+                                    </div>
+
+                                    <div class="pro-price clearfix" style="padding: 20px 30px; background: #feb200ab; border-radius: 10px; font-size: 20px; font-weight: bold; color: red;">
+                                        <span class="current-price ProductPrice">@String.Format("{0:0,0}", @Model.DONGIABAN)₫</span>
+                                    </div>
+                                    <br />
+
+                                    <div class="pro-short-desc">
+                                        <p style="text-align:justify">@Model.MOTA</p>
+                                    </div>
+
+
+                                    <div class="product-variants-wrapper">
+
+                                        <div class="product-size-hotline">
+                                            <div class="product-hotline">
+                                                <i class="fa fa-mobile" aria-hidden="true"></i> Hotline hỗ trợ: <a href="tel:0857550602">0857550602</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid mg-left-5">
+
+                                        <br />
+                                        <div class="grid__item large--two-thirds medium--two-thirds small--one-whole pd-left5">
+                                            <div class="product-actions clearfix d-flex">
+                                                @if (Model.SOLUONG != 0)
+                                                {<a href="@Url.Action("ThemGiohang", "GioHang", new { @iMASP= @Model.MASP, @strURL=Request.Url.ToString() })" class="list-group-item btn-buy-now" style="background: #e35450; border: 1px solid #000000; color: #fff; padding: 5px 15px; font-size: 20px;">THÊM GIỎ HÀNG</a>}
+                                                @if (Model.SOLUONG == 0)
+                                                {<a href="#" class="list-group-item btn-buy-now" style="background: #2d485a; border: 1px solid #000000; color: #fff; padding: 5px 15px; font-size: 20px;">TẠM HẾT HÀNG</a>}
+                                                <button onclick="window.open('https://youtu.be/HLlE3a0WJhs?si=hyhbsFq8aYtNjmUI', '_blank')" class="btn btn-primary" style="margin-left: 10px;">Xem Video</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid" style="margin-top: 30px;">
+                            <div class="grid__item large--nine-twelfths medium--one-whole small--one-whole">
+                                <div class="product-description-wrapper">
+                                    <div class="tab clearfix text-center">
+                                        <h2 class="pro-tablinks active" onclick="openProTabs(event, 'protab1')" id="defaultOpenProTabs">Thông tin Thú Cưng</h2>
+                                    </div>
+
+
+                                    <div id="protab3" class="pro-tabcontent" style="display: block;">
+                                        <p></p><h2>@Model.TENSP</h2><p>@Model.MOTA</p><p>
+                                            <span class="wysiwyg-font-size-medium">
+                                                <strong><span>1. Hình ảnh sản phẩm</span></strong>
+                                            </span>
+                                        </p><p> <img class="product-image-feature" src="@Url.Content("~/img/" + @Model.HINHANH)" alt="@Model.TENSP" data-zoom-image="~/img/@Model.HINHANH"></p>
+                                        <p>
+                                            <span class="wysiwyg-font-size-medium">
+                                                <strong> 2. KHÁC: </strong>
+                                            </span>
+                                        </p><p>@Html.Action("hinhanh", new { id = Model.MASP })</p><p><span class="wysiwyg-font-size-medium"></span><span class="wysiwyg-font-size-medium"></span></p>
+                                        <p></p>
+
+                                        <!--review-->
+                                        <div class="row">
+                                            <!-- User review-->
+                                            <div class="user-reviews col-md-5 col-lg-5">
+                                               @Html.Action("_load_Review", "Review", new {MASP = Model.MASP})
+                                            </div>
+                                            <div class="col-md-1 col-lg-1"></div>
+                                            <!-- add review-->
+                                            <div class="col-lg-6 col-md-6 add_review_col">
+                                                @Html.Action("_Review", "Review", new { MASP = Model.MASP })
+                                            </div>
+                                        </div>
+                                        <!--review-->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+               
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+<div id="modalAddComplete">
+</div>
+
+<button type="button" id="modalAddCompleteBtn" style="display: none;"></button>
+
+
+<script>
+    // Get the modal
+    var modalAddComplete = document.getElementById('modalAddComplete');
+
+    // Get the button that opens the modal
+    var modalAddCompleteBtn = document.getElementById("modalAddCompleteBtn");
+
+    // When the user clicks the button, open the modal
+    modalAddCompleteBtn.onclick = function () {
+        modalAddComplete.style.display = "block";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modalAddComplete) {
+            modalAddComplete.style.display = "none";
+        }
+    }
+</script>
+
+<script language="javascript" src="~/Scripts/ajax-cart5eef.js"></script>
+<!-- Custom script -->
+<script>
+    if ($(window).width() > 768) {
+        setTimeout(function () {
+            $("#ProductThumbs .thumbnail-item:first-child a").trigger('click');
+        }, 10);
+    };
+</script>
+<script language="javascript" src="~/Scripts/hoverchangeimage.js"></script>
+<!-- accordion -->
+<script language="javascript" src="~/Scripts/accordion.js"></script>
+<!-- Owl carousel init -->
+<script language="javascript" src="~/Scripts/Owlcarousel.js"></script>
+<!-- Back to top -->
+<script language="javascript" src="~/Scripts/backtotop.js"></script>
+<!-- Validate quantity form & trigger zoom -->
+<script language="javascript" src="~/Scripts/triggerzoom.js"></script>
+<!--thuc hiên-->
+<script language="javascript" src="~/Scripts/thuchien.js"></script>
+
+<script language="javascript" src="~/Scripts/quickview.js"></script>
+
+
+<!-------------------------------------------->
+
+<script language="javascript" src="~/Scripts/option_selection.js"></script>
+
+
+<script>
+    $(".hc-search-wrapper > a").click(function () {
+        $(".search-bar-header").toggle();
+    });
+</script>
+
+<script>
+
+</script>
+<style>
+    .user-reviews {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .review-item {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .review-header h4 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+    .review-date {
+        font-size: 0.9em;
+        color: #777;
+    }
+
+    .review-rating {
+        margin: 5px 0;
+    }
+
+        .review-rating i {
+            margin-right: 3px;
+        }
+
+    .review-item p {
+        margin: 5px 0 0;
+        font-size: 1em;
+        color: #555;
+    }
+
+    .no-reviews {
+        text-align: center;
+        color: #999;
+        font-size: 1.1em;
+    }
+
+</style>

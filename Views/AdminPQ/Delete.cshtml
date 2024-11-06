@@ -1,0 +1,48 @@
+﻿@model WebsiteThuCungBento.Models.PHANQUYEN
+
+@{
+    ViewBag.Title = "Xóa Phân Quyền";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG XÓA PHÂN QUYỀN</h2>
+
+<h3>Bạn có chắc chắn muốn xóa không?</h3>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Mã chức năng quyền:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MACHUCNANG)
+        </dd>
+
+        <dt>
+            Tên chức năng quyền:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CHUCNANG_QUYEN.TENCN)
+        </dd>
+        <dt>
+            Tên quản trị:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADMIN.HOTEN)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-default" /> |
+            @Html.ActionLink("Trở lại trang trước", "DSPhanQuyen")
+        </div>
+    }
+</div>

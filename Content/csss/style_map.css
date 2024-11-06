@@ -1,0 +1,45 @@
+
+#map-canvas { height: 100% }
+.list_demo {line-height: 25px}
+.list_demo a{
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 16px;
+	text-decoration: none;
+	color: #3e82bd;
+}
+.list_demo li:hover,
+.list_demo a:hover{
+	color: #cb4d4a;
+}
+.list_demo a:hover{margin-bottom: 1px;border-bottom: 1px solid #cb4d4a;}
+.button{
+	background: #A94442;
+	border-bottom: 2px solid #A944AA;
+	box-shadow: 0 0 2px #DDD;
+	border:none;
+	width: 120px;
+	color:white;
+	border-radius: 3px;
+	height:30px;
+	position: absolute;
+	z-index: 200000;
+	right: 5px;
+	top:25px;
+}
+
+.wrap{
+    padding: 7px;
+    background: orange;
+    width: auto;
+    margin: 2px 0;  
+}
+  #option{
+    height:23px;
+    padding-top: 3px;
+    height: 25px;
+}
+input[type="button"]{
+    font-size: 13px;
+    padding-top: 3px;
+    height: 25px;
+  }

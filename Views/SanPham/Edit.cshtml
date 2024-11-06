@@ -1,0 +1,107 @@
+﻿@model WebsiteThuCungBento.Models.SANPHAM
+
+@{
+    ViewBag.Title = "Trang chỉnh sửa sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG CHỈNH SỬA THÔNG TIN SẢN PHẨM</h2>
+
+@using (Html.BeginForm("Edit", "SanPham", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.MASP)
+
+    <div class="form-group">
+        <label><strong>Tên sản phẩm:</strong></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TENSP, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+            @Html.ValidationMessageFor(model => model.TENSP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label><strong>Đơn Giá Mua:</strong></label>
+        <div class="col-md-10" onkeypress="return isNumberKey(event)">
+            @Html.EditorFor(model => model.DONGIAMUA, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+            @Html.ValidationMessageFor(model => model.DONGIAMUA, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label><strong>Đơn Giá Bán:</strong></label>
+        <div class="col-md-10" onkeypress="return isNumberKey(event)">
+            @Html.EditorFor(model => model.DONGIABAN, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+            @Html.ValidationMessageFor(model => model.DONGIABAN, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label><strong>Giống và phụ kiện:</strong></label>
+        <div class="col-md-10">
+            @Html.DropDownList("MATH")
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label><strong>Loại sản phẩm:</strong></label>
+        <div class="col-md-10">
+            @Html.DropDownList("MALOAI")
+        </div>
+    </div>
+    <br />
+    @*<div class="form-group">
+        <label><strong>Màu Sắc:</strong></label>
+        <div class="col-md-10">
+            @Html.DropDownList("MAMAUSAC")
+        </div>
+    </div>*@
+    <br />
+    @*<div class="form-group">
+        <label><strong>Link thanh toán online:</strong></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.THANHTOANON, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.THANHTOANON, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+    <br />
+    <div class="form-group">
+        <label><strong>Hình Ảnh:</strong></label>
+        <img src="@Url.Content("~/img/"+  Model.HINHANH)" width="120" />
+        <div class="col-md-10">
+            <input type="file" name="fileUpload" Required="required" />
+            @ViewBag.Thongbao
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label><strong>Mô Tả:</strong></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MOTA, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+            @Html.ValidationMessageFor(model => model.MOTA, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Cập nhật" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại trang quản lý", "Index")
+        </div>
+    </div>
+</div>
+}
+<script language='javascript'>
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+</script>

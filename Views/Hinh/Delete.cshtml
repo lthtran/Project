@@ -1,0 +1,40 @@
+﻿@model WebsiteThuCungBento.Models.HINH
+
+@{
+    ViewBag.Title = "Trang xóa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG XÓA</h2>
+
+<h3>Bạn có chắc chắn muốn xóa không?</h3>
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <label><strong>Tên Sản Phẩm:</strong></label><br />
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SANPHAM.TENSP)
+        </dd>
+        <dt>
+            <label><strong>Hình Ảnh:</strong></label><br />
+        </dt>
+
+        <dd>
+            <img src="@Url.Content("~/img/"+  Model.HINH1)" width="120px" />
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại trang quản lý", "Index")
+        </div>
+    }
+</div>

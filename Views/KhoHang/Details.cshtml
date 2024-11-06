@@ -1,0 +1,43 @@
+﻿@model WebsiteThuCungBento.Models.PHIEUNHAPKHO
+
+@{
+    ViewBag.Title = "Trang chi tiết kho hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG CHI TIẾT</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Ngày nhập kho:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NGAYNK)
+        </dd>
+
+        <dt>
+            Mã sản phẩm:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MASP)
+        </dd>
+
+        <dt>
+            Số lượng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SOLUONG)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.MAPHIEUNK }) |
+    @Html.ActionLink("Quay lại trang quản lý", "Index")
+</p>

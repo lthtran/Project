@@ -1,0 +1,13 @@
+﻿
+@foreach (var item in Model)
+{
+    <div class="menuItem_2">
+        <div class="wrap-link linkLevel_2">
+            <a class="d-inline-block" href="@Url.Action("SPTheoloai",new { id = item.MALOAI })">@item.TENLOAI</a>
+        </div>
+    </div>
+    @*<a class="aTag" href="@Url.Action("SPTheoloai",new { id = item.MALOAI })">
+        <p class="subcateName active_cateName">@item.TENLOAI</p>
+    </a>*@
+}
+

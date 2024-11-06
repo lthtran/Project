@@ -1,0 +1,42 @@
+
+/* basic styling first  */
+.static{
+    font-family: 'lucida grande', helvetica, arial, sans-serif;
+    font-size: 76%;
+}
+.lifted_content_box {
+    display: block;
+    width: 165%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.lifted_content_box h1 {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 2em;
+    margin: 0; 
+    height: 0;
+    border-bottom: 25px solid #505050; 
+    border-right: 15px solid transparent;
+    display: inline-block;
+    color: #fff;
+    
+    padding: 0 10px;
+    
+}
+
+.content {
+    padding: 10px;
+    background: #fff;
+    border-top: 5px solid #505050;
+    -webkit-box-shadow: inset 0px 0px 10px rgba(0,0,0,0.20);
+    -moz-box-shadow: inset 0px 0px 10px rgba(0,0,0,0.20);
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.20);
+}
+
+.lifted_content_box p {
+    margin: 0 0 10px;
+    color: #555;
+    line-height: 1.5em;
+}

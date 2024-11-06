@@ -1,0 +1,77 @@
+﻿@model WebsiteThuCungBento.Models.KHACHHANG
+
+@{
+    ViewBag.Title = "Trang chi tiết thông tin khách hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG CHI TIẾT THÔNG TIN KHÁCH HÀNG</h2>
+
+<div>
+   
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Họ Tên :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTENKH)
+        </dd>
+
+        <dt>
+            Số Điện Thoại:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DIENTHOAI)
+        </dd>
+
+        <dt>
+            Địa Chỉ:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DIACHI)
+        </dd>
+
+        
+
+        <dt>
+            Email:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAIL)
+        </dd>
+
+        <dt>
+            Ngày Sinh:
+        </dt>
+
+        <dd>
+           @String.Format("{0:dd/MM/yyyy}",@Html.DisplayFor(model => model.NGAYSINH))
+        </dd>
+
+        <dt>
+            Hình Ảnh:
+        </dt>
+
+        <dd>
+            @if (Model.HINHANH == null)
+            {
+                <img src="~/img/account.png" height="100" width="100" />
+            }
+            else
+            {
+                <img src="~/img/@Model.HINHANH" height="100" width="100" />
+            }
+
+        </dd>      
+
+    </dl>
+</div>
+<div style="margin-left: 50px">
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.MAKH }) |
+    @Html.ActionLink("Quay lại trang quản lý", "Index")
+</div>

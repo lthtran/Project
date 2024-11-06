@@ -1,0 +1,460 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- Basic page needs ================================================== -->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta property="og:locale" content="vi_VN">
+    <link rel="alternate" hreflang="x-default" href="/index.html">
+    <link rel="alternate" hreflang="vi" href="/index.html">
+    <meta name="revisit" content="1 days">
+    <meta name="robots" content="index,follow">
+    <link rel="shortcut icon" href="~/img/logo/pet2.png" type="image/png" />
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css/css")
+    @Styles.Render("~/Content/csss/css")
+
+    <!-- Title and description ================================================== -->
+
+    <meta property="og:type" content="website" />
+
+    <meta property="og:site_name" content="">
+    <meta name="twitter:card" content="summary">
+
+
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+
+    <!-- CSS ================================================== -->
+    @*<script id="facebook-jssdk" src="//connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js"></script>*@
+
+    <script src='https://kit.fontawesome.com/a076d05399.js' type='text/javascript'></script>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/all.min.css" rel="stylesheet" />
+    <link href="~/Content/thucung.css" rel="stylesheet" />
+    <link href="~/Content/style_search.css" rel="stylesheet" />
+    <link href="~/Content/QuickView.css" rel="stylesheet" />
+    @*<link href="~/Content/stylenews.css" rel="stylesheet" />*@
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css" integrity="sha512-X/RSQYxFb/tvuz6aNRTfKXDnQzmnzoawgEQ4X8nZNftzs8KFFH23p/BA6D2k0QCM4R0sY1DEy9MIY9b3fwi+bg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css" integrity="sha512-f28cvdA4Bq3dC9X9wNmSx21rjWI+5piIW/uoc2LuQ67asKxfQjUow2MkcCNcfJiaLrHcGbed1wzYe3dlY4w9gA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.transitions.min.css" integrity="sha512-1rUauSOKExLvRq1W54SZexX5zRJqdYr8imrbspYyy1jLSWYcHqQRej2sBVJU/fhkC8Gu5wT4rEZ/nrSn8IeuhQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js" integrity="sha512-9CWGXFSJ+/X0LWzSRCZFsOPhSfm6jbnL+Mpqo0o8Ke2SYr8rCTqb4/wGm+9n13HtDE1NQpAEOrMecDZw4FXQGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Header hook for plugins ================================================== -->
+    
+    <title> @ViewBag.Title </title>
+
+    @*<script>
+            //<![CDATA[
+            (function () { function asyncLoad() { var urls = ["//static.zotabox.com/d/5/d50912899988480f86359f5de5f7b1d2/widgets.js", "https://wholesale.haravan.com/js/script_tag_production.js"]; for (var i = 0; i < urls.length; i++) { var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = urls[i]; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); } } window.attachEvent ? window.attachEvent('onload', asyncLoad) : window.addEventListener('load', asyncLoad, false); })();
+            //]]>
+        </script>*@
+
+    @*<script type='text/javascript'>!function () { var hrv_analytics = window.hrv_analytics = window.hrv_analytics || []; if (!hrv_analytics.initialize) if (hrv_analytics.invoked) window.console && console.error && console.error("Segment snippet included twice."); else { hrv_analytics.invoked = !0; hrv_analytics.methods = ["start", "trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "reset", "group", "track", "ready", "alias", "debug", "page", "once", "off", "on"]; hrv_analytics.factory = function (t) { return function () { var e = Array.prototype.slice.call(arguments); e.unshift(t); hrv_analytics.push(e); return hrv_analytics } }; for (var t = 0; t < hrv_analytics.methods.length; t++) { var e = hrv_analytics.methods[t]; hrv_analytics[e] = hrv_analytics.factory(e) } hrv_analytics.load = function (t, e) { var n = document.createElement("script"); n.type = "text/javascript"; n.async = !0; n.src = "//stats.hstatic.net/analytics.minb0af.js?t=2"; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(n, a); hrv_analytics._loadOptions = e }; hrv_analytics.SNIPPET_VERSION = "4.1.0"; hrv_analytics.start('pro:web:1000359177'); hrv_analytics.page(); hrv_analytics.load(); } }();</script>*@
+    <style>
+        .grecaptcha-badge {
+            visibility: hidden;
+        }
+    </style>
+    <script type='text/javascript'>
+        window.HaravanAnalytics = window.HaravanAnalytics || {};
+        window.HaravanAnalytics.meta = window.HaravanAnalytics.meta || {};
+        window.HaravanAnalytics.meta.currency = 'VND';
+        var meta = { "page": { "pageType": "collection" } };
+        for (var attr in meta) {
+            window.HaravanAnalytics.meta[attr] = meta[attr];
+        }
+        window.HaravanAnalytics.AutoTrack = true;
+    </script>
+    <!-- /snippets/oldIE-js.liquid -->
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js" integrity="sha512-9CWGXFSJ+/X0LWzSRCZFsOPhSfm6jbnL+Mpqo0o8Ke2SYr8rCTqb4/wGm+9n13HtDE1NQpAEOrMecDZw4FXQGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src='~/Scripts/removesomee.js' type="text/javascript"></script>
+
+
+
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&amp;subset=vietnamese" rel="stylesheet">
+
+
+
+    <script>
+        window.file_url = "http://file.hstatic.net/1000359177/file/";
+        window.asset_url = "http://theme.hstatic.net/1000359177/1000456422/14/?v=110";
+        var check_variant = true;
+        var check_variant_quickview = true;
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script language="javascript" src="~/Scripts/fastclick.min5eef.js"></script>
+    <script src=""></script>
+
+</head>
+<body id="tat-ca-san-pham" class="body-other template-collection">
+    <section class="banner-top" style="background-color:#7fb2e8">
+        <div class="container">
+            <a class="d-block desktop-only Desktop_2" href="#" rel="nofollow">
+                <img alt="#" class="wk-editable-image" id="home-section-menu-img1" src="~/images/banner-menu.png">
+            </a>
+        </div>
+    </section>
+    <header id="header">
+        <section class="desktop-only header stickyMenu">
+            <div class="container">
+                <div class="row row-fix justify-content-center align-items-center justify-content-between d-flex">
+                    <div class="logo-area">
+                        <div class="wrap-img">
+                            <a href="/" title="home">
+                                <img alt="Fago Pet" style="width: 100%; object-fit: cover; height: 70px;" loading="lazy" src="~/images/logo_fagopet.png">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hc-search-wrapper">
+
+                        <div class="search-bar-header">
+                            <div class="search-form-wrapper">
+                                <form action="@Url.Action("Ketquatimkiem", "User")" class="searchform-categoris ultimate-search">
+                                    <div class="wpo-search">
+                                        <div class="wpo-search-inner">
+
+                                            <div class="input-group" style="background-color: #ffff !important;display: flex !important; align-items: center; position: relative !important;">
+                                                @using (Html.BeginForm(FormMethod.Get))
+                                                {
+                                                    @*<input id="SearchString" name="SearchString" style="border-radius: 4px; flex: 1; min-width: 300px; height: 30px; padding: 0 10px; border: 1px solid #ccc;" type="text" value="" placeholder="Tìm kiếm....">
+                                                        <span class="input-group-btn">
+                                                            <button style="border-radius: 6px; border: 1px solid black; height: 30px; padding: 0 10px; color: white; margin-left: 5px; cursor: pointer;" type="submit">
+                                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>*@
+                                                    <input id="SearchString" class="input-search" style="border-radius: 4px !important; flex: 1 !important; min-width: 300px !important; height: 30px !important; padding: 0 30px 0 10px !important; border: 1px solid #ccc;" name="SearchString" type="text" value="" placeholder="Tìm kiếm....">
+                                                    <button class="btn-search" style="padding:0px; text-align:center !important;align-items:center !important;position: absolute !important; right: 5px !important; height: 30px !important; width: 30px !important; border: none !important; background-color: transparent; color: #007BFF; cursor: pointer;" type="submit">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                    @*<div class="cart-area" style="position: relative;">
+                            <div class="circle" style="position: absolute; top: -10px; right: -10px; width: 20px; height: 20px; border-radius: 50%; background: red; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 10px;">
+                                @ViewBag.TongSoLuong
+                            </div>
+                            @Html.Action("GiohangPartial", "GioHang")
+                        </div>*@
+                    <div class="cart-area">
+                        @Html.Action("GiohangPartial", "Giohang")
+                    </div>
+
+                    <div class="phone-area d-flex align-items-center">
+                        <i class="fa-solid fa-phone"></i>
+                        <a class="phone-detail" href="tel:0857550602">
+                            <span class="text1">Tổng đài tư vấn</span>
+                            <span class="font-weight-bold">0857550602</span>
+                        </a>
+                    </div>
+                    <div class="news-area d-flex">
+                        @if (Session["Taikhoan"] != null)
+                        {
+                            var kh = Session["Taikhoan"] as WebsiteThuCungBento.Models.KHACHHANG;
+                            <a href="@Url.Action("thongtincanhan","User")">
+                                <i class="fa fa-user"></i> @kh.HOTENKH
+                            </a>
+                            <a href="@Url.Action("dangxuat","User")"><i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("dangnhap","User")" id="customer_login_link"><i class="fa fa-user"></i> Đăng nhập</a>
+                            <a href="@Url.Action("dangky","User")" id="customer_register_link"><i class="fa fa-sign-in"></i> Đăng ký</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="desktop-only navigation stickyMenu">
+            <div class="container">
+                <div class="menuBlock">
+                    <div class="wrapFlex">
+                        <div class="menuItem_1 menuItem_1fix">
+                            <a class="linkLevel_1" href="@Url.Action("gioithieu","User")">GIỚI THIỆU</a>
+                        </div>
+                        <div class="menuItem_1 menuItem_1fix">
+                            <a class="linkLevel_1" href="@Url.Action("sanpham","User")">Sản Phẩm</a>
+                        </div>
+                        <div class="menuItem_1 menuItem_1fix">
+                            <a class="linkLevel_1" href="@Url.Action("khachsanthucung","User")">KHÁCH SẠN CHÓ MÈO</a>
+                        </div>
+                        <div class="menuItem_1 menuItem_1fix">
+                            <a class="linkLevel_1" href="@Url.Action("spathucung","User")">SPA CHÓ MÈO</a>
+                        </div>
+                        <div class="menuItem_1 menuItem_1fix dropDown">
+                            <a class="linkLevel_1" href="#">
+                                Giống và Phụ Kiện
+                                <i class="fa-solid fa-caret-down"></i>
+                            </a>
+                            <div class="blockCateLevel_2">
+                                @Html.Action("thuonghieu", "User")
+                            </div>
+                        </div>
+                        <div class="menuItem_1 menuItem_1fix dropDown">
+                            <a class="linkLevel_1" href="#">
+                                Loại Thú Cưng
+                                <i class="fa-solid fa-caret-down"></i>
+                            </a>
+                            <div class="blockCateLevel_2">
+                                @Html.Action("loai", "User")
+                            </div>
+                        </div>
+                        @*<div class="menuItem_1 menuItem_1fix">
+                                <a class="linkLevel_1" href="@Url.Action("blogs","User")">Blog</a>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <div class="cart-overlay"></div>
+
+    <div>
+        @RenderBody() <!--Cho biết nội dung chính của trang sẽ được hiển thị ở đâu-->
+    </div>
+
+    <section id="brands-slider">
+        <div class="inner">
+            <div class="grid">
+                <div id="owl-brands-slider" class="owl-carousel owl-theme">
+                    @Html.Action("hinhthuonghieu")
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="" id="footerFagomom_2">
+        <div class="footerLine4Col">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-12 colFix">
+                        <div class="titlePart">
+                            <p class="text">LIÊN HỆ CHÚNG TÔI</p>
+                        </div>
+                        <div class="ContentPart">
+                            <p class="pType1">CÔNG TY TNHH  GIẢI PHÁP THƯƠNG MẠI FAGO GROUP</p>
+                            <p class="pType2 address">3/2, phường Xuân Khánh, quận Ninh Kiều, Thành phố Cần Thơ</p>
+                            <p class="pType2 phone">
+                                <a href="tel:0857550602">0857550602</a>
+                            </p>
+                            <p class="pType2 email">
+                                <a href="mailto:fagopet@gmail.com">fagopet@gmail.com</a>
+                            </p>
+                            <p class="pType2 clock">
+                                <i class="time" style="color:white">Thứ 2 - 7 : 9:00 - 19:00</i>
+                                <i class="time" style="color:white">Chủ nhật : 9:00 - 18:00</i>
+                            </p>
+                        </div>
+                        <div class="shareSocialPart">
+                            <div class="shareSocial1">
+                                <div class="item">
+                                    <a href="https://www.facebook.com/fagopet" rel="nofollow" target="_blank" title="facebook">
+                                        <img alt="itemFacebook" src="~/images/itemFacebook2.svg">
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a rel="nofollow" target="_blank" title="twitter">
+                                        <img alt="twitter" src="~//images/twitter_2.svg">
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a rel="nofollow" target="_blank" title="Linkedin">
+                                        <img alt="instagram" src="~//images/instagramItem2.svg">
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a href="https://www.youtube.com/channel/UCCE6WcIW7Q4HUr8PP76pr3A/featured" rel="nofollow" target="_blank" title="youtube">
+                                        <img alt="youtube" src="~//images/youtube_2.svg">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        @*<a class="dmca-badge d-block" href="https://www.dmca.com/Protection/Status.aspx?ID=93a55eee-bb80-4a4e-a873-8302b1e8ab72&amp;refurl=https://fagopet.vn/payment/" title="DMCA.com Protection Status">
+                                <img alt="DMCA.com Protection Status" src="https://images.dmca.com/Badges/dmca_protected_16_120.png?ID=93a55eee-bb80-4a4e-a873-8302b1e8ab72">
+                            </a>
+                            <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js">:cdata</script>*@
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 colFix">
+                        <div class="titlePart">
+                            <p class="text">DANH MỤC</p>
+                        </div>
+                        <div class="ContentPart">
+                            <ul>
+                                <li>
+                                    <a href="/">Trang chủ</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("khachsanthucung","User")">Khách sạn chó mèo</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("spathucung","User")">Spa chó mèo</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("sanpham","User")">Sản phẩm</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("gioithieu","User")">Giới Thiệu</a>
+                                </li>
+                                @*<li>
+                                        <a href="@Url.Action("blogs","User")">Blogs</a>
+                                    </li>*@
+                                <!-- %li -->
+                                <!-- %a{:href => "/tuyen-dung-dieu-duong-vien/"} Tuyển dụng -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 colFix">
+                        <div class="titlePart">
+                            <p class="text">CHÍNH SÁCH</p>
+                        </div>
+                        <div class="ContentPart">
+                            <ul>
+                                <li>
+                                    <a href="#">Chính sách mua hàng</a>
+                                </li>
+                                <li>
+                                    <a href="#">Chính sách vận chuyển</a>
+                                </li>
+                                <li>
+                                    <a href="#">Chính sách bảo hành</a>
+                                </li>
+                                <li>
+                                    <a href="#">Chính sách bảo mật</a>
+                                </li>
+                                <li>
+                                    <a href="#">Chính sách đổi trả</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 colFix">
+                        <div class="titlePart">
+                            <p class="text">KẾT NỐI VỚI CHÚNG TÔI</p>
+                        </div>
+                        <a href="https://www.facebook.com/fagopet" rel="nofollow" target="_blank" title="facebook">
+                            <div class="ContentPart">
+                                <img alt="Fanpage" src="~/images/logo_fagopet.png" style="width: 100%;">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-white border-3 border-primary rounded-circle back-to-top" style="margin-bottom:5px"><i style="color:limegreen" class="fa fa-arrow-up"></i></a>
+
+    <!--<div class="hotline-phone-ring-wrap" style="margin-bottom:50px">
+        <div class="hotline-phone-ring">
+            <div class="hotline-phone-ring-circle"></div>
+            <div class="hotline-phone-ring-circle-fill"></div>
+            <div class="hotline-phone-ring-img-circle">
+                <a href="tel:0857550602" class="pps-btn-img">
+                    <img src="https://nguyenhung.net/wp-content/uploads/2019/05/icon-call-nh.png" alt="Gọi điện thoại" width="50">
+                </a>
+            </div>
+        </div>-->
+        @*<div class="hotline-bar">
+                <a href="tel:0857550602">
+                    <span class="text-hotline">0857550602</span>
+                </a>
+            </div>*@
+    <!--</div>-->
+    <!-- Zalo Button -->
+    <div class="hotline-phone-ring-wrap" style="margin-bottom:60px; bottom:70px !important; z-index: 99999">
+        <div class="hotline-phone-ring">
+            <div class="hotline-phone-ring-circle" style="border: 1px solid #007bff; animation: phonering-alo-circle-img-anim 1s infinite ease-in-out, color-change-animation 1s infinite ease-in-out; "></div>
+            <div class="hotline-phone-ring-circle-fill" style="background-color: #007bff"></div>
+            <div class="hotline-phone-ring-img-circle" style="background-color: #007bff">
+                <a href="https://zalo.me/0857550602" target="_blank" class="zalo-btn-img">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Zalo" width="50">
+                </a>
+            </div>
+        </div>
+        <div class="hotline-bar" style="background:none; display:none ">
+            <a href="https://zalo.me/0857550602" target="_blank" class="zalo-btn-img">
+            </a>
+
+        </div>
+    </div>
+
+    <a href="https://www.messenger.com/t/7067417333380754" target="_blank" rel="noreferrer" style="position: fixed; top: 50%; right: -50px; padding: 0.5rem 1rem; color: #333; background-color: #ddd; transform: rotate(-90deg); border-top-left-radius: 5px; border-top-right-radius: 5px; z-index: 2;">
+        <svg viewBox="0 0 512 512" data-icon="messender" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M256,0C114.624,0,0,106.112,0,237.024c0,74.592,37.216,141.12,95.392,184.576V512l87.168-47.84c23.264,6.432,47.904,9.92,73.44,9.92c141.376,0,256-106.112,256-237.024C512,106.112,397.376,0,256,0z" style="fill: rgb(30, 136, 229);"></path><polygon points="281.44,319.2 216.256,249.664 89.056,319.2 228.96,170.656 295.744,240.192 421.376,170.656" style="fill: rgb(250, 250, 250);"></polygon></svg>
+        <span class="ml-1">Liên Hệ QTV</span>
+    </a>
+
+    <link href="~/Content/Call.css" rel="stylesheet" />
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "108011378303902");
+        chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Your SDK code -->
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v14.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            //js.src = 'https://connect.facebook.net/vi_VN/ddsdk/xfbml.cddustomerchat.js';
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
+    @*<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+        <df-messenger intent="WELCOME"
+                      chat-title="Spa_Pet"
+                      agent-id="c8ce3972-e0 e4-4ed7-950b-a61625e8c26c"
+                      language-code="vi"></df-messenger>*@
+    @*<script src='//fw-cdn.com/12033189/4563663.js'
+            chat='true'>
+    </script>*@
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+﻿
+@using WebsiteThuCungBento.Models
+@model List<Giohang>
+@{
+    ViewBag.Title = "Giỏ Hàng ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<!--<link rel="stylesheet" type="text/css" href="~/Content/style_search.css">-->
+@*<link rel="stylesheet" type="text/css" href="~/Content/all.min.css">*@
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="~/Content/style.css">
+<link href="~/Content/thucung.css" rel="stylesheet" />
+
+<link rel="stylesheet" type="text/css" href="~/Content/stylenews.css">
+<link href="~/Content/QuickView.css" rel="stylesheet" />
+<script src='https://kit.fontawesome.com/a076d05399.js' type='text/javascript'></script>
+
+
+@*<section id="breadcrumb-wrapper2" class="breadcrumb-w-img">
+        <div class="breadcrumb-overlay"></div>
+        <div class="breadcrumb-content">
+            <div class="wrapper">
+                <div class="inner text-center">
+                    <div class="breadcrumb-big">
+                        <h2 style="text-align:center">THÔNG TIN GIỎ HÀNG</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>*@
+
+<div class="grid">
+    <h4 style="font-size: 30px; color: #c83c38"><b>CHI TIẾT GIỎ HÀNG</b></h4>
+    <div class="cartPage">
+        @foreach (var item in Model)
+        {
+            <div class="inforCart">
+                <div class="image">
+                    <a href="@Url.Action("Chitiet", "User", new { id = item.iMASP})">
+                        <img src="~/img/@item.gHINHANH" alt="@item.gTENSP" />
+                    </a>
+                </div>
+                <div class="numberPrice">
+                    <div class="title">
+                        <h3 style="text-align: left; margin: 0 !important">@item.gTENSP</h3>
+                    </div>
+                    <p>
+                        <b>Mã SP:</b> @item.iMASP<br />
+                    </p>
+                    <br />
+                    @using (Html.BeginForm("CapnhatGiohang", "Giohang", new { @iMaSp = item.iMASP }))
+                    {
+                        <div class="number">
+                            @*<div class="buttons_added">
+                                    Số lượng:
+                                    <input class="minus is-form btn btn-sm mb-3 mt-3" type="button" value="-">
+                                    <input aria-label="quantity" class="input-qty" max="100" min="1" name="txtSoLuong" type="number" value="@item.iSOLUONG">
+                                    <input class="plus is-form btn btn-sm mb-3 mt-3" type="button" value="+">
+                             </div>*@
+                            <div class="buttons_added" style="display: flex; align-items: center;">
+                                Số lượng:
+                                <input class="minus is-form btn btn-sm mb-3 mt-3" style="margin-right:2px" type="button" value="-">
+                                <input aria-label="quantity" class="input-qty" max="100" min="1" name="txtSoLuong" type="number" value="@item.iSOLUONG">
+                                <input class="plus is-form btn btn-sm mb-3 mt-3"  style="margin-left:2px" type="button" value="+">
+                            </div>
+                            @*<i class="fa fa-times"></i>*@ Đơn giá: <span class="textPrice">@String.Format("{0:0,0}", item.dDONGIA)</span>
+                        </div>
+                        <div class="total_price">
+                            Thành tiền: <span class="textPrice sumprice33512298"> @String.Format("{0:0,0}", item.dTHANHTIEN)</span>
+                        </div>
+                        <div class="btnCart">
+                            <button class="btnClick btnDel" style="color: white !important;">
+                                <span>
+                                    @Html.ActionLink("X", "XoaGiohang", new { @iMaSp = item.iMASP })
+                                </span>
+                            </button>
+                        </div>
+                        <div class="buyNext">
+                            <button type="submit" class="btn-sm">
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+                            <a size="50" style="font-size:13px" href="@Url.Action("Chitiet", "User", new { id = item.iMASP})"> Xem chi tiết </a>
+                        </div>
+                    }
+
+                </div>
+                <div class="clear"></div>
+            </div>
+            <hr style="border: 1px solid #ddd; margin: 10px 0; width:50%; text-align:center !important">
+
+        }
+        <div class="itemCart sumItemCart row justify-content-between">
+            <div class="col-auto">
+                <div class="inforSum" style="margin-right:10px">
+                    <b> Số lượng: </b> <span class="textPrice sumPrice"> @ViewBag.Tongsoluong </span>
+                </div>
+                
+                <div class="inforSum">
+                    <b> Tổng tiền: </b> <span class="textPrice sumPrice"> @String.Format("{0:0,0}", ViewBag.Tongtien) VNĐ</span>
+                </div>
+            </div>
+            <div class="col-auto d-flex">
+                <div class="buyNext btn-sm">
+                    @*<a class="ps-btn" href="@Url.Action("XoaTatcaGiohang")">Xóa</a>*@
+                    <a class="ps-btn" href="@Url.Action("XoaTatcaGiohang")" style="background-color: white; color: black; padding: 1px 2px !important; margin-bottom: 15px; font-size: 10px; ">
+                        Xóa
+                    </a>
+                </div>
+            </div>
+            <br />
+            <div class="col-auto d-flex">
+                <div class="buyNext btn-sm ml-auto">
+                    <a class="ps-btn" href="@Url.Action("Dathang", "GioHang")">ĐẶT HÀNG</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(".hc-search-wrapper > a").click(function () {
+        $(".search-bar-header").toggle();
+    });
+</script>
+<style>
+    <b:tag name='style' >
+    /* <![CDATA[ */
+    .buttons_added {
+        opacity: 1;
+        display: inline-block;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        white-space: nowrap;
+        vertical-align: top;
+    }
+
+    .is-form {
+        overflow: hidden;
+        position: relative;
+        background-color: #f9f9f9;
+        height: 15px;
+        width: 20px;
+        padding: 0;
+        text-shadow: 1px 1px 1px #fff;
+        border: 1px solid #ddd;
+    }
+
+        .is-form:focus, .input-text:focus {
+            outline: none;
+        }
+
+        .is-form.minus {
+            border-radius: 4px 0 0 4px;
+        
+        }
+
+        .is-form.plus {
+           border-radius: 0 4px 4px 0;
+ 
+        }
+
+    .input-qty {
+        background-color: #fff;
+        height: 1.1rem;
+        text-align: center;
+        font-size: 1rem;
+        display: inline-block;
+        vertical-align: top;
+        margin: 0;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        border-left: 0;
+        border-right: 0;
+        padding: 0;
+    }
+
+        .input-qty::-webkit-outer-spin-button, .input-qty::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    /* ]]> */
+    </b:tag >
+</style>
+<script>
+    $('input.input-qty').each(function () {
+        var $this = $(this),
+            qty = $this.parent().find('.is-form'),
+            min = Number($this.attr('min')),
+            max = Number($this.attr('max'))
+        if (min == 0) {
+            var d = 0
+        } else d = min
+        $(qty).on('click', function () {
+            if ($(this).hasClass('minus')) {
+                if (d > min) d += -1
+            } else if ($(this).hasClass('plus')) {
+                var x = Number($this.val()) + 1
+                if (x <= max) d += 1
+            }
+            $this.attr('value', d).val(d)
+        })
+    })
+</script>

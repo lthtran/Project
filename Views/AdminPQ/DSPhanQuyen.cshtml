@@ -1,0 +1,77 @@
+﻿
+
+@model IEnumerable<WebsiteThuCungBento.Models.ADMIN>
+@{
+    ViewBag.Title = "Danh sách phân quyền";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="padding-top:10px">DANH SÁCH NGƯỜI QUẢN TRỊ - PHÂN QUYỀN</h2>
+
+<h5 style="width:100%; padding-top:20px">
+    <u>
+        @*<img style="margin-left:25px" src="~/img/icons/ico_st.png" />*@
+        <i class="fas fa-users-cog" style="margin-left:25px; font-size: 20px"></i>
+        @Html.ActionLink("DANH SÁCH CHỨC NĂNG PHÂN QUYỀN", "DSChucNang")
+    </u>
+</h5>
+<h5 style="width:100%; padding-top:10px">
+    <u>
+        @*<img style="margin-left:25px" src="~/img/icons/add.png" />*@
+        <i class="fas fa-plus-circle" style="margin-left:25px; font-size: 20px"></i>
+        @Html.ActionLink("THÊM MỚI PHÂN QUYỀN", "Create")
+    </u>
+</h5>
+
+<table class="table">
+    <tr>
+        @*<th>
+                Mã quyền
+            </th>
+            <th>
+                Mã chức năng
+            </th>
+            <th>
+                Tên chức năng
+            </th>*@
+        <th>
+            Loại tài khoản
+        </th>
+        <th>
+            Họ và tên
+        </th>
+        <th>
+            Chi tiết
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.MAPQ)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MACHUCNANG)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CHUCNANG_QUYEN.TENCN)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.TENLOAI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HOTEN)
+            </td>
+            <td>
+                <a href="@Url.Action("ChiTietDSPhanQuyen", "AdminPQ", new { id = item.MAADMIN })">
+                    @*<img style="margin-left:25px" src="~/img/info_25px.png" />*@
+                    <i class="fas fa-info-circle" style="margin-left:25px; font-size: 20px;"></i>
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+

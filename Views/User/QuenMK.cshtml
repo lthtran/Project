@@ -1,0 +1,58 @@
+﻿@model WebsiteThuCungBento.Models.QuenMKModel
+
+@{
+    ViewBag.Title = "Đặt lại mật khẩu ";
+    Layout = null;
+}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Biểu mẫu đặt lại mật khẩu </title>
+    <link href="~/Content/resetpassword/css/style1.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- Custom Theme files -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Reset Password Form Responsive, Login form web template, Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <!--google fonts-->
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
+
+    <link rel="shortcut icon" href="~/images/logo/pet2.png" type="image/png" />
+</head>
+<body>
+    <!--element start here-->
+    <div class="elelment">
+        <h2>ĐẶT LẠI MẬT KHẨU MỚI</h2>
+        <div class="element-main">
+            <h1>Quên Mật Khẩu</h1>
+            <p> Vui lòng nhập email để khôi phục mật khẩu của bạn!</p>
+            @if (TempData["Message"] != null)
+            {
+                var status = TempData["Status"] != null ? TempData["Status"].ToString() : "info";
+                <div class="alert @if (status == "success") {<text>alert-success</text>} else {<text>alert-danger</text>}">
+                    @TempData["Message"]
+                </div>
+            }
+            @using (Html.BeginForm("QuenMK", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Nhập vào email của bạn" })
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Gửi" class="btn btn-default" />
+                </div>
+            }
+            @*<form>
+            <input type="text" value="Your e-mail address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Your e-mail address';}">
+            <input type="submit" value="Reset my Password">
+        </form>*@
+        </div>
+    </div>
+
+
+    <!--element end here-->
+</body>
+</html>
+

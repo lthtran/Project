@@ -1,0 +1,36 @@
+﻿@model WebsiteThuCungBento.Models.MAUSAC
+
+@{
+    ViewBag.Title = "Trang chỉnh sửa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG CHỈNH SỬA MÀU SẢN PHẨM</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MAMAUSAC)
+
+        <div class="form-group">
+            <label><strong>Màu Sắc:</strong></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TENMAUSAC, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+                @Html.ValidationMessageFor(model => model.TENMAUSAC, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Cập nhật" class="btn btn-default" /> |
+                @Html.ActionLink("Quay lại trang quản lý", "Index")
+            </div>
+        </div>
+    </div>
+}
+

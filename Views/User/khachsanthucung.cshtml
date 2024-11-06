@@ -1,0 +1,718 @@
+﻿@model WebsiteThuCungBento.ViewModels.ListDVViewModel
+
+@{
+    ViewBag.Title = "Khách sạn thú cưng";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<div class="container-fluid wrapGeneralBig" id="LP_Fagopet">
+    <div class="fagopetSP_8" id="sectionLP_11">
+        <div class="area_1">
+            <div class="container">
+                <p class="titleBlock wk-editable-text" id="sectionLP_11-text1">khách sạn dành cho thú cưng</p>
+            </div>
+        </div>
+        <div class="area_2">
+            <div class="container">
+                <div class="row rowFix d-flex">
+                    <div class="imgBlock">
+                        <iframe width="100%" height="600" src="https://www.youtube.com/embed/p6UDKjmWp1Y?si=J56Lz6GAoDVBbqqA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <form class="leftBlock product-form" action="/User/DangKyDichVu" method="post" novalidate="novalidate">
+                        <div class="titleBlock_6">
+                            <p class="titleText wk-editable-text" id="sectionLP_11-text1" style="color: #fb8500;">ĐẶT PHÒNG KHÁCH SẠN CHO THÚ CƯNG TẠI FAGO PET</p>
+                        </div>
+                        <p class="dotText wk-editable-text" id="sectionLP_11-text2">Camera theo dõi 24/24</p>
+                        <p class="dotText wk-editable-text" id="sectionLP_11-text3">2-3 bữa mỗi ngày</p>
+                        <p class="dotText wk-editable-text" id="sectionLP_11-text4">Vệ sinh chuồng mỗi ngày</p>
+                        <p class="dotText wk-editable-text" id="sectionLP_11-text5">Vui chơi mỗi ngày 2 lần</p>
+                        <p class="dotText wk-editable-text" id="sectionLP_11-text6">Phòng có điều hòa 24/7</p>
+                        <p class="dotText wk-editable-text" id="sectionLP_11-text7">Cung cấp hình ảnh và video của các bé mỗi ngày</p>
+
+                        <div class="fagopetSP_9">
+                            <div class="selectBlock">
+                                <input type="text" hidden name="serviceid" id="serviceid" />
+                                @foreach (var listdv in Model.listDV)
+                                {
+                                    <p class="text_1 wk-editable-text" id="sectionLP_11-text14">@listdv.TenDV</p>
+                                    <div class="wrapFlex">
+                                        @foreach (var listct in Model.listCTDV)
+                                        {
+                                            if (listct.MaDV == listdv.MaDV)
+                                            {
+                                                <p class="typePet wk-editable-text" id="sectionLP_11-text15" serviceid="@listct.MaCT" priceroom="@listct.DonGia" priceformat="@String.Format("{0:0,0}", @listct.DonGia)Đ" typeroom="@listct.DichVu.TenDV">@listct.DieuKien</p>
+                                            }
+                                        }
+                                    </div>
+                                }
+                            </div>
+                            <script>
+                                articles = document.getElementsByClassName('typePet');
+                                var serviceid = document.getElementById("serviceid");
+
+                                for (var i = 0; i < articles.length; i++) {
+                                    articles[i].addEventListener('click', redirect, false);
+                                }
+                                function redirect() {
+                                    for (var i = 0; i < articles.length; i++) {
+                                        if (articles[i].classList.contains('active')) {
+                                            articles[i].classList.remove('active');
+                                        }
+                                    }
+                                    this.classList.add('active');
+                                    document.getElementById("price_service").innerHTML = this.getAttribute('priceformat');
+                                    serviceid.value = this.getAttribute('serviceid');
+                                }
+                            </script>
+                            <div class="priceBlock">
+                                <div class="priceBlockFixed">
+                                    <div class="priceText priceTextHuyen typeRoom data_booking" id="price_service">89,000Đ</div>
+                                </div>
+                                <p class="text_2 wk-editable-text" id="sectionLP_11-text24">trên ngày</p>
+                            </div>
+                            <div class="btnOrder">
+                                <button class="btnType_2 btn-booking submit-direct-order ksch" type="submit">Đặt phòng &gt;</button>
+                                <button class="buttonload_booking" style="display: none;">
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                    Loading
+                                </button>
+                                <a class="btnType_2 buttonlh contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id" style="display: none;">Liên hệ &gt;</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="footerFagomom">
+        <div class="blockAdvantage figure1">
+            <div class="container">
+                <div class="fourAdvanBlock">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 colFix">
+                            <div class="leftItem">
+                                <img alt="item" src="https://fagopet.vn/tassets/images/item_2.png">
+                            </div>
+                            <div class="rightText">
+                                <p class="text1">Bảo đảm chất lượng</p>
+                                <p class="text2">Sản phẩm bảo đảm chất lượng</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 colFix">
+                            <div class="leftItem">
+                                <img alt="item" src="https://fagopet.vn/tassets/images/item_3.png">
+                            </div>
+                            <div class="rightText">
+                                <p class="text1">Miễn phí giao hàng</p>
+                                <p class="text2">Áp dụng phạm vi dưới 5km</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 colFix">
+                            <div class="leftItem">
+                                <img alt="item" src="https://fagopet.vn/tassets/images/item_4.png">
+                            </div>
+                            <div class="rightText">
+                                <p class="text1">Hỗ trợ 24/7</p>
+                                <p class="text2">Hotline: 0857 550 602</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 colFix">
+                            <div class="leftItem">
+                                <img alt="item" src="https://fagopet.vn/tassets/images/item_5.png">
+                            </div>
+                            <div class="rightText">
+                                <p class="text1">Đổi trả hàng</p>
+                                <p class="text2">Trong vòng 7 ngày</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<a class="specialBlock_11" data-target="#popup_registration_1" data-toggle="modal" id="sectionLP_1">
+        <picture>
+            <img alt="fagopet" class="wk-editable-image desktop-only" id="sectionLP_1-image1" src="https://fagopet.vn/tassets/images/img_6.webp">
+        </picture>
+    </a>*@
+    <div class="fagopetSP_1 bgSole" id="sectionLP_2">
+        <div class="container">
+            <div class="row rowFix d-flex">
+                <div class="smallBlock">
+                    <div class="wrapBox">
+                        <p class="text_1 wk-editable-text" id="sectionLP_2-text1">hotel pet</p>
+                        <p class="text_2 wk-editable-text" id="sectionLP_2-text2">Khách sạn thú cưng cao cấp.</p>
+                        <p class="text_2 wk-editable-text" id="sectionLP_2-text3">Nơi lý tưởng rành cho thú cưng của bạn tận hưởng kỳ nghỉ tuyệt vời.</p>
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/img_1.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="smallBlock">
+                    <div class="wrapBox">
+                        <p class="text_1 wk-editable-text" id="sectionLP_2-text4">pet food</p>
+                        <p class="text_2 wk-editable-text" id="sectionLP_2-text5">Thức ăn cho thú cưng tốt nhất</p>
+                        <p class="text_2 wk-editable-text" id="sectionLP_2-text6">Yên tâm về sức khỏe thú cưng của bạn.</p>
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/img_1.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="smallBlock">
+                    <div class="wrapBox">
+                        <p class="text_1 wk-editable-text" id="sectionLP_2-text7">pet care</p>
+                        <p class="text_2 wk-editable-text" id="sectionLP_2-text8">Dịch vụ chăm sóc sức khỏe sắc đẹp số 1 cho thú cưng.</p>
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/img_1.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section_1 generalPD" id="sectionLP_3">
+        <div class="container">
+            <div class="titleBlock_6">
+                <h2 class="titleText wk-editable-text" id="sectionLP_3-text1">Bảng giá khách sạn dành cho mèo</h2>
+            </div>
+            <div class="row rowFix_1 d-flex">
+                <div class="smallBlock_1">
+                    <div class="fagopetSP_2">
+                        <div class="leftPart">
+                            <p class="text text_1 wk-editable-text" id="sectionLP_3-text2">Các bé mèo dưới 3kg</p>
+                            <div class="underline"></div>
+                            <p class="text text_2 wk-editable-text" id="sectionLP_3-text3">89.000vnd</p>
+                            <p class="text text_2HuyenMeo wk-editable-text" id="sectionLP_3-text4">120.000vnd</p>
+                            <p class="text text_3 wk-editable-text" id="sectionLP_3-text5">trên ngày</p>
+                        </div>
+                        <div class="rightPart">
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text6">Camera theo dõi 24/24</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text7">2-3 bữa mỗi ngày</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text8">Vệ sinh chuồng mỗi ngày</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text9">Vui chơi mỗi ngày 2 lần</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text10">Phòng có điều hòa 24/7</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text11">Cung cấp hình ảnh và video của các bé mỗi ngày</p>
+                            @*<div class="btnContact">
+                                    <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" href="https://zalo.me/0857550602" idgoogleget="btn_phone_id">
+                                        <p class="btnText">Liên hệ tư vấn</p>
+                                    </a>
+
+                                </div>*@
+                            <img alt="fagopet" class="mouseImg" src="~/images/img_2.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="smallBlock_1">
+                    <div class="fagopetSP_2" style="background-color: #8ecae6;">
+                        <div class="leftPart">
+                            <p class="text text_1 wk-editable-text" id="sectionLP_3-text12">Các bé mèo trên 3kg</p>
+                            <div class="underline"></div>
+                            <p class="text text_2 wk-editable-text" id="sectionLP_3-text13">109.000vnd</p>
+                            <p class="text text_2HuyenMeo wk-editable-text" id="sectionLP_3-text14">150.000vnd</p>
+                            <p class="text text_3 wk-editable-text" id="sectionLP_3-text15">trên ngày</p>
+                        </div>
+                        <div class="rightPart">
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text16">Camera theo dõi 24/24</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text17">2-3 bữa mỗi ngày</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text18">Vệ sinh chuồng mỗi ngày</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text19">Vui chơi mỗi ngày 2 lần</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text20">Phòng có điều hòa 24/7</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text21">Cung cấp hình ảnh và video của các bé mỗi ngày</p>
+                            @*<div class="btnContact">
+                                    <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id">
+                                        <p class="btnText">Liên hệ tư vấn</p>
+                                    </a>
+                                </div>*@
+                            <img alt="fagopet" class="mouseImg" src="~/images/img_2.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="smallBlock_1">
+                    <div class="fagopetSP_2" style="background-color: #5f9bb7;">
+                        <div class="leftPart">
+                            <p class="text text_1 wk-editable-text" id="sectionLP_3-text22">Gửi mèo trong ngày</p>
+                            <div class="underline"></div>
+                            <p class="text text_2 wk-editable-text" id="sectionLP_3-text23">60.000vnd</p>
+                            <p class="text text_3 wk-editable-text" id="sectionLP_3-text24">trên ngày</p>
+                        </div>
+                        <div class="rightPart">
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text25">Camera theo dõi 24/24</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text26">2-3 bữa mỗi ngày</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text27">Vệ sinh chuồng mỗi ngày</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text28">Vui chơi mỗi ngày 2 lần</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text29">Phòng có điều hòa 24/7</p>
+                            <p class="text dotText text_1 wk-editable-text" id="sectionLP_3-text30">Cung cấp hình ảnh và video của các bé mỗi ngày</p>
+                            @*<div class="btnContact">
+                                    <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id">
+                                        <p class="btnText">Liên hệ tư vấn</p>
+                                    </a>
+                                </div>*@
+                            <img alt="fagopet" class="mouseImg" src="~/images/img_2.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="titleBlock_6">
+                <h2 class="titleText wk-editable-text" id="sectionLP_3-text31">Bảng giá khách sạn dành cho chó</h2>
+            </div>
+            <div class="row rowFix_2 d-flex">
+                <div class="smallBlock_2">
+                    <div class="fagopetSP_3">
+                        <p class="text text_1 wk-editable-text" id="sectionLP_3-text32">Các bé chó dưới 5kg</p>
+                        <div class="underline"></div>
+                        <p class="text text_2 wk-editable-text" id="sectionLP_3-text33">120.000vnd</p>
+                        <p class="text text_2HuyenCho wk-editable-text" id="sectionLP_3-text34">150.000vnd</p>
+                        <p class="text text_3 wk-editable-text" id="sectionLP_3-text35">trên ngày</p>
+                        <img alt="fagopet" class="dishImg" src="~/images/img_3.png">
+                        <div class="wrapBoneImg">
+                            <img alt="fagopet" class="boneImg" src="~/images/img_4.png">
+                        </div>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text36">Camera theo dõi 24/24</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text37">2-3 bữa mỗi ngày</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text38">Vệ sinh chuồng mỗi ngày</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text39">Vui chơi mỗi ngày 2 lần</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text40">Camera theo dõi 24/24</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text41">Cung cấp hình ảnh và video của các bé mỗi ngày</p>
+                        @*<div class="btnContact">
+                                <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id">
+                                    <p class="btnText">Liên hệ tư vấn</p>
+                                </a>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="smallBlock_2">
+                    <div class="fagopetSP_3" style="background-color: #219ebc;">
+                        <p class="text text_1 wk-editable-text" id="sectionLP_3-text42">Các bé chó từ 5kg đến dưới 10kg</p>
+                        <div class="underline"></div>
+                        <p class="text text_2 wk-editable-text" id="sectionLP_3-text43">150.000vnd</p>
+                        <p class="text text_2HuyenCho wk-editable-text" id="sectionLP_3-text44">180.000vnd</p>
+                        <p class="text text_3 wk-editable-text" id="sectionLP_3-text45">trên ngày</p>
+                        <img alt="fagopet" class="dishImg" src="~/images/img_3.png">
+                        <div class="wrapBoneImg">
+                            <img alt="fagopet" class="boneImg" src="~/images/img_4.png">
+                        </div>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text46">Camera theo dõi 24/24</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text47">2-3 bữa mỗi ngày</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text48">Vệ sinh chuồng mỗi ngày</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text49">Vui chơi mỗi ngày 2 lần</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text50">Camera theo dõi 24/24</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text51">Cung cấp hình ảnh và video của các bé mỗi ngày</p>
+                        @*<div class="btnContact">
+                                <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id">
+                                    <p class="btnText">Liên hệ tư vấn</p>
+                                </a>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="smallBlock_2">
+                    <div class="fagopetSP_3" style="background-color: #ffb703;">
+                        <p class="text text_1 wk-editable-text" id="sectionLP_3-text52">Các bé chó từ 10kg đến dưới 15kg</p>
+                        <div class="underline"></div>
+                        <p class="text text_2 wk-editable-text" id="sectionLP_3-text53">180.000vnd</p>
+                        <p class="text text_2HuyenCho wk-editable-text" id="sectionLP_3-text54">220.000vnd</p>
+                        <p class="text text_3 wk-editable-text" id="sectionLP_3-text55">trên ngày</p>
+                        <img alt="fagopet" class="dishImg" src="~/images/img_3.png">
+                        <div class="wrapBoneImg">
+                            <img alt="fagopet" class="boneImg" src="~/images/img_4.png">
+                        </div>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text56">Camera theo dõi 24/24</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text57">2-3 bữa mỗi ngày</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text58">Vệ sinh chuồng mỗi ngày</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text59">Vui chơi mỗi ngày 2 lần</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text60">Camera theo dõi 24/24</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text61">Cung cấp hình ảnh và video của các bé mỗi ngày</p>
+                        @*<div class="btnContact">
+                                <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id">
+                                    <p class="btnText">Liên hệ tư vấn</p>
+                                </a>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="smallBlock_2">
+                    <div class="fagopetSP_3" style="background-color: #5f9bb7;">
+                        <p class="text text_1 wk-editable-text" id="sectionLP_3-text62">Giữ không nhốt chuồng (chó &lt; 10kg)</p>
+                        <div class="underline"></div>
+                        <p class="text text_2 wk-editable-text" id="sectionLP_3-text63">220.000vnd</p>
+                        <p class="text text_2HuyenCho wk-editable-text" id="sectionLP_3-text64">250.000vnd</p>
+                        <p class="text text_3 wk-editable-text" id="sectionLP_3-text65">trên ngày</p>
+                        <img alt="fagopet" class="dishImg" src="~/images/img_3.png">
+                        <div class="wrapBoneImg">
+                            <img alt="fagopet" class="boneImg" src="~/images/img_4.png">
+                        </div>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text66">Camera theo dõi 24/24</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text67">2-3 bữa mỗi ngày</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text68">Vệ sinh chuồng mỗi ngày</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text69">Vui chơi mỗi ngày 2 lần</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text70">Camera theo dõi 24/24</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text71">Cung cấp hình ảnh và video của các bé mỗi ngày</p>
+                        @*<div class="btnContact">
+                                <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id">
+                                    <p class="btnText">Liên hệ tư vấn</p>
+                                </a>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="smallBlock_2">
+                    <div class="fagopetSP_3" style="background-color: #00841e;">
+                        <p class="text text_1 wk-editable-text" id="sectionLP_3-text72">Gửi chó trong ngày</p>
+                        <div class="underline"></div>
+                        <p class="text text_2 wk-editable-text" id="sectionLP_3-text73">98.000vnd</p>
+                        <p class="text text_3 wk-editable-text" id="sectionLP_3-text74">trên ngày</p>
+                        <img alt="fagopet" class="dishImg" src="~/images/img_3.png">
+                        <div class="wrapBoneImg">
+                            <img alt="fagopet" class="boneImg" src="~/images/img_4.png">
+                        </div>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text75">Camer theo dõi 24/24</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text76">2-3 bữa mỗi ngày</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text77">Vệ sinh chuồng mỗi ngày</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text78">Vui chơi mỗi ngày 2 lần</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text79">Camera theo dõi 24/24</p>
+                        <p class="text dotText text_4 wk-editable-text" id="sectionLP_3-text80">Cung cấp hình ảnh và video của các bé mỗi ngày</p>
+                        @*<div class="btnContact">
+                                <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id">
+                                    <p class="btnText">Liên hệ tư vấn</p>
+                                </a>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="generalPD listImgHotelBlock" id="sectionLP_12">
+        <div class="container">
+            <div class="titleBlock_6">
+                <h2 class="titleText wk-editable-text" id="sectionLP_12-text1" style="color: #fb8500;">HÌNH ẢNH KHÁCH SẠN CHO THÚ CƯNG FAGOPET</h2>
+                <p class="text_center wk-editable-text" id="sectionLP_12-text2">Dưới đây là một số hình ảnh khách sạn chó mèo tại FagoPet. Chắc chắn khi quan sát những bức hình này bạn sẽ hiểu vì sao mà chúng tôi nhận được nhiều sự quan tâm lựa chọn và đánh giá tốt của khách hàng đến vậy.</p>
+            </div>
+            <div class="wrapArea" style="margin-bottom: 30px;">
+                <p class="titleArea wk-editable-text" id="sectionLP_12-text3">Hình ảnh khách sạn cho mèo tại Fagopet</p>
+                <div class="row flexRow">
+                    <div class="col-sm-6 col-12 smallBlock">
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/1bow104ptkx33pmgsw8fz9otn9r3.jpg">
+                        </div>
+                        <div class="textPart">
+                            <p class="desImg">Hình ảnh hotel chó mèo</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12 smallBlock">
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/yh9r0m9rimgqoa4qnun73mfydmhk.jpg">
+                        </div>
+                        <div class="textPart">
+                            <p class="desImg">Hình ảnh hotel chó mèo</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12 smallBlock">
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/2shzcc2zzbdksh8l44vicx7z9nrw.jpg">
+                        </div>
+                        <div class="textPart">
+                            <p class="desImg">Hình ảnh hotel chó mèo</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12 smallBlock">
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/vkdj25ze38678tahx6rkzfe4d0y0.jpg">
+                        </div>
+                        <div class="textPart">
+                            <p class="desImg">Hình ảnh hotel chó mèo</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="btnViewMoreImg">
+                    <a class="linkViewMore btnFGP_1">
+                        <p class="btnText">Xem thêm</p>
+                    </a>
+                </div>
+            </div>
+            <div class="wrapArea">
+                <p class="titleArea wk-editable-text" id="sectionLP_12-text4">Hình ảnh hotel cho chó tại Fagopet</p>
+                <div class="row flexRow">
+                    <div class="col-sm-6 col-12 smallBlock">
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/samjw1ulmpnyaa7ldv5vih4fmyg3.jpg">
+                        </div>
+                        <div class="textPart">
+                            <p class="desImg">Hình ảnh hotel chó mèo</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12 smallBlock">
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/4nqe58q9fwg4ragj3knnmaqw5abt.jpg">
+                        </div>
+                        <div class="textPart">
+                            <p class="desImg">Hình ảnh hotel chó mèo</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12 smallBlock">
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/fbd92lhykssjkxizhhg614rzipwl.jpg">
+                        </div>
+                        <div class="textPart">
+                            <p class="desImg">Hình ảnh hotel chó mèo</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12 smallBlock">
+                        <div class="imgPart">
+                            <img alt="fagopet" src="~/images/chb4y2w46kau94ql9tt2ocjhvfot.jpg">
+                        </div>
+                        <div class="textPart">
+                            <p class="desImg">Hình ảnh hotel chó mèo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section_2 generalPD bgSole" id="sectionLP_4">
+        <div class="container">
+            <div class="titleBlock_6">
+                <h2 class="titleText wk-editable-text" id="sectionLP_4-text1" style="color: #fb8500;">QUY TRÌNH CHĂM SÓC THÚ CƯNG TẠI FAGOPET</h2>
+            </div>
+            <div class="fagopetSP_4">
+                <table>
+                    <tbody>
+                        <tr class="trLine_1">
+                            <td class="tdCol_1">
+                                <p class="text text_1 wk-editable-text" id="sectionLP_4-text2">Các bước</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text text_1 wk-editable-text" id="sectionLP_4-text3">Chi tiết công việc chăm sóc các bé chó mèo</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_4-text4">Bước 1</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">1</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_4-text5">Vệ sinh chuồng trại cho các bé, giúp các bé luôn sạch sẽ, không mắc bệnhtrong quá trình lưu trú tại fagopet</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_4-text6">Bước 2</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">2</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_4-text7">Cho các bé ăn sáng với thịt trộn cơm (làm từ thịt sạch gồm gà, cá biển, chim cút, thịt bò và rau củ) hoặc hạt Royal Canin, pate Royal Canin (nếu bé không ăn được cơm trộn thịt) trong quá trình lưu trú tại fagopet</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_4-text8">Bước 3</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">3</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_4-text9">Kiểm tra sức khỏe thường xuyên cho các bé, theo dõi những biểu hiện bất thường để kịp thời đưa ra phương án thích hợp và thông báo cho cha mẹ</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_4-text10">Bước 4</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">4</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_4-text11">Cho các bé ăn trưa (chiều) với thịt trộn cơm (làm từ thịt sạch gồm gà, cá biển, chim cút, thịt bò và rau củ) hoặc hạt Royal Canin, pate Royal Canin (nếu bé  không ăn được cơm trộn thịt)</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_4-text12">Bước 5</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">5</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_4-text13">Cho các bé vận động như chơi đồ chơi tại fagopet hoặc đi dạo vào buổi tối để nâng cao sức khỏe (có thể vận động riêng hoặc vận động tập thể tùy theo yêu cầu của bố mẹ)</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_4-text14">Bước 6</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">6</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_4-text15">Cho các bé về chuồng nghỉ ngơi, có bổ sung hạt Royal Canin để các bé tối đói có thể ăn</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_4-text16">Bước 7</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">7</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_4-text17">Vệ sinh cơ thể cho các bé cứ mỗi 3 ngày / lần.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="section_3 generalPD" id="sectionLP_5">
+        <div class="container">
+            <div class="titleBlock_6">
+                <h2 class="titleText wk-editable-text" id="sectionLP_5-text1" style="color: #fb8500;">QUY TRÌNH TIẾP NHẬN THÚ CƯNG TẠI FAGOPET</h2>
+            </div>
+            <div class="fagopetSP_4" style="background-color: #288fbe;">
+                <table>
+                    <tbody>
+                        <tr class="trLine_1">
+                            <td class="tdCol_1">
+                                <p class="text text_1 wk-editable-text" id="sectionLP_5-text2">Các bước</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text text_1 wk-editable-text" id="sectionLP_5-text3">Quy trình chi tiết</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_5-text4">Tiếp nhận thông tin thú cưng</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">1</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_5-text5">Sau khi tiếp nhận thông tin từ khách hàng thì nhân viên tư vấn của FagoPet sẽ trực tiếp liên hệ, đặt lịch hẹn và tư vấn về các loại phòng cùng chế độ đi kèm tại khách sạn.</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_5-text6">Kiểm tra sức khỏe thú cưng</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">2</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_5-text7">Kiểm tra tổng quát về sức khỏe của thú cưng sau đó tư vấn giúp chủ thú cưng lựa chọn được chế độ chăm sóc phù hợp nhất.</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_5-text8">Kí hợp đồng</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">3</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_5-text9">Sau khi xác định tình trạng sức khỏe của chó mèo, cũng như thống nhất được phương thức chăm sóc, sẽ cùng khách hàng kí hợp đồng cho thú cưng lưu trú tại khách sạn chó mèo Fagopet</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_5-text10">Giúp các bé làm quen với môi trường mới</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">4</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_5-text11">Ghi lại những thông tin cơ bản nhất của thú cưng như cân nặng, khẩu phần ăn và thói quen vệ sinh để tạo một môi trường sinh hoạt phù hợp vớicác bạn ấy. Đồng thời giúp các bé yêu làm quen với môi trường mới nhanh chóng và dễ dàng nhất.</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_5-text12">Lưu trú</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">5</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_5-text13">Chăm sóc thú cưng giống với cách mà những người chủ yêu thương, cưng chiều bạn nhỏ hết mực. Thường xuyên theo dõi tình trạng sức khỏe trong những ngày thú cưng còn đang ở khách sạn.</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_5-text14">Kiểm tra sức khỏe trước khi bàn giao</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">6</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_5-text15">Kiểm tra kỹ càng sức khỏe của thú cưng trước khi bàn giao đồng thời trao đổi rõ với chủ thú cưng về tình trạng sức khỏe hiện tại của thú cưng.</p>
+                            </td>
+                        </tr>
+                        <tr class="trLine_2">
+                            <td class="tdCol_1">
+                                <p class="text text_2 wk-editable-text" id="sectionLP_5-text16">Bàn giao thú cưng</p>
+                            </td>
+                            <td class="tdCol_2">
+                                <p class="text_4">7</p>
+                                <p class="text text_3 wk-editable-text" id="sectionLP_5-text17">Kết thúc hợp đồng và bàn giao thú cưng sau quá trình lưu trú</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @*<div class="btnContact">
+                    <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id">
+                        <p class="btnText">Liên hệ tư vấn</p>
+                    </a>
+                </div>*@
+        </div>
+    </div>
+    @*<a class="specialBlock_11" data-target="#popup_registration_1" data-toggle="modal" id="sectionLP_6">
+            <picture>
+                <img alt="fagopet" class="wk-editable-image desktop-only" id="sectionLP_6-image1" src="~/images/img_5.png">
+            </picture>
+        </a>*@
+    @*<div class="fagopetSP_5 generalPD" id="sectionLP_7">
+            <div class="container">
+                <div class="titleBlock_6">
+                    <h2 class="titleText wk-editable-text" id="sectionLP_7-text">Cam kết của khách sạn chó mèo fagopet đối với khách hàng</h2>
+                </div>
+                <div class="row rowFix d-flex">
+                    <div class="smallBlock">
+                        <div class="wrapBox" style="background-color: #ffb703;">
+                            <p class="text color_White wk-editable-text" id="sectionLP_7-text1">
+                                Uy tín,
+                                <br>chuyên nghiệp
+                            </p>
+                        </div>
+                    </div>
+                    <div class="smallBlock">
+                        <div class="wrapBox" style="background-color: #219ebc;">
+                            <p class="text wk-editable-text" id="sectionLP_7-text2">
+                                Bồi hoàn theo
+                                <br>đúng hợp đồng
+                            </p>
+                        </div>
+                    </div>
+                    <div class="smallBlock">
+                        <div class="wrapBox" style="background-color: #023047;">
+                            <p class="text color_White wk-editable-text" id="sectionLP_7-text3">Thức ăn, nước uống luôn được thay đổi theo ngày</p>
+                        </div>
+                    </div>
+                    <div class="smallBlock">
+                        <div class="wrapBox" style="background-color: #6699ff;">
+                            <p class="text wk-editable-text" id="sectionLP_7-text4">Phòng cho các bé luôn được vệ sinh sạch sẽ</p>
+                        </div>
+                    </div>
+                    <div class="smallBlock">
+                        <div class="wrapBox" style="background-color: #fb8500;">
+                            <p class="text color_White wk-editable-text" id="sectionLP_7-text5">Camera giám sát 24/24, yên tâm cho chủ</p>
+                        </div>
+                    </div>
+                    <div class="smallBlock">
+                        <div class="wrapBox" style="background-color: #8ecae6;">
+                            <p class="text wk-editable-text" id="sectionLP_7-text6">
+                                Đảm bảo không tiếp xúc
+                                <br>tránh lây bệnh chéo
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+    <div class="fagopetSP_7 generalPD bgSole" id="sectionLP_9">
+        <div class="container">
+            <div class="row d-flex">
+                <div class="textBlock">
+                    <p class="text_1 wk-editable-text" id="sectionLP_9-text1">Vì sao có khách sạn cho chó mèo Fagopet?</p>
+                    <p class="text_2 wk-editable-text" id="sectionLP_9-text2">Xuất phát từ tình yêu dành cho thú cưng, từ nỗi trăn trở, nỗi đau của khách hàng nên FagoPet đã quyết định thành lập dịch vụ khách sạn chó mèo.</p>
+                    <p class="text_2 wk-editable-text" id="sectionLP_9-text3">Với dịch vụ này thì giờ đây bạn hoàn toàn có thể yên tâm cho những chuyến công tác xa hoặc tự cho phép mình nghỉ ngơi, xả stress, hưởng thụ cuộc sống sau những ngày làm việc căng thẳng đúng không nào?</p>
+                    <p class="text_2 wk-editable-text" id="sectionLP_9-text4">FagoPet cam kết sẽ là người bạn đồng hành đáng tin cậy của những ai đã, đang và sẽ nuôi thú cưng trên toàn quốc.</p>
+                    @*<div class="btnViewMore">
+                            <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id">
+                                <p class="btnText">Liên hệ tư vấn</p>
+                            </a>
+                        </div>*@
+                </div>
+                <div class="videoBlock">
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/LvpEHXODQVw?si=qlGJ8N3MN5sIcOuz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

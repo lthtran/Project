@@ -1,0 +1,101 @@
+﻿@using WebsiteThuCungBento.Models
+@model List<DangKy>
+
+@{
+    ViewBag.Title = "Trang Đăng Ký Dịch Vụ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+@{
+    KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
+}
+
+
+@using (Html.BeginForm("TrangDangKy", "User", FormMethod.Post, new { @class = "container-fluid wrapGeneralBig order-form", @id = "orderAMARE" }))
+{
+    <div class="secMainContent">
+        <div class="container">
+            <div class="deliveryInforBlock">
+                <p class="text1">THÔNG TIN GIAO / NHẬN HÀNG</p>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <input class="form-control" id="name_order" name="customer_name" placeholder="Họ và Tên" value="@kh.HOTENKH">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input class="form-control" id="phone_order" name="customer_phone" placeholder="Số điện thoại" value="@kh.DIENTHOAI">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input class="form-control" id="address_order" name="address" placeholder="Địa chỉ" value="@kh.DIACHI">
+                    </div>
+                </div>
+            </div>
+            <!-- / làm đến đây -->
+            <div class="secMainContent2 deliveryInforBlock">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-12 leftBlock">
+                            <div class="paymentMethodBlock">
+                                <p class="title">PHƯƠNG THỨC THANH TOÁN</p>
+                                <div class="detailPay" id="method_payment">
+                                    <p class="text1">Thanh toán</p>
+                                    <div class="form-check form-check-inline form-checkFix" style="display: flex;">
+                                        <input checked="checked" class="form-check-input update_price" id="thanhToanKGH" name="payment_method" type="radio" value="cod">
+                                        <label class="form-check-label" for="thanhToanKGH">Thanh toán tiền mặt tại quầy.</label>
+                                    </div>
+                                    <p class="text2">Thanh toán tiền mặt cho đơn vị tại quầy.</p>
+                                </div>
+                                <a class="text-primary" href="https://localhost:44335/User/spathucung">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                    Quay về trang dịch vụ
+                                </a>                               
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="orderInforBlock deliveryInforBlock_e">
+                                <p class="title">THÔNG TIN ĐƠN HÀNG</p>
+                                @foreach (var item in Model)
+                                {
+                                    <div class="wrapOrder">
+                                        <div class="productPriceBlock">
+                                            <div class="wrapImg">
+                                                <div class="imgPart">
+                                                    <img alt="product" src="~/images/spa-cho-meo-12.jpg">
+                                                    <div class="bgAmountProduct"></div>
+                                                    <p class="amountProduct">1</p>
+                                                </div>
+                                            </div>
+                                            <div class="textPart">
+                                                <p class="nameProduct">
+                                                    <a href="#" title="SPA CHÓ MÈO">@item.iTENDV</a>
+                                                </p>
+                                                <p class="priceProduct">@String.Format("{0:0,0}", item.iTONGTIEN)đ</p>
+                                            </div>
+                                        </div>
+                                        <div class="underline"></div>
+                                        <div class="wrapText">
+                                            <p class="text1">Tổng tiền tạm tính</p>
+                                            <p class="text2" id="price_total" price_total="@item.iTONGTIEN">@String.Format("{0:0,0}", item.iTONGTIEN)đ</p>
+                                        </div>
+                                        <div class="wrapText">
+                                            <p class="text1">Phí vận chuyển</p>
+                                            <p class="text2">(Chưa bao gồm phí vận chuyển)</p>
+                                        </div>
+                                        <div class="underline"></div>
+                                        <div class="wrapText price_total">
+                                            <p class="total">TỔNG CỘNG</p>
+                                            <p class="priceTotal" id="subtotal">@String.Format("{0:0,0}", item.iTONGTIEN)đ</p>
+                                            <input type="number" hidden name="tongtien" value="@item.iTONGTIEN" />
+                                        </div>
+                                    </div>
+                                }
+                                <div style="padding: 0 15px;">
+                                    <button class="btn btnOrder submit_order submit-order" type="submit">ĐẶT HÀNG</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,729 @@
+﻿@{
+    ViewBag.Title = "Thống kê ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div style="padding: 15px;">
+    <h1 style="color:darkslategrey; font-size: 24px; margin-bottom: 15px; text-align:center;">THỐNG KÊ</h1>
+
+    <div class="row">
+        <!-- Tổng Doanh Thu -->
+        <div class="col-md-4">
+            <div class="card modern-card">
+                <img src="~/img/icons/cash_50px.png" class="card-icon" />
+                <h5>TỔNG DOANH THU DỰ KIẾN</h5>
+                @{Decimal TongDoanhThu = decimal.Parse(ViewBag.TongDoanhThu.ToString()); }
+                <h4 class="card-value">@TongDoanhThu.ToString("#,##") VNĐ</h4>
+            </div>
+        </div>
+
+        <!-- Tổng Đơn Hàng -->
+        <div class="col-md-4">
+            <div class="card modern-card">
+                <img src="~/img/icons/ico_DonHang.png" class="card-icon" />
+                <h5>TỔNG ĐƠN HÀNG ĐẶT</h5>
+                <h4 class="card-value">@ViewBag.TongDonHang</h4>
+            </div>
+        </div>
+
+        <!-- Tổng Sản Phẩm -->
+        <div class="col-md-4">
+            <div class="card modern-card">
+                <img src="~/img/icons/food_truck_50px.png" class="card-icon" />
+                <h5>TỔNG SẢN PHẨM</h5>
+                <h4 class="card-value">@ViewBag.TongSanPham</h4>
+            </div>
+        </div>
+
+        <!-- Thống kê sản phẩm bằng biểu đồ cột -->
+        <div class="col-md-6" style="margin-left: 10px">
+            <div class="chart-container">
+                <h3>Thống kê doanh thu theo loại sản phẩm</h3>
+                <canvas id="productCategoryColumnChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Thống kê sản phẩm theo từng loại (biểu đồ tròn) -->
+        <div class="col-md-6" style="margin-left: 10px; margin-top: 50px">
+            <div class="container-fluid" style="margin-bottom: 0px; padding-bottom: 0px; height: 400px; width: 1348px ">
+                <h3>Thống kê số sản phẩm theo từng loại</h3>
+                <canvas id="productCategoryPieChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+        <!-- Thống kê số lượng sản phẩm -->
+        <div class="col-md-6" style="margin-left: 10px; margin-top: 50px;">
+            <div class="container-fluid" style="margin-bottom: 0px; padding-bottom: 0px; height: 400px; width: 1348px;">
+                <h3>Thống kê số lượng từng sản phẩm</h3>
+                <canvas id="productQuantityChart" width="1024" height="500"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-left: 10px; margin-top: 50px;">
+            <div class="container-fluid" style="margin-bottom: 0px; padding-bottom: 0px; height: 400px; width: 1348px;">
+                <h3>Thống kê số lượng đơn hàng theo tháng</h3>
+                <canvas id="donHangTheoThangChart" width="1024" height="500"></canvas>
+            </div>
+        </div>
+        <!-- Thống kê tổng doanh thu theo tháng -->
+        <div class="col-md-6" style="margin-left: 10px; margin-top: 50px;">
+            <div class="container-fluid" style="margin-bottom: 0px; padding-bottom: 0px; height: 400px; width: 1348px;">
+                <h3>Thống kê tổng doanh thu theo tháng</h3>
+                <canvas id="doanhThuTheoThangChart" width="1024" height="500"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-left: 10px; margin-top: 50px;">
+            <div class="container-fluid" style="margin-bottom: 0px; padding-bottom: 0px; height: 400px;">
+                <h3>Thống kê sản phẩm bán chạy nhất</h3>
+                <canvas id="sanPhamBanChayChart" width="600" height="300"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-left: 10px; margin-top: 50px;">
+            <div class="container-fluid" style="margin-bottom: 0px; padding-bottom: 0px; height: 400px; width: 1348px;">
+                <h3>Thống kê doanh thu theo ngày</h3>
+
+                <!-- Select box cho tháng -->
+                <select id="selectMonth" onchange="updateChart()">
+                    <option value="1">Tháng 1</option>
+                    <option value="2">Tháng 2</option>
+                    <option value="3">Tháng 3</option>
+                    <option value="4">Tháng 4</option>
+                    <option value="5">Tháng 5</option>
+                    <option value="6">Tháng 6</option>
+                    <option value="7">Tháng 7</option>
+                    <option value="8">Tháng 8</option>
+                    <option value="9">Tháng 9</option>
+                    <option value="10">Tháng 10</option>
+                    <option value="11">Tháng 11</option>
+                    <option value="12">Tháng 12</option>
+                </select>
+
+                <!-- Select box cho năm -->
+                <select id="selectYear" onchange="updateChart()">
+                    <option value="2022">Năm 2022</option>
+                    <option value="2023">Năm 2023</option>
+                    <option value="2024">Năm 2024</option>
+                </select>
+
+                <!-- Vùng biểu đồ -->
+                <canvas id="dailyRevenueChart" width="1024" height="500"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-left: 10px; margin-top: 150px;">
+            <div class="container-fluid" style="margin-bottom: 0px; padding-bottom: 0px; height: 400px; width: 1348px;">
+                <h3>Thống kê khách hàng quay lại mua hàng</h3>
+                <canvas id="customerReturnChart" width="1024" height="500"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+<canvas id="barChart" width="400" height="400"></canvas>
+<canvas id="pieChart" width="400" height="400"></canvas>
+<script>
+
+     function loadCustomerReturnChart() {
+        $.ajax({
+            url: '@Url.Action("ThongKeKhachHangQuayLai", "ThongKe")', // URL đến action ThongKeKhachHangQuayLai
+            type: 'GET',
+            success: function (data) {
+                var customerNames = [];
+                var purchaseCounts = [];
+
+                data.forEach(function (item) {
+                    customerNames.push(item.TenKhachHang);
+                    purchaseCounts.push(item.SoLanMuaHang);
+                });
+
+                var ctx = document.getElementById('customerReturnChart').getContext('2d');
+                var customerReturnChart = new Chart(ctx, {
+                    type: 'bar', // Hoặc 'pie' nếu muốn hiển thị biểu đồ tròn
+                    data: {
+                        labels: customerNames,
+                        datasets: [{
+                            label: 'Số lần mua hàng',
+                            data: purchaseCounts,
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    // Load the chart when the page is ready
+    $(document).ready(function () {
+        loadCustomerReturnChart();
+    });
+</script>
+<script>
+
+    // Khai báo biến để lưu trữ biểu đồ
+    window.dailyRevenueChart = null;
+
+    // Hàm cập nhật biểu đồ khi chọn tháng và năm
+    function updateChart() {
+        var month = document.getElementById("selectMonth").value;
+        var year = document.getElementById("selectYear").value;
+        loadChart(month, year);
+    }
+
+    // Hàm tải dữ liệu và vẽ biểu đồ doanh thu theo ngày
+    function loadChart(month, year) {
+        $.ajax({
+            url: '/ThongKe/ThongKeDoanhThuTheoNgay', // Đường dẫn đến API thống kê
+            data: { month: month, year: year },
+            success: function (data) {
+                var labels = [];
+                var doanhThu = [];
+
+                // Duyệt qua dữ liệu trả về và tạo danh sách labels và dữ liệu doanh thu
+                $.each(data, function (i, item) {
+                    labels.push(item.Ngay + '/' + month); // Hiển thị ngày/tháng
+                    doanhThu.push(item.TongDoanhThu);
+                });
+
+                // Xóa biểu đồ cũ nếu tồn tại
+                if (window.dailyRevenueChart instanceof Chart) {
+                    window.dailyRevenueChart.destroy();
+                }
+
+                // Tạo biểu đồ mới
+                var ctx = document.getElementById("dailyRevenueChart").getContext('2d');
+                window.dailyRevenueChart = new Chart(ctx, {
+                    type: 'bar', // Dạng biểu đồ, bạn có thể đổi thành 'pie', 'line', v.v...
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Doanh thu theo ngày',
+                            data: doanhThu,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function (value) {
+                                        return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        var label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        label += context.raw.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    // Gọi hàm updateChart khi trang được tải để khởi tạo biểu đồ với tháng và năm mặc định
+    window.onload = function () {
+        updateChart();
+    };
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("ThongKeSanPhamBanChayNhat", "ThongKe")',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var labels = [];
+                var soLuongBan = [];
+
+                $.each(data, function (index, item) {
+                    labels.push(item.TenSanPham); // Tên sản phẩm
+                    soLuongBan.push(item.SoLuongBan); // Số lượng bán
+                });
+
+                var ctx = document.getElementById('sanPhamBanChayChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar', // Dạng biểu đồ cột
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Số lượng bán',
+                            data: soLuongBan,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu nền
+                            borderColor: 'rgba(75, 192, 192, 1)', // Màu viền
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + context.raw; // Hiển thị số lượng
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+</script>
+
+<script>
+$(document).ready(function () {
+    $.ajax({
+        url: '@Url.Action("ThongKeDoanhThuTheoThang", "ThongKe")',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // Lấy năm và tháng từ dữ liệu
+            var labels = data.map(function (item) {
+                return item.Nam + '-' + (item.Thang < 10 ? '0' : '') + item.Thang; // Tạo nhãn năm-tháng
+            });
+            var doanhThuData = data.map(function (item) {
+                return item.TongDoanhThu; // Tổng doanh thu
+            });
+
+            // Vẽ biểu đồ
+            var ctx = document.getElementById('doanhThuTheoThangChart').getContext('2d');
+            var doanhThuChart = new Chart(ctx, {
+                type: 'bar', // Biểu đồ cột
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Tổng Doanh Thu',
+                        data: doanhThuData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)', // Màu nền cho cột
+                        borderColor: 'rgba(75, 192, 192, 1)', // Màu viền cho cột
+                        borderWidth: 1,
+                        hoverBackgroundColor: 'rgba(75, 192, 192, 0.7)', // Màu khi hover
+                        hoverBorderColor: 'rgba(75, 192, 192, 1)' // Màu viền khi hover
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Giữ tỷ lệ khung hình
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Tổng Doanh Thu (VNĐ)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Tháng'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    // Định dạng giá trị hiển thị trong tooltip
+                                    return tooltipItem.dataset.label + ': ' +
+                                        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tooltipItem.raw);
+                                },
+                                title: function (tooltipItem) {
+                                    // Hiển thị năm-tháng làm tiêu đề cho tooltip
+                                    var item = tooltipItem[0].dataset.data[tooltipItem[0].dataIndex];
+                                    return labels[tooltipItem[0].dataIndex]; // Năm-tháng
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function () {
+    $.ajax({
+        url: '@Url.Action("ThongKeDonHangTheoThang", "ThongKe")',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // Lấy năm và tháng từ dữ liệu
+            var labels = data.map(function (item) {
+                return item.Nam + '-' + (item.Thang < 10 ? '0' : '') + item.Thang; // Tạo nhãn năm-tháng
+            });
+            var soDonHangData = data.map(function (item) {
+                return item.SoDonHang; // Số đơn hàng
+            });
+
+            // Vẽ biểu đồ
+            var ctx = document.getElementById('donHangTheoThangChart').getContext('2d');
+            var donHangChart = new Chart(ctx, {
+                type: 'bar', // Hoặc 'line' nếu bạn muốn
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Số Đơn Hàng',
+                        data: soDonHangData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)', // Màu nền cho cột
+                        borderColor: 'rgba(54, 162, 235, 1)', // Màu viền cho cột
+                        borderWidth: 1,
+                        hoverBackgroundColor: 'rgba(54, 162, 235, 0.7)', // Màu khi hover
+                        hoverBorderColor: 'rgba(54, 162, 235, 1)' // Màu viền khi hover
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Số Lượng Đơn Hàng'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Tháng'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    return tooltipItem.dataset.label + ': ' + tooltipItem.raw; // Hiển thị số lượng trên tooltip
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+});
+</script>
+<script>
+    // Column chart for product categories (Số lượng, Tổng tiền, Giá rẻ nhất, Giá đắt nhất)
+    var ctxColumn = document.getElementById('productCategoryColumnChart').getContext('2d');
+    var productCategoryColumnChart = new Chart(ctxColumn, {
+        type: 'bar',
+        data: {
+            labels: ['Chó kiểng', 'Mèo kiểng', 'Chó con', 'Mèo con', 'Đồ chơi cho chó', 'Đồ chơi cho mèo', 'Khác'],
+            datasets: [
+                @*{
+                    label: 'Số lượng sản phẩm',
+                    data: [@ViewBag.Loai1_SoLuong, @ViewBag.Loai2_SoLuong, @ViewBag.Loai3_SoLuong, @ViewBag.Loai4_SoLuong, @ViewBag.Loai5_SoLuong, @ViewBag.Loai6_SoLuong, @ViewBag.Loai7_SoLuong],
+                    backgroundColor: '#42A5F5'
+                },*@
+                {
+                    label: 'Doanh thu',
+                    data: [@ViewBag.Loai1_TongTien, @ViewBag.Loai2_TongTien, @ViewBag.Loai3_TongTien, @ViewBag.Loai4_TongTien, @ViewBag.Loai5_TongTien, @ViewBag.Loai6_TongTien, @ViewBag.Loai7_TongTien],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384'],
+
+                },
+                @*{
+                    label: 'Giá rẻ nhất',
+                    data: [@ViewBag.Loai1_GiaReNhat, @ViewBag.Loai2_GiaReNhat, @ViewBag.Loai3_GiaReNhat, @ViewBag.Loai4_GiaReNhat, @ViewBag.Loai5_GiaReNhat, @ViewBag.Loai6_GiaReNhat, @ViewBag.Loai7_GiaReNhat],
+                    backgroundColor: '#FFA726'
+                },*@
+                @*{
+                    label: 'Giá đắt nhất',
+                    data: [@ViewBag.Loai1_GiaDatNhat, @ViewBag.Loai2_GiaDatNhat, @ViewBag.Loai3_GiaDatNhat, @ViewBag.Loai4_GiaDatNhat, @ViewBag.Loai5_GiaDatNhat, @ViewBag.Loai6_GiaDatNhat, @ViewBag.Loai7_GiaDatNhat],
+                    backgroundColor: '#EF5350'
+                }*@
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Allows custom height and width
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Pie chart for product categories
+    var ctxPie = document.getElementById('productCategoryPieChart').getContext('2d');
+    var totalSoLuong = @ViewBag.Loai1_SoLuong + @ViewBag.Loai2_SoLuong + @ViewBag.Loai3_SoLuong + @ViewBag.Loai4_SoLuong + @ViewBag.Loai5_SoLuong + @ViewBag.Loai6_SoLuong + @ViewBag.Loai7_SoLuong;
+
+    var productCategoryPieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ['Chó kiểng', 'Mèo kiểng', 'Chó con', 'Mèo con', 'Đồ chơi cho chó', 'Đồ chơi cho mèo', 'Khác'],
+            datasets: [{
+                data: [@ViewBag.Loai1_SoLuong, @ViewBag.Loai2_SoLuong, @ViewBag.Loai3_SoLuong, @ViewBag.Loai4_SoLuong, @ViewBag.Loai5_SoLuong, @ViewBag.Loai6_SoLuong, @ViewBag.Loai7_SoLuong],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384'],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        if (value <= 0.0) {
+                            return '' ;
+                        }
+                        let percentage = (value / totalSoLuong * 100).toFixed(1) + "%";
+                        return percentage;
+                    },
+                    color: '#fff',
+                    labels: {
+                        title: {
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    anchor: 'end',
+                    align: 'start'
+                }
+            },
+
+        },
+        plugins: [ChartDataLabels] // Đảm bảo plugin được sử dụng
+
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '@Url.Action("ThongKeSoLuongTungSanPham", "ThongKe")', // Đường dẫn tới phương thức trong controller
+            type: 'GET',
+            success: function(data) {
+                // Xử lý dữ liệu và hiển thị lên giao diện
+                var labels = [];
+                var values = [];
+
+                data.forEach(function (item) {
+                    labels.push(item.TenSanPham); // Thêm tên sản phẩm vào labels
+                    values.push(item.SoLuong); // Thêm số lượng vào values
+                });
+
+                // Vẽ biểu đồ số lượng sản phẩm
+                var ctx = document.getElementById('productQuantityChart').getContext('2d');
+                var productQuantityChart = new Chart(ctx, {
+                    type: 'bar', // Hoặc 'pie' nếu bạn muốn biểu đồ hình tròn
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Số lượng sản phẩm',
+                            data: values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end', // Đặt nhãn trên đầu cột
+                                align: 'end', // Căn chỉnh nhãn
+                                formatter: (value) => {
+                                    return value; // Hiển thị giá trị
+                                }
+                            }
+                        },
+                    },
+                    plugins: [ChartDataLabels]
+
+                });
+            },
+            error: function(error) {
+                console.error("Có lỗi xảy ra khi lấy dữ liệu:", error);
+            }
+        });
+    });
+</script>
+@*<script>
+        $(document).ready(function () {
+            // Bar chart data for product statistics (total value, min, max prices)
+            $.ajax({
+                url: '@Url.Action("ThongKeLoaiSanPham", "ThongKe")',
+                method: 'GET',
+                success: function (data) {
+                    let categories = [];
+                    let soLuong = [];
+                    let tongGiaTri = [];
+                    let giaReNhat = [];
+                    let giaDatNhat = [];
+
+                    data.forEach(function (item) {
+                        categories.push(item.LoaiSP);
+                        soLuong.push(item.SoLuong);
+                        tongGiaTri.push(item.TongGiaTri);
+                        giaReNhat.push(item.GiaReNhat);
+                        giaDatNhat.push(item.GiaDatNhat);
+                    });
+
+                    // Bar chart for total value, min, max prices
+                    var ctx = document.getElementById('barChart').getContext('2d');
+                    var barChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: categories,
+                            datasets: [
+                                {
+                                    label: 'Tổng giá trị',
+                                    data: tongGiaTri,
+                                    backgroundColor: '#4caf50',
+                                },
+                                {
+                                    label: 'Giá rẻ nhất',
+                                    data: giaReNhat,
+                                    backgroundColor: '#ff9800',
+                                },
+                                {
+                                    label: 'Giá đắt nhất',
+                                    data: giaDatNhat,
+                                    backgroundColor: '#f44336',
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+
+            // Pie chart data for product count per category
+            $.ajax({
+                url: '@Url.Action("ThongKeSoLuongTheoLoaiSanPham", "ThongKe")',
+                method: 'GET',
+                success: function (data) {
+                    let categories = [];
+                    let soLuong = [];
+
+                    data.forEach(function (item) {
+                        categories.push(item.LoaiSP);
+                        soLuong.push(item.SoLuong);
+                    });
+
+                    var ctxPie = document.getElementById('pieChart').getContext('2d');
+                    var pieChart = new Chart(ctxPie, {
+                        type: 'pie',
+                        data: {
+                            labels: categories,
+                            datasets: [{
+                                data: soLuong,
+                                backgroundColor: ['#4caf50', '#ff9800', '#f44336', '#2196f3', '#9c27b0'],
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                }
+            });
+        });
+    </script>*@
+
+<style>
+    .modern-card {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        text-align: center;
+    }
+
+    .card-icon {
+        height: 40px;
+        margin-bottom: 8px;
+    }
+
+    .card-value {
+        font-weight: bold;
+        color: #4caf50;
+    }
+
+    .chart-container {
+        padding: 15px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        height: 350px;
+    }
+</style>

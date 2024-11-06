@@ -1,0 +1,102 @@
+﻿@model IEnumerable<WebsiteThuCungBento.Models.DangKyDichVu>
+
+@{
+    ViewBag.Title = "Danh Sách Đăng Ký Dịch Vụ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<h2 style="padding-top:10px">Danh Sách Đăng Ký Dịch Vụ</h2>
+
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Tên Dịch Vụ")
+            </th>
+            <th>
+                @Html.DisplayName("Combo Dịch Vụ")
+            </th>
+            <th>
+                @Html.DisplayName("Ngày Đặt")
+            </th>
+            <th>
+                @Html.DisplayName("Tổng tiền")
+            </th>
+
+            <th>
+                @Html.DisplayName("Tình trạng")
+            </th>
+
+            <th>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChiTietDichVu.DichVu.TenDV)
+                </td>
+                <td>
+                    @if (item.ChiTietDichVu.DichVu.ComboDV != "")
+                    {
+                        @Html.DisplayFor(modelItem => item.ChiTietDichVu.DichVu.ComboDV) <br />
+                    }
+                    Cân nặng: @Html.DisplayFor(modelItem => item.ChiTietDichVu.DieuKien)
+                </td>
+                <td>
+                    @String.Format("{0: dd/MM/yyyy}", item.NgayDangKy)
+                </td>
+
+                <td>
+                    @String.Format("{0:0,0}", item.TongTien)đ
+                </td>
+
+                <td>
+                    @if (item.TinhTrang == 0)
+                    {
+                        <text>Đang Chờ Duyệt</text>
+                    }
+                    else if (item.TinhTrang == 2)
+                    {
+                        <text>Đã Hủy <i class="fa-solid fa-square-check"></i></text>
+                    }
+                    else
+                    {
+                        <text>Đã Duyệt <i class="fa-solid fa-circle-check"></i></text>
+                    }
+
+                </td>
+                <td>
+                    @if (item.TinhTrang == 0)
+                    {
+                        <button class="btn btn-danger"
+                                onclick="if (confirm('Bạn có chắc muốn hủy đơn này?') == true) {
+                                                $.ajax({
+                                                    url: '/User/ChangeStatusSignService',
+                                                    method: 'post',
+                                                    data: {
+                                                        id: @item.SoDK,
+                                                        status: 2,
+                                                    },
+                                                    success: function (response) {
+                                                        if (response.Success) {
+                                                            alert('Hủy đơn hàng thành công!')
+                                                            window.location.reload();
+                                                        }
+                                                        else {
+                                                            alert('Có lỗi xảy ra, vui lòng thử lại sau!!')
+                                                        }
+                                                    }
+                                                });
+                                            }">
+                            Hủy Đơn <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>

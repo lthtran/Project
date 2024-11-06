@@ -1,0 +1,40 @@
+﻿@model WebsiteThuCungBento.Models.KICHTHUOC
+
+@{
+    ViewBag.Title = "Trang thêm mới kích thước";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG THÊM KÍCH THƯỚC SẢN PHẨM</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label><strong>Tên sản phẩm:</strong></label>
+        <div class="col-md-10">
+            @Html.DropDownList("MASP")
+        </div>
+    </div>
+    <div class="form-group">
+        <label><strong>Size sản phẩm:</strong></label>
+        @Html.ValidationMessageFor(model => model.TENKICHTHUOC, "", new { @class = "text-danger" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.TENKICHTHUOC, new { htmlAttributes = new { @class = "form-control" }, @Required = "required" })
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Tạo mới" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại trang quản lý", "Index")
+        </div>
+    </div>
+</div>
+}
+

@@ -1,0 +1,98 @@
+﻿@model WebsiteThuCungBento.Models.SANPHAM
+
+@{
+    ViewBag.Title = "Trang chi tiết sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>TRANG THÔNG TIN CHI TIẾT SẢN PHẨM</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên sản phẩm:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENSP)
+        </dd>
+
+        <dt>
+            Đơn giá mua:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DONGIAMUA)
+        </dd>
+
+        <dt>
+            Đơn giá bán:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DONGIABAN)
+        </dd>
+
+        <dt>
+           Tên Giống và phụ kiện:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.THUONGHIEU.TENTH)
+        </dd>
+
+        <dt>
+            Loại:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOAI.TENLOAI)
+        </dd>
+
+        @*<dt>
+            Màu sắc:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MAUSAC.TENMAUSAC)
+        </dd>*@
+
+        <dt>
+            Số lượng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SOLUONG)
+        </dd>
+
+        @*<dt>
+            Link thanh toán online:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.THANHTOANON)
+        </dd>*@
+
+        <dt>
+            Hình ảnh:
+        </dt>
+
+        <dd>
+            <img src="@Url.Content("~/img/"+  Model.HINHANH)" width="180" />
+        </dd>
+
+        <dt>
+            Mô tả:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOTA)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.MASP }) |
+    @Html.ActionLink("Quay lại trang quản lý", "Index")
+</p>

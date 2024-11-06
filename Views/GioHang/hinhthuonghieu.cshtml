@@ -1,0 +1,8 @@
+﻿@foreach (var item in Model)
+{
+    <ul class="no-bullets" >
+        <li>
+            <a href="@Url.Action("SPTheothuonghieu",new { id = item.MATH })" class="text-center"> <img src="@Url.Content("~/img/" + @item.LOGO)"> </a>
+        </li>
+    </ul>
+}

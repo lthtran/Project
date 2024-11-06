@@ -1,0 +1,72 @@
+﻿@model  WebsiteThuCungBento.Models.ADMIN
+@{
+    ViewBag.Title = "Thông Tin Admin";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var ad = Session["Taikhoanadmin"] as WebsiteThuCungBento.Models.ADMIN;
+}
+<style>
+    .edit {
+        font-size: 16px;
+        border: 1px solid #808080;
+        padding: 5px;
+        background-color: #000000;
+        color: #ffffff;
+    }
+    .edit:hover{
+        background-color:#808080;
+        color:#ffffff;
+    }
+</style>
+<div id="PageContainer" class="is-moved-by-drawer">
+    <main class="main-content" role="main">
+        <section id="page-wrapper">
+            <div class="wrapper">
+                <div class="inner">
+
+                    <h1>Thông tin cá nhân</h1>
+
+                    <hr class="hr--small">
+
+                    <div class="grid">
+
+                        <div class="grid__item two-thirds medium-down--one-whole">
+                            <img src="~/img/@ad.AVATAR" alt="AVATAR" height="200" width="200" /> | 
+                            <a href="@Url.Action("DoiMK","Admin",new { id = ad.MAADMIN })" class="edit">Đổi mật khẩu</a>
+                            <br />
+                            <br />
+                            <ul style="font-size:20px;">
+
+                                <li style="padding-bottom:20px">
+                                    <strong>Loại tài khoản:</strong> @ad.TENLOAI                                 
+                                </li>
+                                
+                                <li style="padding-bottom:20px">
+                                    <strong>Họ Tên:</strong> @ad.HOTEN
+                                </li>
+
+                                
+                                <li style="padding-bottom:20px">
+                                    <strong>Địa Chỉ:</strong> @ad.DIACHI
+                                </li>
+
+                                
+                                <li style="padding-bottom:20px">
+                                    <strong>Số điện thoại:</strong> @ad.DIENTHOAI
+                                </li>
+                                
+                                <li >
+                                    <strong>Email:</strong> @ad.EMAIL
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+

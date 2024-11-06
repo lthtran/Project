@@ -1,0 +1,88 @@
+﻿@model WebsiteThuCungBento.Models.ADMIN
+
+@{
+    ViewBag.Title = "Trang Xóa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>XÓA ADMIN</h2>
+
+<h3>Bạn chắc chắn muốn xóa admin này?</h3>
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Họ Tên:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTEN)
+        </dd>
+
+        <dt>
+            Địa Chỉ:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DIACHI)
+        </dd>
+
+        <dt>
+            Số Điện Thoại:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DIENTHOAI)
+        </dd>
+
+        <dt>
+            Loại:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENLOAI)
+        </dd>
+
+        <dt>
+            Tên Đăng Nhập:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENDN)
+        </dd>
+
+        <dt>
+            Mật Khẩu:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MATKHAU)
+        </dd>
+
+        <dt>
+            Email:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAIL)
+        </dd>
+        <dt>
+            Hình ảnh:
+        </dt>
+
+        <dd>
+            <img src="~/img/@Model.AVATAR" height="100" width="100" />
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-default" /> |
+            @Html.ActionLink("Quay Lại Trang Quản Lý", "listadmin")
+        </div>
+    }
+</div>
