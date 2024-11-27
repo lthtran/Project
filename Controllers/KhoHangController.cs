@@ -108,19 +108,21 @@ namespace WebsiteThuCungBento.Controllers
                 return RedirectToAction("dangnhap", "Admin");
             else
             {
-                PHIEUNHAPKHO kho = data.PHIEUNHAPKHOs.SingleOrDefault(n => n.MAPHIEUNK == id);
-                data.PHIEUNHAPKHOs.DeleteOnSubmit(kho);
-                SANPHAM sanpham = data.SANPHAMs.Single(n => n.MASP == kho.MASP);
-                if (sanpham.SOLUONG > kho.SOLUONG)
+                // Find the item to delete
+                PHIEUNHAPKHO phieunhapkho = data.PHIEUNHAPKHOs.SingleOrDefault(p => p.MAPHIEUNK == id);
+
+                if (phieunhapkho != null)
                 {
-                    sanpham.SOLUONG = sanpham.SOLUONG - kho.SOLUONG;
+                    // Delete the item
+                    data.PHIEUNHAPKHOs.DeleteOnSubmit(phieunhapkho);
+                    data.SubmitChanges();
+
+                    // Return success response
+                    return Json(new { success = true, message = "Xóa thành công!" });
                 }
-                else
-                {
-                    return RedirectToAction("ThongBao", "KhoHang");
-                }
-                data.SubmitChanges();
-                return RedirectToAction("Index", "KhoHang");
+
+                // If not found, return failure response
+                return Json(new { success = false, message = "Không tìm thấy phiếu nhập kho cần xóa." });
             }
         }
         public ActionResult ThongBao()

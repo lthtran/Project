@@ -37,9 +37,83 @@
             <td>
                 @Html.ActionLink("Sửa", "Edit", new { id = item.MAMAUSAC }) |
                 @Html.ActionLink("Chi tiết", "Details", new { id = item.MAMAUSAC }) |
-                @Html.ActionLink("Xóa", "Delete", new { id = item.MAMAUSAC })
+                <a href="javascript:void(0);" onclick="openDeleteModal('@item.MAMAUSAC', '@item.TENMAUSAC')">Xóa</a>
             </td>
         </tr>
     }
 
 </table>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Xác Nhận Xóa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        Mã Màu Sắc:
+                    </dt>
+                    <dd id="math"></dd>
+
+                    <dt>
+                        Tên Màu Sắc:
+                    </dt>
+                    <dd id="tenth"></dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="deleteButton">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function openDeleteModal(mamausac, tenmausac) {
+        // Populate modal with data
+        document.getElementById('math').textContent = mamausac;
+        document.getElementById('tenth').textContent = tenmausac;
+
+        // Show the modal
+        $('#deleteModal').modal('show');
+
+        // Save the ID for later use
+        window.deleteId = mamausac;
+    }
+
+    // Handle deletion when the "Xóa" button is clicked
+    document.getElementById('deleteButton').addEventListener('click', function () {
+        var idToDelete = window.deleteId;
+
+        // Perform the deletion using an AJAX request
+        $.ajax({
+            url: '/MAUSAC/Delete', // Adjust the URL to your actual controller's Xoa action
+            type: 'POST',
+            data: { id: idToDelete },
+            success: function (response) {
+                // Check if the delete was successful
+                if (response.success) {
+                    // Close the modal
+                    $('#deleteModal').modal('hide');
+                    // Show success message
+                    alert(response.message);
+
+                    // Optionally refresh the page or remove the deleted row
+                    window.location.href = "/MAUSAC/Index"; // Redirect to list page after deletion
+                } else {
+                    // If deletion failed, show error message
+                    alert(response.message);
+                }
+            },
+            error: function (error) {
+                alert('Có lỗi xảy ra khi xóa.');
+            }
+        });
+    });
+</script>

@@ -8,6 +8,13 @@
 
 
 <h2 style="padding-top:10px">DANH SÁCH CHỨC NĂNG PHÂN QUYỀN</h2>
+<h5 style="width:100%; padding-top:10px">
+    <u>
+        @*<img style="margin-left:25px" src="~/img/icons/add.png" />*@
+        <i class="fas fa-plus-circle" style="margin-left:24px; font-size: 20px"></i>
+        @Html.ActionLink("THÊM CHỨC NĂNG MỚI", "CreateCN")
+    </u>
+</h5>
 
 <table class="table">
     <tr>
@@ -32,6 +39,9 @@
             <td>
                 @Html.ActionLink("Sửa", "EditCN", new { id = item.MACHUCNANG }) |
                 @Html.ActionLink("Xóa", "DeleteCN", new { id = item.MACHUCNANG })
+                <a href="#" class="deleteRole" data-id="@item.MACHUCNANG"
+                   data-role="@item.TENCN">Xóa
+                </a>
             </td>
         </tr>
     }
@@ -44,3 +54,69 @@
         <i class="fas fa-chevron-left"></i><span style="font-size:15px"> Trở lại trang người quản trị</span>
     </a>
 </ul>
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="deleteModalLabel">Xóa Chức Năng</h5>
+
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa chức năng <strong><span id="roleName"></span></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="deleteButton">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // Open modal on clicking "Xóa"
+        $('.deleteRole').click(function (e) {
+            e.preventDefault(); // Prevent the default link action
+            var permissionId = $(this).data('id');
+            var roleName = $(this).data('role');
+
+            // Populate the modal with data
+            $('#roleName').text(roleName);
+
+            // Store the permissionId for later use when confirming deletion
+            window.deletePermissionId = permissionId;
+
+            // Show the modal
+            $('#deleteModal').modal('show');
+        });
+
+        // Handle deletion when the "Xóa" button in the modal is clicked
+        $('#deleteButton').click(function () {
+            var permissionIdToDelete = window.deletePermissionId;
+
+            $.ajax({
+                url: '/AdminPQ/DeleteCN',  // URL to your Delete action
+                type: 'POST',
+                data: { id: permissionIdToDelete },
+                success: function (response) {
+                    if (response.success) {
+                        // Close the modal
+                        $('#deleteModal').modal('hide');
+                        // Optionally, remove the row from the table
+                        $('a[data-id="' + permissionIdToDelete + '"]').closest('tr').remove();
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (error) {
+                    alert('Có lỗi xảy ra khi xóa.');
+                }
+            });
+        });
+    });
+
+</script>

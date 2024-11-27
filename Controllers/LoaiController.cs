@@ -97,10 +97,21 @@ namespace WebsiteThuCungBento.Controllers
                 return RedirectToAction("dangnhap", "Admin");
             else
             {
-                LOAI nhaxuatban = data.LOAIs.SingleOrDefault(n => n.MALOAI == id);
-                data.LOAIs.DeleteOnSubmit(nhaxuatban);
-                data.SubmitChanges();
-                return RedirectToAction("Index", "Loai");
+                // Find the item to delete
+                LOAI loai = data.LOAIs.SingleOrDefault(l => l.MALOAI == id);
+
+                if (loai != null)
+                {
+                    // Delete the item
+                    data.LOAIs.DeleteOnSubmit(loai);
+                    data.SubmitChanges();
+
+                    // Return success response
+                    return Json(new { success = true, message = "Xóa thành công!" });
+                }
+
+                // If not found, return failure response
+                return Json(new { success = false, message = "Không tìm thấy loại cần xóa." });
             }
         }
     }

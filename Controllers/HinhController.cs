@@ -144,7 +144,7 @@ namespace WebsiteThuCungBento.Controllers
                 HINH hinh = data.HINHs.SingleOrDefault(g => g.MAHINH == id);
                 data.HINHs.DeleteOnSubmit(hinh);
                 data.SubmitChanges();
-                return RedirectToAction("Index", "Hinh");
+                return Json(new { success = true, message = "Hình ảnh đã được xóa thành công." });
             }
         }
     }

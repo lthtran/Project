@@ -100,10 +100,21 @@ namespace WebsiteThuCungBento.Controllers
                 return RedirectToAction("dangnhap", "Admin");
             else
             {
-                MAUSAC mau = data.MAUSACs.SingleOrDefault(n => n.MAMAUSAC == id);
-                data.MAUSACs.DeleteOnSubmit(mau);
-                data.SubmitChanges();
-                return RedirectToAction("Index", "Mausac");
+                // Find the item to delete
+                MAUSAC mausac = data.MAUSACs.SingleOrDefault(m => m.MAMAUSAC == id);
+
+                if (mausac != null)
+                {
+                    // Delete the item
+                    data.MAUSACs.DeleteOnSubmit(mausac);
+                    data.SubmitChanges();
+
+                    // Return success response
+                    return Json(new { success = true, message = "Xóa thành công!" });
+                }
+
+                // If not found, return failure response
+                return Json(new { success = false, message = "Không tìm thấy màu sắc cần xóa." });
             }
         }
     }

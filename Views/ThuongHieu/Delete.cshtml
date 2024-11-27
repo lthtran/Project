@@ -9,7 +9,7 @@
 
 <h3>Bạn có chắc chắn muốn xóa Giống và phụ kiện này không?</h3>
 <div>
-    
+
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -36,7 +36,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
@@ -44,4 +45,40 @@
             @Html.ActionLink("Quay lại trang quản lý Giống và phụ kiện", "Index")
         </div>
     }
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Xác Nhận Xóa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        Mã Giống và phụ kiện:
+                    </dt>
+                    <dd id="math"></dd>
+
+                    <dt>
+                        Tên Giống và phụ kiện:
+                    </dt>
+                    <dd id="tenth"></dd>
+
+                    <dt>
+                        Logo Giống và phụ kiện:
+                    </dt>
+                    <dd id="logo"></dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="deleteButton">Xóa</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -137,7 +137,7 @@ namespace WebsiteThuCungBento.Controllers
                 PHANQUYEN mau = data.PHANQUYENs.SingleOrDefault(n => n.MAPQ == id);
                 data.PHANQUYENs.DeleteOnSubmit(mau);
                 data.SubmitChanges();
-                return RedirectToAction("DSPhanQuyen", "AdminPQ");
+                return Json(new { success = true, message = "Phân quyền đã được xóa thành công." });
             }
         }
         #endregion
@@ -207,16 +207,17 @@ namespace WebsiteThuCungBento.Controllers
         }
 
         [HttpGet]
-        public ActionResult DeleteCN(int id)
+        public ActionResult DeleteCN(string id)
         {
             if (Session["Taikhoanadmin"] == null)
                 return RedirectToAction("dangnhap", "Admin");
             else
             {
-                var mau = from m in data.PHANQUYENs where m.MAPQ == id select m;
+                var mau = from m in data.CHUCNANG_QUYENs where m.MACHUCNANG == id select m;
                 return View(mau.Single());
             }
         }
+        
 
         [HttpPost, ActionName("DeleteCN")]
         public ActionResult XoaCN(string id)
@@ -225,10 +226,10 @@ namespace WebsiteThuCungBento.Controllers
                 return RedirectToAction("dangnhap", "Admin");
             else
             {
-                PHANQUYEN mau = data.PHANQUYENs.SingleOrDefault(n => n.MACHUCNANG == id);
-                data.PHANQUYENs.DeleteOnSubmit(mau);
+                CHUCNANG_QUYEN mau = data.CHUCNANG_QUYENs.SingleOrDefault(n => n.MACHUCNANG == id);
+                data.CHUCNANG_QUYENs.DeleteOnSubmit(mau);
                 data.SubmitChanges();
-                return RedirectToAction("DSPhanQuyen", "AdminPQ");
+                return RedirectToAction("DSChucNang", "AdminPQ");
             }
         }
         #endregion

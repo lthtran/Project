@@ -265,7 +265,8 @@ namespace WebsiteThuCungBento.Models
 				return this.GetTable<THUONGHIEU>();
 			}
 		}
-	}
+
+    }
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ADMIN")]
 	public partial class ADMIN : INotifyPropertyChanging, INotifyPropertyChanged

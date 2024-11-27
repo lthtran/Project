@@ -139,7 +139,7 @@ namespace WebsiteThuCungBento.Controllers
                 THUONGHIEU nhaxuatban = data.THUONGHIEUs.SingleOrDefault(n => n.MATH == id);
                 data.THUONGHIEUs.DeleteOnSubmit(nhaxuatban);
                 data.SubmitChanges();
-                return RedirectToAction("Index", "ThuongHieu");
+                return Json(new { success = true, message = "Xóa thành công!" });
             }
         }
     }

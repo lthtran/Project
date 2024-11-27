@@ -147,48 +147,30 @@ namespace WebsiteThuCungBento.Controllers
             }
         }
         [HttpPost, ActionName("Delete")]
-        public ActionResult Xoa(int id)
+        public JsonResult Xoa(int id)
         {
             if (Session["Taikhoanadmin"] == null)
-                return RedirectToAction("dangnhap", "Admin");
-            else
-            {
-                SANPHAM sanpham = data.SANPHAMs.SingleOrDefault(g => g.MASP == id);
-                var kichthuoc = from KICHTHUOC in data.KICHTHUOCs where KICHTHUOC.MASP == id select KICHTHUOC;
-                var hinh = from HINH in data.HINHs where HINH.MASP == id select HINH;
-                var kho = from PHIEUNHAPKHO in data.PHIEUNHAPKHOs where PHIEUNHAPKHO.MASP == id select PHIEUNHAPKHO;
-                var dathang = from CTDONDATHANG in data.CTDONDATHANGs where CTDONDATHANG.MASP == id select CTDONDATHANG;
-                var dondathang = from DONDATHANG in data.DONDATHANGs select DONDATHANG;
-                foreach (var item in dathang)
-                {
-                    data.CTDONDATHANGs.DeleteOnSubmit(item);
-                }
-                /*foreach (var item in dathang)
-                {
-                    foreach (var itam in dondathang)
-                    {
-                        if (itam.MADH != item.MADH)
-                        {
-                            data.DONDATHANGs.DeleteOnSubmit(itam);
-                        }
-                    }
-                }*/
-                foreach (var item in hinh)
-                {
-                    data.HINHs.DeleteOnSubmit(item);
-                }
-                foreach (var item in kho)
-                {
-                    data.PHIEUNHAPKHOs.DeleteOnSubmit(item);
-                }
-                foreach (var item in kichthuoc)
-                {
-                    data.KICHTHUOCs.DeleteOnSubmit(item);
-                }
-                data.SANPHAMs.DeleteOnSubmit(sanpham);
-                data.SubmitChanges();
-                return RedirectToAction("Index", "SanPham");
-            }
+                return Json(new { success = false, message = "Bạn cần đăng nhập." });
+
+            SANPHAM sanpham = data.SANPHAMs.SingleOrDefault(g => g.MASP == id);
+            if (sanpham == null)
+                return Json(new { success = false, message = "Sản phẩm không tồn tại." });
+
+            var kichthuoc = from KICHTHUOC in data.KICHTHUOCs where KICHTHUOC.MASP == id select KICHTHUOC;
+            var hinh = from HINH in data.HINHs where HINH.MASP == id select HINH;
+            var kho = from PHIEUNHAPKHO in data.PHIEUNHAPKHOs where PHIEUNHAPKHO.MASP == id select PHIEUNHAPKHO;
+            var dathang = from CTDONDATHANG in data.CTDONDATHANGs where CTDONDATHANG.MASP == id select CTDONDATHANG;
+            var dondathang = from DONDATHANG in data.DONDATHANGs select DONDATHANG;
+
+            foreach (var item in dathang) data.CTDONDATHANGs.DeleteOnSubmit(item);
+            foreach (var item in hinh) data.HINHs.DeleteOnSubmit(item);
+            foreach (var item in kho) data.PHIEUNHAPKHOs.DeleteOnSubmit(item);
+            foreach (var item in kichthuoc) data.KICHTHUOCs.DeleteOnSubmit(item);
+
+            data.SANPHAMs.DeleteOnSubmit(sanpham);
+            data.SubmitChanges();
+
+            return Json(new { success = true, message = "Sản phẩm đã được xóa thành công!", masp = id });
         }
 
         #region UpdateProduct

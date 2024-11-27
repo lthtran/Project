@@ -134,30 +134,37 @@ namespace WebsiteThuCungBento.Controllers
             return RedirectToAction("DonDatHang");
         }
 
-        [HttpPost, ActionName("XoaDonHang")]
 
         //[HttpPost, ActionName("XacnhanXoa")]
-        public ActionResult XacnhanXoaDon(int id)
+        [HttpPost]
+        public JsonResult XacnhanXoaDon(int id)
         {
-            DONDATHANG hang = data.DONDATHANGs.SingleOrDefault(h => h.MADH == id);
-
-            if (hang == null)
+            try
             {
-                TempData["ErrorMessage"] = "Không tìm thấy đơn hàng cần xóa.";
-                return RedirectToAction("DonDatHang", "DonHang");
+                // Tìm đơn hàng theo id
+                var donHang = data.DONDATHANGs.SingleOrDefault(h => h.MADH == id);
+
+                if (donHang == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy đơn hàng." });
+                }
+
+                // Xóa chi tiết đơn hàng
+                var chiTietDonHangs = data.CTDONDATHANGs.Where(ct => ct.MADH == id).ToList();
+                data.CTDONDATHANGs.DeleteAllOnSubmit(chiTietDonHangs);
+
+                // Xóa đơn hàng
+                data.DONDATHANGs.DeleteOnSubmit(donHang);
+                data.SubmitChanges();
+
+                return Json(new { success = true, message = "Đã xóa đơn hàng thành công." });
             }
-
-            // Xóa các chi tiết đơn hàng liên quan
-            var chiTietDonHangs = data.CTDONDATHANGs.Where(ct => ct.MADH == id).ToList();
-            data.CTDONDATHANGs.DeleteAllOnSubmit(chiTietDonHangs);
-
-            // Xóa đơn hàng
-            data.DONDATHANGs.DeleteOnSubmit(hang);
-            data.SubmitChanges();
-
-            TempData["SuccessMessage"] = "Đã xóa đơn hàng thành công.";
-            return RedirectToAction("DonDatHang", "DonHang");
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message });
+            }
         }
+
 
         //public ActionResult XacnhanXoaDon(int id)
         //{
