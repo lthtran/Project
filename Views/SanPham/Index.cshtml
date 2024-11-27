@@ -37,11 +37,11 @@
         <th style="width:70px">  Giá Bán  </th>
         <th style="width:120px"> Giống và phụ kiện   </th>
         <th style="width:100px"> Loại   </th>
-        @* <th style="width:80px">  Màu Sắc </th>*@
         <th style="width:50px">  SL.Tồn </th>
+        <th style="width:80px">  Màu </th>
         <th style="width:150px"> Ảnh bìa  </th>
         <th style="width:300px"> Mô tả    </th>
-        <th style="width:200px"> </th>
+        <th style="width:200px"> Hành động </th>
     </tr>
     @{int stt = 1;}
     @foreach (var item in Model)
@@ -64,11 +64,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.LOAI.TENLOAI)
             </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.MAUSAC.TENMAUSAC)
-                </td>*@
+
             <td>
                 @Html.DisplayFor(modelItem => item.SOLUONG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MAUSAC.TENMAUSAC)
             </td>
             <td>
                 <img src="@Url.Content("~/img/"+  item.HINHANH)" width="150" />
@@ -76,9 +77,6 @@
             <td>
                 @Truncate(item.MOTA, 50)
             </td>
-            @*<td>
-                    @Truncate(item.THANHTOANON,10)
-                </td>*@
             <td>
                 @Html.ActionLink("Sửa", "Edit", new { id = item.MASP }) |
                 @Html.ActionLink("Chi tiết", "Details", new { id = item.MASP }) |

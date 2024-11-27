@@ -16,7 +16,7 @@ public class PaymentController : Controller
 {
     DataClassesDataContext data = new DataClassesDataContext();
 
-    public List<Giohang> Laygiohang()
+    public List<GiohangModels> Laygiohang()
     {
         string userId = ""; // Default in case user is not logged in
 
@@ -29,23 +29,23 @@ public class PaymentController : Controller
 
         // Retrieve cart cookie for the specific user
         HttpCookie cartCookie = Request.Cookies["Giohang_" + userId];
-        List<Giohang> dsGiohang = new List<Giohang>();
+        List<GiohangModels> dsGiohang = new List<GiohangModels>();
 
         if (cartCookie != null && !string.IsNullOrEmpty(cartCookie.Value))
         {
             string json = Server.UrlDecode(cartCookie.Value);
             var serializer = new JavaScriptSerializer();
-            dsGiohang = serializer.Deserialize<List<Giohang>>(json);
+            dsGiohang = serializer.Deserialize<List<GiohangModels>>(json);
         }
 
         if (dsGiohang == null || dsGiohang.Count == 0)
         {
-            dsGiohang = new List<Giohang>();
+            dsGiohang = new List<GiohangModels>();
         }
 
         return dsGiohang;
     }
-    private int TongSoLuong(List<Giohang> dsGiohang)
+    private int TongSoLuong(List<GiohangModels> dsGiohang)
     {
         int iTongSoLuong = 0;
 
@@ -56,7 +56,7 @@ public class PaymentController : Controller
 
         return iTongSoLuong;
     }
-    private double TongTien(List<Giohang> dsGiohang)
+    private double TongTien(List<GiohangModels> dsGiohang)
     {
         double iTongTien = 0;
 
@@ -71,7 +71,7 @@ public class PaymentController : Controller
     {
         // Get the logged-in user and their cart
         KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
-        List<Giohang> gh = Laygiohang();
+        List<GiohangModels> gh = Laygiohang();
 
         if (gh == null || gh.Count == 0)
         {
@@ -184,7 +184,7 @@ public class PaymentController : Controller
         {
             DONDATHANG ddh = new DONDATHANG();
             KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
-            List<Giohang> gh = Laygiohang();
+            List<GiohangModels> gh = Laygiohang();
 
             if (gh == null || gh.Count == 0)
             {

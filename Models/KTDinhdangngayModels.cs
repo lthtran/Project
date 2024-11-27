@@ -7,7 +7,7 @@ using System.Web;
 
 namespace WebsiteThuCungBento.Models
 {
-    public class KTDinhdangngay : ValidationAttribute
+    public class KTDinhdangngayModels : ValidationAttribute
     {
         public override bool IsValid(object value)
         {

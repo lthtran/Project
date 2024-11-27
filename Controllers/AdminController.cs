@@ -28,7 +28,7 @@ namespace WebsiteThuCungBento.Controllers
         }
 
         [HttpPost]
-        public ActionResult dangnhap(DangNhapModel model)
+        public ActionResult dangnhap(DangNhapModels model)
         {
             if (ModelState.IsValid)
             {
@@ -158,29 +158,69 @@ namespace WebsiteThuCungBento.Controllers
             }
         }
         [HttpGet]
-        public ActionResult Delete(int id)
+        public JsonResult GetAdminDetails(int id)
         {
             if (Session["Taikhoanadmin"] == null)
-                return RedirectToAction("dangnhap", "Admin");
-            else
             {
-                var ad = from adm in data.ADMINs where adm.MAADMIN == id select adm;
-                return View(ad.Single());
+                return Json(new { success = false, message = "Bạn chưa đăng nhập!" }, JsonRequestBehavior.AllowGet);
             }
+
+            var admin = data.ADMINs
+                .Where(a => a.MAADMIN == id)
+                .Select(a => new
+                {
+                    a.MAADMIN,
+                    a.TENDN,
+                    a.DIENTHOAI,
+                    a.DIACHI
+                })
+                .FirstOrDefault();
+
+            if (admin != null)
+            {
+                return Json(new { success = true, admin }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { success = false, message = "Không tìm thấy quản trị viên!" }, JsonRequestBehavior.AllowGet);
         }
-        [HttpPost, ActionName("Delete")]
-        public ActionResult Xoa(int id)
+
+        [HttpPost]
+        public JsonResult Delete(int id)
         {
             if (Session["Taikhoanadmin"] == null)
-                return RedirectToAction("dangnhap", "Admin");
-            else
             {
+                return Json(new { success = false, message = "Bạn chưa đăng nhập!" });
+            }
+
+            try
+            {
+                // Lấy đối tượng ADMIN cần xóa
                 ADMIN ad = data.ADMINs.SingleOrDefault(n => n.MAADMIN == id);
+                // Xóa đối tượng ADMIN
                 data.ADMINs.DeleteOnSubmit(ad);
                 data.SubmitChanges();
-                return RedirectToAction("listadmin", "Admin");
+
+                return Json(new { success = true, message = "Xóa thành công!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Lỗi khi xóa: " + ex.Message });
             }
         }
+
+        //[HttpPost, ActionName("Delete")]
+        //public ActionResult Xoa(int id)
+        //{
+        //    if (Session["Taikhoanadmin"] == null)
+        //        return RedirectToAction("dangnhap", "Admin");
+        //    else
+        //    {
+        //        ADMIN ad = data.ADMINs.SingleOrDefault(n => n.MAADMIN == id);
+        //        data.ADMINs.DeleteOnSubmit(ad);
+        //        data.SubmitChanges();
+        //        return RedirectToAction("listadmin", "Admin");
+        //    }
+        //}
         [HttpGet]
         public ActionResult DoiMK(int id)
         {
@@ -189,13 +229,13 @@ namespace WebsiteThuCungBento.Controllers
             else
             {
                 
-                DoiMKadmin model = new DoiMKadmin();               
+                DoiMKadminModels model = new DoiMKadminModels();               
                 return View(model);
             }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DoiMK(int id, DoiMKadmin reset)
+        public ActionResult DoiMK(int id, DoiMKadminModels reset)
         {
             
             var message = "";

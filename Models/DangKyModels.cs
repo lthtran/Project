@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebsiteThuCungBento.Models
 {
-    public class DangKyModel
+    public class DangKyModels
     {
         [Display(Name = "Tên đăng nhập:")]
         [Required(ErrorMessage = " Tên đang nhập không được để trống. ")]

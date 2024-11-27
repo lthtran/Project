@@ -1,4 +1,4 @@
-﻿@model WebsiteThuCungBento.Models.DangNhapModel
+﻿@model WebsiteThuCungBento.Models.DangNhapModels
 @{
     ViewBag.Title = "Đăng Nhập ";
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
@@ -9,8 +9,13 @@
         <div class="wrap_background_aside margin-bottom-40 page_login">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-lg-offset-3 col-md-offset-3">
-                    <div class="page-login">
+                    <div class="page-login" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); border-radius: 10px; padding: 10px; background-color: #ffffff;">
                         <h1 class="title_heads a-center"><span>Đăng nhập</span></h1>
+
+                        @if (ViewBag.SuccessMessage != null)
+                        {
+                            <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+                        }
                         <div id="login">
                             @using (Html.BeginForm("dangnhap", "User", FormMethod.Post))
                             {

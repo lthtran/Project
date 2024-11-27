@@ -81,9 +81,12 @@ namespace WebsiteThuCungBento.Models
     partial void InsertTHUONGHIEU(THUONGHIEU instance);
     partial void UpdateTHUONGHIEU(THUONGHIEU instance);
     partial void DeleteTHUONGHIEU(THUONGHIEU instance);
+    partial void InsertDANHGIA(DanhGiaDichVu instance);
+    partial void UpdateDANHGIA(DanhGiaDichVu instance);
+    partial void DeleteDANHGIA(DanhGiaDichVu instance);
     #endregion
-		
-		public DataClassesDataContext() : 
+
+        public DataClassesDataContext() : 
 				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["WebCuaHangThuCung"].ConnectionString, mappingSource)
 		{
 			OnCreated();
@@ -199,8 +202,15 @@ namespace WebsiteThuCungBento.Models
 				return this.GetTable<DANHGIA>();
 			}
 		}
-		
-		public System.Data.Linq.Table<KICHTHUOC> KICHTHUOCs
+        public System.Data.Linq.Table<DanhGiaDichVu> DanhGiaDichVus
+        {
+            get
+            {
+                return this.GetTable<DanhGiaDichVu>();
+            }
+        }
+
+        public System.Data.Linq.Table<KICHTHUOC> KICHTHUOCs
 		{
 			get
 			{
@@ -554,8 +564,14 @@ namespace WebsiteThuCungBento.Models
 		private System.Nullable<int> _DonGia;
 		
 		private System.Nullable<int> _MaDV;
-		
-		private EntitySet<DangKyDichVu> _DangKyDichVus;
+        //sửa
+        private string _KhungGio; // Khung giờ đã chọn
+        //public DateTime _Ngay { get; set; }
+        private int? _MAADMIN;
+		private string _TENNV;
+        private EntitySet<ADMIN> _Admin;
+		//-sửa
+        private EntitySet<DangKyDichVu> _DangKyDichVus;
 		
 		private EntityRef<DichVu> _DichVu;
 		
@@ -569,20 +585,55 @@ namespace WebsiteThuCungBento.Models
     partial void OnTieuDeChanged();
     partial void OnDieuKienChanging(string value);
     partial void OnDieuKienChanged();
+
+	partial void OnKhungGioChanging(string value);
+	partial void OnKhungGioChanged();
     partial void OnDonGiaChanging(System.Nullable<int> value);
     partial void OnDonGiaChanged();
     partial void OnMaDVChanging(System.Nullable<int> value);
     partial void OnMaDVChanged();
-    #endregion
-		
-		public ChiTietDichVu()
+    partial void OnTENNVChanging(string value);
+    partial void OnTENNVChanged();
+        //sửa
+        protected virtual void OnMaAdminChanging() => PropertyChanging?.Invoke(this, emptyChangingEventArgs);
+
+    protected virtual void OnMaAdminChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+   //-sửa
+		#endregion
+
+        public ChiTietDichVu()
 		{
-			this._DangKyDichVus = new EntitySet<DangKyDichVu>(new Action<DangKyDichVu>(this.attach_DangKyDichVus), new Action<DangKyDichVu>(this.detach_DangKyDichVus));
+			this._DangKyDichVus = new EntitySet<DangKyDichVu>(new Action<DangKyDichVu>(this.attach_DangKyDichVus),
+				new Action<DangKyDichVu>(this.detach_DangKyDichVus));
 			this._DichVu = default(EntityRef<DichVu>);
+			//sửa
+			this._Admin = new EntitySet<ADMIN>(new Action<ADMIN>(this.attach_ADMIN), new
+				 Action<ADMIN>(this.detach_ADMIN));
+			//-sửa
 			OnCreated();
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaCT", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TENNV", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
+        public string TENNV
+        {
+            get
+            {
+                return this._TENNV;
+            }
+            set
+            {
+                if ((this._TENNV != value))
+                {
+                    this.OnTENNVChanging(value);
+                    this.SendPropertyChanging();
+                    this._TENNV = value;
+                    this.SendPropertyChanged("TENNV");
+                    this.OnTENNVChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaCT", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int MaCT
 		{
 			get
@@ -601,8 +652,41 @@ namespace WebsiteThuCungBento.Models
 				}
 			}
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TieuDe", DbType="NVarChar(70)")]
+		[Column]
+        public int? MAADMIN
+        {
+            get { return this._MAADMIN; }
+            set
+            {
+                if (this._MAADMIN != value)  // Kiểm tra nếu giá trị mới khác giá trị cũ
+                {
+                    this.OnMaAdminChanging();  // Gọi sự kiện trước khi thay đổi giá trị
+                    this._MAADMIN = value;          // Cập nhật giá trị mới
+                    this.OnMaAdminChanged("MAADMIN");        // Gọi sự kiện sau khi thay đổi giá trị
+                }
+            }
+        }
+        //-sửa
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_KhungGio", DbType = "NVarChar(50)")]
+
+        public string KhungGio
+        {
+            get { return this._KhungGio; }
+            set
+            {
+                if ((this._KhungGio != value))  // Kiểm tra nếu giá trị mới khác giá trị cũ
+                {
+                    this.OnKhungGioChanging(value);
+					this.SendPropertyChanging();// Gọi sự kiện trước khi thay đổi giá trị
+                    this._KhungGio = value;
+					this.SendPropertyChanged("KhungGio");// Cập nhật giá trị mới
+                    this.OnKhungGioChanged();        // Gọi sự kiện sau khi thay đổi giá trị
+                }
+            }
+        }
+
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TieuDe", DbType="NVarChar(70)")]
 		public string TieuDe
 		{
 			get
@@ -697,9 +781,16 @@ namespace WebsiteThuCungBento.Models
 			{
 				this._DangKyDichVus.Assign(value);
 			}
+		//sửa
 		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DichVu_ChiTietDichVu", Storage="_DichVu", ThisKey="MaDV", OtherKey="MaDV", IsForeignKey=true)]
+        [Association(Name = "FK_ChiTietDichVu_Admin", Storage = "_Admin", ThisKey = "MAADMIN", OtherKey = "MAADMIN")]
+        public EntitySet<ADMIN> Admin
+		{
+			get => this._Admin; 
+		    set => _Admin.Assign(value);
+        }
+		//-sửa
+      [global::System.Data.Linq.Mapping.AssociationAttribute(Name="DichVu_ChiTietDichVu", Storage="_DichVu", ThisKey="MaDV", OtherKey="MaDV", IsForeignKey=true)]
 		public DichVu DichVu
 		{
 			get
@@ -752,7 +843,7 @@ namespace WebsiteThuCungBento.Models
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-		
+
 		private void attach_DangKyDichVus(DangKyDichVu entity)
 		{
 			this.SendPropertyChanging();
@@ -764,7 +855,11 @@ namespace WebsiteThuCungBento.Models
 			this.SendPropertyChanging();
 			entity.ChiTietDichVu = null;
 		}
-	}
+		//sửa
+        private void attach_ADMIN(ADMIN Admin) { OnMaAdminChanging(); }
+        private void detach_ADMIN(ADMIN Admin) { OnMaAdminChanging(); }
+		//-sửa
+    }
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CHUCNANG_QUYEN")]
 	public partial class CHUCNANG_QUYEN : INotifyPropertyChanging, INotifyPropertyChanged
@@ -1135,8 +1230,11 @@ namespace WebsiteThuCungBento.Models
 		private int _MaCT;
 		
 		private System.Nullable<System.DateTime> _NgayDangKy;
-		
-		private string _Hoten;
+
+		private string _KhungGio;
+        private int? _MAADMIN;
+		private string _TENNV;
+        private string _Hoten;
 		
 		private string _SDT;
 		
@@ -1145,8 +1243,9 @@ namespace WebsiteThuCungBento.Models
 		private System.Nullable<int> _TongTien;
 		
 		private System.Nullable<int> _TinhTrang;
-		
-		private EntityRef<ChiTietDichVu> _ChiTietDichVu;
+        private EntityRef<ADMIN> _ADMIN;
+
+        private EntityRef<ChiTietDichVu> _ChiTietDichVu;
 		
 		private EntityRef<KHACHHANG> _KHACHHANG;
 		
@@ -1172,16 +1271,83 @@ namespace WebsiteThuCungBento.Models
     partial void OnTongTienChanged();
     partial void OnTinhTrangChanging(System.Nullable<int> value);
     partial void OnTinhTrangChanged();
-    #endregion
-		
-		public DangKyDichVu()
+    partial void OnKhungGioChanging(string value);
+    partial void OnKhungGioChanged();
+    partial void OnMAADMINChanging(int? value);
+    partial void OnMAADMINChanged();
+
+    partial void OnTENNVChanging(string value);
+    partial void OnTENNVChanged();
+        #endregion
+
+        public DangKyDichVu()
 		{
 			this._ChiTietDichVu = default(EntityRef<ChiTietDichVu>);
 			this._KHACHHANG = default(EntityRef<KHACHHANG>);
-			OnCreated();
+            this._ADMIN = default(EntityRef<ADMIN>);
+            OnCreated();
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoDK", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TENNV", DbType = "NVarChar(100)", CanBeNull = true)]
+        public string TENNV
+        {
+            get
+            {
+                return this._TENNV;
+            }
+            set
+            {
+                if ((this._TENNV != value))
+                {
+                    this.OnTENNVChanging(value);
+                    this.SendPropertyChanging();
+                    this._TENNV = value;
+                    this.SendPropertyChanged("TENNV");
+                    this.OnTENNVChanged();
+                }
+            }
+        }
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MAADMIN", DbType = "Int", CanBeNull = true)]
+        public int? MAADMIN
+        {
+            get
+            {
+                return this._MAADMIN;
+            }
+            set
+            {
+                if ((this._MAADMIN != value))
+                {
+                    if (this._ADMIN.HasLoadedOrAssignedValue)
+                    {
+                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+                    }
+                    this.OnMAADMINChanging(value);
+                    this.SendPropertyChanging();
+                    this._MAADMIN = value;
+                    this.SendPropertyChanged("MAADMIN");
+                    this.OnMAADMINChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_KhungGio", DbType = "NVarChar(50)", CanBeNull = true)]
+
+        public string KhungGio
+        {
+            get { return this._KhungGio; }
+            set
+            {
+                if ((this._KhungGio != value))  // Kiểm tra nếu giá trị mới khác giá trị cũ
+                {
+                    this.OnKhungGioChanging(value);
+                    this.SendPropertyChanging();// Gọi sự kiện trước khi thay đổi giá trị
+                    this._KhungGio = value;
+                    this.SendPropertyChanged("KhungGio");// Cập nhật giá trị mới
+                    this.OnKhungGioChanged();        // Gọi sự kiện sau khi thay đổi giá trị
+                }
+            }
+        }
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoDK", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int SoDK
 		{
 			get
@@ -2258,6 +2424,122 @@ namespace WebsiteThuCungBento.Models
 		}
 	}
 
+    [Table(Name = "dbo.DanhGiaDichVu")]
+    public partial class DanhGiaDichVu : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+        private static readonly PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _MaDanhGia;
+        private int? _SoDK;
+        private int _DanhGia;
+        private string _BinhLuan;
+        private DateTime _NgayDanhGia;
+        private EntitySet<DangKyDichVu> _DangKyDichVu;
+        // Constructor
+        public DanhGiaDichVu()
+        {
+            this._DangKyDichVu = new EntitySet<DangKyDichVu>(attach_DangKyDichVu, detach_DangKyDichVu);
+            OnCreated();
+        }
+
+        // Properties with change notifications
+        [Column(IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert)]
+        public int MaDanhGia
+        {
+            get => _MaDanhGia;
+            set
+            {
+                if (_MaDanhGia != value)
+                {
+                    OnPropertyChanging();
+                    _MaDanhGia = value;
+                    OnPropertyChanged(nameof(MaDanhGia));
+                }
+            }
+        }
+
+        [Column]
+        public int? SoDK
+        {
+            get => _SoDK;
+            set
+            {
+                if (_SoDK != value)
+                {
+                    OnPropertyChanging();
+                    _SoDK = value;
+                    OnPropertyChanged(nameof(SoDK));
+                }
+            }
+        }
+
+      
+        [Column]
+        public int DanhGia
+        {
+            get => _DanhGia;
+            set
+            {
+                if (_DanhGia != value)
+                {
+                    OnPropertyChanging();
+                    _DanhGia = value;
+                    OnPropertyChanged(nameof(DanhGia));
+                }
+            }
+        }
+
+        [Column]
+        public string BinhLuan
+        {
+            get => _BinhLuan;
+            set
+            {
+                if (_BinhLuan != value)
+                {
+                    OnPropertyChanging();
+                    _BinhLuan = value;
+                    OnPropertyChanged(nameof(BinhLuan));
+                }
+            }
+        }
+
+        [Column]
+        public DateTime NgayDanhGia
+        {
+            get => _NgayDanhGia;
+            set
+            {
+                if (_NgayDanhGia != value)
+                {
+                    OnPropertyChanging();
+                    _NgayDanhGia = value;
+                    OnPropertyChanged(nameof(NgayDanhGia));
+                }
+            }
+        }
+
+        // Relationship
+        [Association(Name = "FK_DangKyDichVu_DanhGiaDichVu", Storage = "_DangKyDichVu", OtherKey = "SoDK", ThisKey = "SoDK")]
+        public EntitySet<DangKyDichVu> DangKyDichVu
+        {
+            get => _DangKyDichVu;
+            set => _DangKyDichVu.Assign(value);
+        }
+
+        // Property-changing event handler for `EntitySet<SANPHAM>`
+        private void attach_DangKyDichVu(DangKyDichVu dangKyDichVu) { OnPropertyChanging(); }
+        private void detach_DangKyDichVu(DangKyDichVu dangKyDichVu) { OnPropertyChanging(); }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanging() => PropertyChanging?.Invoke(this, emptyChangingEventArgs);
+
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        partial void OnCreated(); // Partial method for any additional initialization, if needed.
+    }
 
     [Table(Name = "dbo.DANHGIA")]
     public partial class DANHGIA : INotifyPropertyChanging, INotifyPropertyChanged

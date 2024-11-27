@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebsiteThuCungBento.Models
 {
-    public class ResetPassword
+    public class ResetPasswordModels
     {
         [Display(Name = "Mật khẩu Mới:")]
         [Required(ErrorMessage = "Mật khẩu không được để trống. ")]

@@ -6,6 +6,25 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('keyup', function () {
+            var value = $(this).val().toLowerCase().trim();
+
+            if (value === "") {
+                // Nếu ô tìm kiếm trống, hiển thị lại tất cả các hàng
+                $('#serviceTable .service-row').show();
+            } else {
+                // Nếu có nhập, lọc và chỉ hiển thị hàng phù hợp
+                $('#serviceTable .service-row').each(function () {
+                    var rowText = $(this).text().toLowerCase(); // Lấy toàn bộ nội dung của dòng
+                    $(this).toggle(rowText.indexOf(value) > -1); // Hiển thị nếu khớp, ẩn nếu không
+                });
+            }
+        });
+    });
+
+</script>
 <h2 style="padding-top:10px">ĐƠN ĐẶT HÀNG</h2>
 
 @if (TempData["SuccessMessage"] != null)
@@ -22,7 +41,13 @@
         @TempData["ErrorMessage"] <span style="color: red;">✖</span>
     </div>
 }
-<table class="table">
+
+<div class="row mb-3">
+    <div class="col-md-4" style="padding-left: 26px">
+        <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm thông tin đơn đặt hàng...">
+    </div>
+</div>
+<table class="table" id="serviceTable" style="padding-right: 2px">
     <tr>
         <th>
             @Html.DisplayName("Mã ĐH")
@@ -55,7 +80,7 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="service-row">
             <td style="text-align: center">
                 @Html.DisplayFor(modelItem => item.MADH)
             </td>

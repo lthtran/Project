@@ -81,7 +81,7 @@ namespace WebsiteThuCungBento.Controllers
 
         public double ThongKeSanPham()
         {
-            double slDonHang = data.SANPHAMs.Count();
+            double slDonHang = data.LOAIs.Count();
             return slDonHang;
         }
 
@@ -169,7 +169,7 @@ namespace WebsiteThuCungBento.Controllers
             return Json(doanhThuTheoNgay.ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ThongKeSanPhamBanChayNhat(int top = 5)
+        public ActionResult ThongKeSanPhamBanChayNhat(int top=10)
         {
             var sanPhamBanChay = (from ct in data.CTDONDATHANGs
                                   group ct by ct.SANPHAM into g
@@ -213,15 +213,19 @@ namespace WebsiteThuCungBento.Controllers
         public ActionResult ThongKeSoLuongTungSanPham()
         {
             var thongKeSoLuong = from sp in data.SANPHAMs
-                                 group sp by sp.TENSP into g // Giả sử bạn có thuộc tính TENSP trong bảng SANPHAMs
+                                 join loai in data.LOAIs on sp.MALOAI equals loai.MALOAI
+                                 where sp.SOLUONG > 0 // Lọc chỉ các sản phẩm còn hàng
+                                 group sp by new { loai.MALOAI, loai.TENLOAI } into g
+                                 orderby g.Sum(x => x.SOLUONG) descending // Sắp xếp theo số lượng giảm dần
                                  select new
                                  {
-                                     TenSanPham = g.Key,
-                                     SoLuong = g.Sum(x => x.SOLUONG) // Tính tổng số lượng cho từng sản phẩm
+                                     TenLoai = g.Key.TENLOAI, // Lấy tên loại từ bảng LOAI
+                                     SoLuong = g.Sum(x => x.SOLUONG) // Tính tổng số lượng sản phẩm theo loại
                                  };
 
             return Json(thongKeSoLuong, JsonRequestBehavior.AllowGet);
         }
+
 
     }
 }

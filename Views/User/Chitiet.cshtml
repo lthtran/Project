@@ -11,13 +11,12 @@
     <div class="breadcrumb-content">
         <div class="wrapper">
             <div class="inner text-center">
-                <div class="breadcrumb-big">
-
+                @*<div class="breadcrumb-big">
                     <h2>
                         @Model.TENSP
                     </h2>
 
-                </div>
+                </div>*@
                 <div class="breadcrumb-small">
                     <a href="/" title="Quay trở về trang chủ">Trang chủ</a>
                     <span aria-hidden="true">/</span>
@@ -113,10 +112,10 @@
                                         <div class="grid__item large--two-thirds medium--two-thirds small--one-whole pd-left5">
                                             <div class="product-actions clearfix d-flex">
                                                 @if (Model.SOLUONG != 0)
-                                                {<a href="@Url.Action("ThemGiohang", "GioHang", new { @iMASP= @Model.MASP, @strURL=Request.Url.ToString() })" class="list-group-item btn-buy-now" style="background: #e35450; border: 1px solid #000000; color: #fff; padding: 5px 15px; font-size: 20px;">THÊM GIỎ HÀNG</a>}
+                                                {<a href="@Url.Action("ThemGiohang", "GioHang", new { @iMASP= @Model.MASP, @strURL=Request.Url.ToString() })" class="list-group-item btn-buy-now" style="background: #e35450; color: #fff; padding: 5px 15px; font-size: 20px;">THÊM VÀO GIỎ HÀNG</a>}
                                                 @if (Model.SOLUONG == 0)
                                                 {<a href="#" class="list-group-item btn-buy-now" style="background: #2d485a; border: 1px solid #000000; color: #fff; padding: 5px 15px; font-size: 20px;">TẠM HẾT HÀNG</a>}
-                                                <button onclick="window.open('https://youtu.be/HLlE3a0WJhs?si=hyhbsFq8aYtNjmUI', '_blank')" class="btn btn-primary" style="margin-left: 10px;">Xem Video</button>
+                                                @*<button onclick="window.open('https://youtu.be/HLlE3a0WJhs?si=hyhbsFq8aYtNjmUI', '_blank')" class="btn btn-primary" style="margin-left: 10px;">Xem Video</button>*@
 
                                             </div>
                                         </div>
@@ -134,7 +133,7 @@
 
 
                                     <div id="protab3" class="pro-tabcontent" style="display: block;">
-                                        <p></p><h2>@Model.TENSP</h2><p>@Model.MOTA</p><p>
+                                        <p>@Model.MOTA</p><p>
                                             <span class="wysiwyg-font-size-medium">
                                                 <strong><span>1. Hình ảnh sản phẩm</span></strong>
                                             </span>

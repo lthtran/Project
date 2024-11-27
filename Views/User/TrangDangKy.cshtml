@@ -1,5 +1,5 @@
 ﻿@using WebsiteThuCungBento.Models
-@model List<DangKy>
+@model List<DangKyDVModels>
 
 @{
     ViewBag.Title = "Trang Đăng Ký Dịch Vụ";
@@ -72,13 +72,36 @@
                                             </div>
                                         </div>
                                         <div class="underline"></div>
+                                        @if (!string.IsNullOrEmpty(@item.iKHUNGGIO?.ToString()))
+                                        {
+                                            <div class="wrapText">
+                                                <p class="text1">Khung giờ</p>
+                                                <p class="text2" id="KhungGio" KhungGio="@item.iKHUNGGIO">
+                                                    @item.iKHUNGGIO <!-- Hiển thị giá trị khung giờ -->
+                                                </p>
+                                            </div>
+                                        }
+
+
+                                        @if (!string.IsNullOrEmpty(item.iTENNV?.ToString()))
+                                        {
+                                            <div class="underline"></div>
+                                            <div class="wrapText">
+                                                <p class="text1">Nhân viên</p>
+                                                <p class="text2" id="MAADMIN" MAADMIN="@item.iMAADMIN">
+                                                    @item.iTENNV <!-- Hiển thị giá trị khung giờ -->
+                                                </p>
+                                            </div>
+                                        }
+    
+
                                         <div class="wrapText">
                                             <p class="text1">Tổng tiền tạm tính</p>
                                             <p class="text2" id="price_total" price_total="@item.iTONGTIEN">@String.Format("{0:0,0}", item.iTONGTIEN)đ</p>
                                         </div>
                                         <div class="wrapText">
                                             <p class="text1">Phí vận chuyển</p>
-                                            <p class="text2">(Chưa bao gồm phí vận chuyển)</p>
+                                            <p class="text2">0đ</p>
                                         </div>
                                         <div class="underline"></div>
                                         <div class="wrapText price_total">

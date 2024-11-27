@@ -7,7 +7,7 @@ using System.Web;
 
 namespace WebsiteThuCungBento.Models
 {
-    public class MahoaMD5
+    public class MahoaMD5Models
     {
         public static String GetMD5(String password)
         {

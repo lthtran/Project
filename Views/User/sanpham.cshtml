@@ -1,5 +1,5 @@
 ﻿@using PagedList.Mvc;
-@model PagedList.IPagedList<WebsiteThuCungBento.Models.ProductViewModel>
+@model PagedList.IPagedList<WebsiteThuCungBento.Models.ProductViewModels>
 @{
     ViewBag.Title = "Tất cả Thú Cưng ";
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
@@ -93,8 +93,8 @@
                                             </div>
                                         </a>
                                         <a href="@Url.Action("Chitiet", "User", new { id = i.MASP })" style="color: #cd5c5c;">
-                                            <div class="textPart" style="color: #cd5c5c;">
-                                                <p class="titleProduct" title="@i.TENSP" style=" color: #f0ffff; font-weight: bold; font-size: 25px; text-shadow: 1px 1px 0 blue, -1px -1px 0 blue, 1px -1px 0 blue, -1px 1px 0 blue;">@i.TENSP</p>
+                                            <div class="textPart" style="color: black;">
+                                                <p class="titleProduct" title="@i.TENSP" style=" color: #000000; font-weight: bold; font-size: 20px;">@i.TENSP</p>
                                             </div>
                                         </a>
                                         <div class="btnAddCart">

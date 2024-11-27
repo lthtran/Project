@@ -1,0 +1,161 @@
+﻿@model WebsiteThuCungBento.Models.DanhGiaDVModels
+
+@{
+    ViewBag.Title = "XemDanhGia";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<h2>XemDanhGia</h2>
+<!-- Modal xem đánh giá -->
+<div class="modal fade" id="viewRatingModal" tabindex="-1" role="dialog" aria-labelledby="viewRatingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="viewRatingModalLabel">CHI TIẾT ĐÁNH GIÁ</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="font-weight-bold">Chất lượng dịch vụ:</label>
+                    <div class="rating-stars text-center view-only">
+                        <!-- Stars will be filled by JavaScript -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Bình luận:</label>
+                    <div id="viewComment" class="border p-3 rounded"></div>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Ngày đánh giá:</label>
+                    <div id="viewDate" class="text-muted"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .view-only .star {
+        cursor: default;
+        pointer-events: none;
+    }
+
+    #viewComment {
+        background-color: #f8f9fa;
+        min-height: 100px;
+    }
+</style>
+<script>
+function viewRating(id) {
+    $.ajax({
+        url: '@Url.Action("XemDanhGia", "User")',
+        method: 'GET',
+        data: { id: id },
+        success: function (response) {
+            if (response.Success) {
+                // Hiển thị đánh giá sao
+                $('.view-only').empty();
+                for (let i = 1; i <= 5; i++) {
+                    let star = $('<span class="star">★</span>');
+                    if (i <= response.Data.DanhGia) {
+                        star.addClass('selected');
+                    }
+                    $('.view-only').append(star);
+                }
+
+                // Hiển thị bình luận và ngày đánh giá
+                $('#viewComment').text(response.Data.BinhLuan);
+                $('#viewDate').text(new Date(response.Data.NgayDanhGia).toLocaleDateString('vi-VN'));
+
+                $('#viewRatingModal').modal('show');
+            } else {
+                alert(response.Message);
+            }
+        },
+        error: function () {
+            alert('Có lỗi xảy ra khi tải đánh giá!');
+        }
+    });
+}
+    $(document).ready(function () {
+
+        function showRatingModal(id) {
+            $('#SoDK').val(id);
+            resetRatingForm();
+            $('#ratingModal').modal('show');
+        }
+
+        function viewRating(id) {
+            $.ajax({
+                url: '@Url.Action("XemDanhGia", "User")',
+                method: 'GET',
+                data: { id: id },
+                success: function (response) {
+                    if (response.Success) {
+                        // Hiển thị đánh giá sao
+                        $('.view-only').empty();
+                        for (let i = 1; i <= 5; i++) {
+                            let star = $('<span class="star">★</span>');
+                            if (i <= response.Data.DanhGia) {
+                                star.addClass('selected');
+                            }
+                            $('.view-only').append(star);
+                        }
+
+                        // Hiển thị bình luận và ngày đánh giá
+                        $('#viewComment').text(response.Data.BinhLuan);
+                        $('#viewDate').text(new Date(response.Data.NgayDanhGia).toLocaleDateString('vi-VN'));
+
+                        $('#viewRatingModal').modal('show');
+                    } else {
+                        alert(response.Message);
+                    }
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi tải đánh giá!');
+                }
+            });
+        }
+
+        function resetRatingForm() {
+            $('#DanhGia').val(0);
+            $('#BinhLuan').val('');
+            $('.star').removeClass('selected hovered');
+            $('#starMessage').hide();
+        }
+
+        // Xử lý submit form đánh giá
+        $('#ratingForm').submit(function (e) {
+            e.preventDefault();
+            if ($('#DanhGia').val() == 0) {
+                alert('Vui lòng chọn số sao đánh giá!');
+                return;
+            }
+            var soDK = $(this).find('#SoDK').val(); // Lấy giá trị SoDK từ input ẩn
+            var danhGia = $(this).find('input[name="DanhGia"]').val(); // Lấy giá trị từ input đánh giá
+            var binhLuan = $(this).find('textarea[name="BinhLuan"]').val(); // Lấy giá trị từ textarea
+            var myModal = new bootstrap.Modal(document.getElementById('ratingModal'));
+            $.ajax({
+                url: '@Url.Action("Danhgiadichvu", "User")',
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.Success) {
+                        alert(response.Message);
+                        window.location.reload();
+                    } else {
+                        alert(response.Message);
+                    }
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi gửi đánh giá!');
+                }
+            });
+        });
+    });
+</script>
+

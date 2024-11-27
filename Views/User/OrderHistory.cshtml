@@ -4,6 +4,27 @@
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('keyup', function () {
+            var value = $(this).val().toLowerCase().trim();
+
+            if (value === "") {
+                // Nếu ô tìm kiếm trống, hiển thị lại tất cả các hàng
+                $('#serviceTable .service-row').show();
+            } else {
+                // Nếu có nhập, lọc và chỉ hiển thị hàng phù hợp
+                $('#serviceTable .service-row').each(function () {
+                    var rowText = $(this).text().toLowerCase(); // Lấy toàn bộ nội dung của dòng
+                    $(this).toggle(rowText.indexOf(value) > -1); // Hiển thị nếu khớp, ẩn nếu không
+                });
+            }
+        });
+    });
+
+</script>
 <h2>Lịch Sử Đơn Hàng</h2>
 
 @if (Model.Count() == 0)
@@ -12,7 +33,12 @@
 }
 else
 {
-    <table class="table table-bordered container">
+    <div class="row mb-3" style="padding-left: 153px">
+        <div class="col-md-4">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm...">
+        </div>
+    </div>
+    <table class="table table-bordered container" id="serviceTable">
         <thead>
             <tr>
                 <th>Mã Đơn Hàng</th>
@@ -27,7 +53,7 @@ else
         <tbody>
             @foreach (var order in Model)
             {
-                <tr>
+                <tr class="service-row">
                     <td>@order.MADH</td>
                     <td>@order.NGAYDAT.ToString("dd/MM/yyyy")</td>
                     @{
@@ -60,18 +86,18 @@ else
                     {
                         <td>Chưa thanh toán <span style="color: red;">✖</span></td>
                     }
-                    @if(order.TINHTRANGDH == false)
+                    @if (order.TINHTRANGDH == false)
                     {
                         <td>Đang chờ xác nhận</td>
-                        
+
                     }
                     else
                     {
-                        if(order.DATHANHTOAN == true)
-                        { 
-                        <td>
-                            Đã giao thành công  <span style="color: green;">✔</span>
-                        </td>
+                        if (order.DATHANHTOAN == true)
+                        {
+                            <td>
+                                Đã giao thành công  <span style="color: green;">✔</span>
+                            </td>
                         }
                         else
                         {

@@ -53,7 +53,7 @@
         <!-- Thống kê số lượng sản phẩm -->
         <div class="col-md-6" style="margin-left: 10px; margin-top: 50px;">
             <div class="container-fluid" style="margin-bottom: 0px; padding-bottom: 0px; height: 400px; width: 1348px;">
-                <h3>Thống kê số lượng từng sản phẩm</h3>
+                <h3>Thống kê số lượng sản phẩm theo loại</h3>
                 <canvas id="productQuantityChart" width="1024" height="500"></canvas>
             </div>
         </div>
@@ -98,9 +98,9 @@
 
                 <!-- Select box cho năm -->
                 <select id="selectYear" onchange="updateChart()">
-                    <option value="2022">Năm 2022</option>
-                    <option value="2023">Năm 2023</option>
-                    <option value="2024">Năm 2024</option>
+                    <option value="2022">Năm 2023</option>
+                    <option value="2023">Năm 2024</option>
+                    <option value="2024">Năm 2025</option>
                 </select>
 
                 <!-- Vùng biểu đồ -->
@@ -145,7 +145,7 @@
                         datasets: [{
                             label: 'Số lần mua hàng',
                             data: purchaseCounts,
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            backgroundColor: 'rgba(77, 210, 222, 0.6)',
                             borderColor: 'rgba(75, 192, 192, 1)',
                             borderWidth: 1
                         }]
@@ -290,7 +290,7 @@
                         datasets: [{
                             label: 'Số lượng bán',
                             data: soLuongBan,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu nền
+                            backgroundColor: 'rgba(183, 255, 235, 0.2)', // Màu nền
                             borderColor: 'rgba(75, 192, 192, 1)', // Màu viền
                             borderWidth: 1
                         }]
@@ -566,7 +566,7 @@ $(document).ready(function () {
                 var values = [];
 
                 data.forEach(function (item) {
-                    labels.push(item.TenSanPham); // Thêm tên sản phẩm vào labels
+                    labels.push(item.TenLoai); // Thêm tên sản phẩm vào labels
                     values.push(item.SoLuong); // Thêm số lượng vào values
                 });
 

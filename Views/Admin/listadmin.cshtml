@@ -1,177 +1,258 @@
 ﻿@model IEnumerable<WebsiteThuCungBento.Models.ADMIN>
 
-    @{
-        ViewBag.Title = "Trang quản lý Admin";
-        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    }
-
-    <h2>TRANG QUẢN LÝ ADMIN</h2>
-
-    <h5 style="width:100%; padding-top:20px">
-        <u>
-            <i class="fas fa-plus-circle" style="margin-left:20px; font-size: 20px;"></i>
-            @Html.ActionLink("THÊM TÀI KHOẢN QUẢN TRỊ", "Create")
-        </u>
-    </h5>
-
-    <table class="table">
-        <tr>
-            <th>
-                Họ tên
-            </th>
-            <th>
-                Địa chỉ
-            </th>
-            <th>
-                Số điện thoại
-            </th>
-            <th>
-                Loại tài khoản
-            </th>
-            <th>
-                Tên đăng nhập
-            </th>
-            <th>
-                Hình ảnh
-            </th>
-            <th>
-                Email
-            </th>
-            <th>
-                Hành động
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HOTEN)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DIACHI)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DIENTHOAI)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TENLOAI)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TENDN)
-                </td>
-                <td>
-                    <img src="@Url.Content("~/img/" + item.AVATAR)" height="100" width="100" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EMAIL)
-                </td>
-                <td>
-                    @Html.ActionLink("Sửa", "Edit", new { id = item.MAADMIN }) |
-                    @Html.ActionLink("Xóa", "Delete", new { id = item.MAADMIN })
-                </td>
-            </tr>
-        }
-
-    </table>
-@*
-@model IEnumerable<WebsiteThuCungBento.Models.ADMIN>
-
 @{
-    ViewBag.Title = "Admin Management";
+    ViewBag.Title = "Trang quản lý Admin";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="container mt-5">
-    <h2 class="mb-4">Admin Management</h2>
+<h2>TRANG QUẢN LÝ ADMIN</h2>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="text-muted">
-            <i class="fas fa-plus-circle" style="font-size: 20px;"></i>
-            @Html.ActionLink("Add New Admin", "Create", null, new { @class = "btn btn-primary" })
-        </h5>
-    </div>
+<h5 style="width:100%; padding-top:20px">
+    <u>
+        <i class="fas fa-plus-circle" style="margin-left:20px; font-size: 20px;"></i>
+        @Html.ActionLink("THÊM TÀI KHOẢN QUẢN TRỊ", "Create")
+    </u>
+</h5>
 
-    <div class="table-responsive">
-        <table class="table table-hover table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th>Account Type</th>
-                    <th>Username</th>
-                    <th>Avatar</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.HOTEN)</td>
-                        <td>@Html.DisplayFor(modelItem => item.DIACHI)</td>
-                        <td>@Html.DisplayFor(modelItem => item.DIENTHOAI)</td>
-                        <td>@Html.DisplayFor(modelItem => item.TENLOAI)</td>
-                        <td>@Html.DisplayFor(modelItem => item.TENDN)</td>
-                        <td>
-                            <img src="@Url.Content("~/img/" + item.AVATAR)" alt="Avatar" class="rounded-circle" height="60" width="60" />
-                        </td>
-                        <td>@Html.DisplayFor(modelItem => item.EMAIL)</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#editAdminModal_@item.MAADMIN">Edit</a>
-                            <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteAdminModal_@item.MAADMIN">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+<table class="table">
+    <tr>
+        <th>
+            Họ tên
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Loại tài khoản
+        </th>
+        <th>
+            Tên đăng nhập
+        </th>
+        <th>
+            Hình ảnh
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Hành động
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HOTEN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DIACHI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DIENTHOAI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TENLOAI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TENDN)
+            </td>
+            <td>
+                <img src="@Url.Content("~/img/" + item.AVATAR)" height="100" width="100" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EMAIL)
+            </td>
+            <td>
+                @*@Html.ActionLink("Sửa", "Edit", new { id = item.MAADMIN })
+                @Html.ActionLink("Xóa", "Delete", new { id = item.MAADMIN })*@
+                @Html.ActionLink("Sửa", "Edit", new { id = item.MAADMIN }) |
+                <a href="javascript:void(0);" class="btn-delete" data-id="@item.MAADMIN">Xóa</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Xóa Quản Trị Viên</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa quản trị viên sau?</p>
+                <p><strong>Mã Quản Trị Viên:</strong> <span id="adminId"></span></p>
+                <p><strong>Tên Nhân Viên:</strong> <span id="adminName"></span></p>
+                <p><strong>Số Điện Thoại:</strong> <span id="adminPhone"></span></p>
+                <p><strong>Địa Chỉ:</strong> <span id="adminAddress"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Xóa</button>
+            </div>
+        </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        var deleteId = null;
 
-<!-- Example modal structure for Edit and Delete -->
-@foreach (var item in Model)
-{
-    <!-- Edit Modal -->
-    <div class="modal fade" id="editAdminModal_@item.MAADMIN" tabindex="-1" role="dialog" aria-labelledby="editAdminLabel_@item.MAADMIN" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editAdminLabel_@item.MAADMIN">Edit Admin</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Add Edit form content here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
+        // Xử lý khi nhấn nút xóa
+        $(".btn-delete").on("click", function () {
+            deleteId = $(this).data("id");
+
+            // Gọi API để lấy thông tin chi tiết
+            $.ajax({
+                url: '/Admin/GetAdminDetails',
+                type: 'GET',
+                data: { id: deleteId },
+                success: function (response) {
+                    if (response.success) {
+                        // Hiển thị thông tin lên modal
+                        $("#adminId").text(response.admin.MAADMIN);
+                        $("#adminName").text(response.admin.TENDN);
+                        $("#adminPhone").text(response.admin.DIENTHOAI);
+                        $("#adminAddress").text(response.admin.DIACHI);
+                        $("#deleteModal").modal("show");
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi lấy thông tin quản trị viên.");
+                }
+            });
+        });
+        $("#confirmDelete").on("click", function () {
+            if (deleteId) {
+                $.ajax({
+                    url: '/Admin/Delete', // Gửi yêu cầu xóa
+                    type: 'POST',
+                    data: { id: deleteId },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message); // Hiển thị thông báo từ server
+                            location.reload(); // Tải lại trang nếu thành công
+                        } else {
+                            alert(response.message); // Hiển thị lỗi từ server
+                        }
+                    },
+                    error: function () {
+                        alert("Có lỗi xảy ra khi gửi yêu cầu xóa.");
+                    }
+                });
+                $("#deleteModal").modal("hide"); // Ẩn modal sau khi gửi yêu cầu
+            }
+        });
+    });
+</script>
+
+@*
+    @model IEnumerable<WebsiteThuCungBento.Models.ADMIN>
+
+    @{
+        ViewBag.Title = "Admin Management";
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Admin Management</h2>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="text-muted">
+                <i class="fas fa-plus-circle" style="font-size: 20px;"></i>
+                @Html.ActionLink("Add New Admin", "Create", null, new { @class = "btn btn-primary" })
+            </h5>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Account Type</th>
+                        <th>Username</th>
+                        <th>Avatar</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.HOTEN)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DIACHI)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DIENTHOAI)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TENLOAI)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TENDN)</td>
+                            <td>
+                                <img src="@Url.Content("~/img/" + item.AVATAR)" alt="Avatar" class="rounded-circle" height="60" width="60" />
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.EMAIL)</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#editAdminModal_@item.MAADMIN">Edit</a>
+                                <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteAdminModal_@item.MAADMIN">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <!-- Delete Modal -->
-    <div class="modal fade" id="deleteAdminModal_@item.MAADMIN" tabindex="-1" role="dialog" aria-labelledby="deleteAdminLabel_@item.MAADMIN" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteAdminLabel_@item.MAADMIN">Delete Admin</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this admin?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.MAADMIN }, new { @class = "btn btn-danger" })
+    <!-- Example modal structure for Edit and Delete -->
+    @foreach (var item in Model)
+    {
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editAdminModal_@item.MAADMIN" tabindex="-1" role="dialog" aria-labelledby="editAdminLabel_@item.MAADMIN" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editAdminLabel_@item.MAADMIN">Edit Admin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Add Edit form content here -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-}*@
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteAdminModal_@item.MAADMIN" tabindex="-1" role="dialog" aria-labelledby="deleteAdminLabel_@item.MAADMIN" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteAdminLabel_@item.MAADMIN">Delete Admin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this admin?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MAADMIN }, new { @class = "btn btn-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }*@

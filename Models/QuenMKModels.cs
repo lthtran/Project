@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebsiteThuCungBento.Models
 {
-    public class QuenMKModel
+    public class QuenMKModels
     {
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }

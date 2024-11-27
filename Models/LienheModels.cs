@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebsiteThuCungBento.Models
 {
-    public class LienheModel
+    public class LienheModels
     {
         DataClassesDataContext data = new DataClassesDataContext();
 

@@ -33,7 +33,7 @@ namespace WebsiteThuCungBento.Controllers
         //    _vnPayService = vnPayService;
         //}
 
-        public List<Giohang> Laygiohang()
+        public List<GiohangModels> Laygiohang()
         {
             string userId = ""; // Default in case user is not logged in
 
@@ -46,18 +46,18 @@ namespace WebsiteThuCungBento.Controllers
 
             // Retrieve cart cookie for the specific user
             HttpCookie cartCookie = Request.Cookies["Giohang_" + userId];
-            List<Giohang> dsGiohang = new List<Giohang>();
+            List<GiohangModels> dsGiohang = new List<GiohangModels>();
 
             if (cartCookie != null && !string.IsNullOrEmpty(cartCookie.Value))
             {
                 string json = Server.UrlDecode(cartCookie.Value);
                 var serializer = new JavaScriptSerializer();
-                dsGiohang = serializer.Deserialize<List<Giohang>>(json);
+                dsGiohang = serializer.Deserialize<List<GiohangModels>>(json);
             }
 
             if (dsGiohang == null || dsGiohang.Count == 0)
             {
-                dsGiohang = new List<Giohang>();
+                dsGiohang = new List<GiohangModels>();
             }
 
             return dsGiohang;
@@ -86,12 +86,12 @@ namespace WebsiteThuCungBento.Controllers
 
         public ActionResult ThemGiohang(int iMASP, string strURL)
         {
-            List<Giohang> dsGiohang = Laygiohang();
-            Giohang sanpham = dsGiohang.Find(n => n.iMASP == iMASP);
+            List<GiohangModels> dsGiohang = Laygiohang();
+            GiohangModels sanpham = dsGiohang.Find(n => n.iMASP == iMASP);
             if(Session["Taikhoan"] != null){
                 if (sanpham == null)
                 {
-                    sanpham = new Giohang(iMASP);
+                    sanpham = new GiohangModels(iMASP);
                     dsGiohang.Add(sanpham);
                 }
                 else
@@ -108,7 +108,7 @@ namespace WebsiteThuCungBento.Controllers
             return Redirect(strURL);
         }
 
-        private void SaveCartCookie(List<Giohang> dsGiohang)
+        private void SaveCartCookie(List<GiohangModels> dsGiohang)
         {
             string userId = ""; // Default in case user is not logged in
 
@@ -135,7 +135,7 @@ namespace WebsiteThuCungBento.Controllers
         //Xay dung trang Gio hang
         public ActionResult GioHang()
         {
-            List<Giohang> dsGiohang = Laygiohang();
+            List<GiohangModels> dsGiohang = Laygiohang();
             if (dsGiohang.Count == 0)
             {
                 return RedirectToAction("Index", "User");
@@ -155,7 +155,7 @@ namespace WebsiteThuCungBento.Controllers
         //    }
         //    return iTongSoLuong;
         //}
-        private int TongSoLuong(List<Giohang> dsGiohang)
+        private int TongSoLuong(List<GiohangModels> dsGiohang)
         {
             int iTongSoLuong = 0;
 
@@ -180,7 +180,7 @@ namespace WebsiteThuCungBento.Controllers
         //    return iTongTien;
         //}
 
-        private double TongTien(List<Giohang> dsGiohang)
+        private double TongTien(List<GiohangModels> dsGiohang)
         {
             double iTongTien = 0;
 
@@ -196,7 +196,7 @@ namespace WebsiteThuCungBento.Controllers
         //Tao Partial view de hien thi thong tin gio hang
         public ActionResult GiohangPartial()
         {
-            List<Giohang> dsGiohang = Laygiohang();
+            List<GiohangModels> dsGiohang = Laygiohang();
             ViewBag.Tongsoluong = TongSoLuong(dsGiohang);
             ViewBag.Tongtien = TongTien(dsGiohang);
             return PartialView();
@@ -205,8 +205,8 @@ namespace WebsiteThuCungBento.Controllers
         //Cap nhat Giỏ hàng
         public ActionResult CapnhatGiohang(int iMaSP, FormCollection f)
         {
-            List<Giohang> dsGiohang = Laygiohang();
-            Giohang sanpham = dsGiohang.SingleOrDefault(n => n.iMASP == iMaSP);
+            List<GiohangModels> dsGiohang = Laygiohang();
+            GiohangModels sanpham = dsGiohang.SingleOrDefault(n => n.iMASP == iMaSP);
             if (sanpham != null)
             {
                 sanpham.iSOLUONG = int.Parse(f["txtSoluong"].ToString());
@@ -233,8 +233,8 @@ namespace WebsiteThuCungBento.Controllers
 
         public ActionResult XoaGiohang(int iMaSP)
         {
-            List<Giohang> dsGiohang = Laygiohang();
-            Giohang sanpham = dsGiohang.SingleOrDefault(n => n.iMASP == iMaSP);
+            List<GiohangModels> dsGiohang = Laygiohang();
+            GiohangModels sanpham = dsGiohang.SingleOrDefault(n => n.iMASP == iMaSP);
 
             if (sanpham != null)
             {
@@ -286,7 +286,7 @@ namespace WebsiteThuCungBento.Controllers
                 Session["ReturnUrl"] = Url.Action("DatHang");
                 return RedirectToAction("Dangnhap", "User");
             }
-            List<Giohang> lstGiohang = Laygiohang();
+            List<GiohangModels> lstGiohang = Laygiohang();
 
             //if (Session["Giohang"] == null)
             //{
@@ -369,7 +369,7 @@ namespace WebsiteThuCungBento.Controllers
         {
             DONDATHANG ddh = new DONDATHANG();
             KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
-            List<Giohang> gh = Laygiohang();
+            List<GiohangModels> gh = Laygiohang();
 
             if (gh == null || gh.Count == 0)
             {

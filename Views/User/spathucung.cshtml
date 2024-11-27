@@ -4,12 +4,112 @@
     ViewBag.Title = "Spa Thú Cưng";
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
+<style>
+    /* CSS styling for the notification */
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #f44336; /* Màu đỏ cho thông báo lỗi */
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Time slots styling */
+    .time-slots {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 12px;
+        margin: 5px 0;
+    }
+
+    .time-slot {
+        padding: 5px;
+        border: 1px solid #ffbf00;
+        border-radius: 12px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .time-slot:hover {
+            background-color: #f0f0f0;
+        }
+
+        .time-slot.active, .time-slot.selected {
+            background-color: #ffbf00 !important;
+            color: #fff;
+            border-color: #ffbf00;
+        }
+</style>
+<div id="notification" class="notification" style="display: none;">
+</div>
+<script>
+    // Truyền giá trị TempData["ErrorMessage"] vào JavaScript
+    var errorMessage = "@TempData["ErrorMessage"]";
+
+    if (errorMessage && errorMessage !== "null") {
+        // Gán nội dung và hiển thị notification
+        document.getElementById("notification").textContent = errorMessage;
+        document.getElementById("notification").style.display = "block";
+
+        // Tự động ẩn sau 3 giây
+        setTimeout(function () {
+            document.getElementById("notification").style.display = "none";
+        }, 9000);
+    }
+</script>
+
+<style>
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #f44336;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        font-family: Arial, sans-serif;
+    }
+</style>
+<script>
+    // Lấy giá trị TempData["ErrorMessage"] và chuyển sang chuỗi JavaScript
+    var errorMessage = "@(TempData["ErrorMessage"] ?? "")"; // Sử dụng ?? để đảm bảo giá trị không bị null
+
+    // Hàm để giải mã các ký tự HTML thành văn bản
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
+    // Kiểm tra nếu errorMessage có giá trị, thì hiển thị notification
+    if (errorMessage) {
+        // Giải mã ký tự HTML trong errorMessage
+        var decodedMessage = decodeHtml(errorMessage);
+
+        // Gán nội dung đã giải mã và hiển thị notification
+        document.getElementById("notification").textContent = decodedMessage;
+        document.getElementById("notification").style.display = "block";
+
+        // Tự động ẩn sau 9 giây
+        setTimeout(function () {
+            document.getElementById("notification").style.display = "none";
+        }, 9000);
+    }
+</script>
 
 <div class="container-fluid wrapGeneralBig" id="LP_Fagopet_Spa">
     <div class="fagopetSP_10" id="sectionLPSpa_1">
         <div class="area_1">
             <div class="container">
-                <h1 class="titleBlock">Dịch vụ Spa cho Chó Mèo tại fago pet</h1>
+                <h1 class="titleBlock">Dịch vụ Spa cho Chó Mèo</h1>
             </div>
         </div>
         <div class="area_2">
@@ -37,19 +137,20 @@
                                 {
                                     <p class="dotText">@combo</p>
                                 }
+
                                 <div class="giftBlock">
                                     <p class="giftText">Chải - Tỉa gọn lông mặt tay chân</p>
                                 </div>
-                                <div class="underline"></div>
+
                                 <div class="fagopetSP_9">
                                     <div class="selectBlock">
-                                        <p class="text_1">CÂN NĂNG CỦA BÉ</p>
+                                        <p class="text_1">CÂN NẶNG CỦA BÉ</p>
                                         <div class="wrapFlex">
                                             @foreach (var listctspa in Model.listCTDV)
                                             {
                                                 if (listctspa.MaDV == listspa.MaDV)
                                                 {
-                                                    <p class="typePet" serviceid="@listctspa.MaCT" priceroom="@listctspa.DonGia" priceformat="@String.Format("{0:0,0}", listctspa.DonGia)Đ" typeroom="@listctspa.DichVu.TenDV">@listctspa.DieuKien</p>
+                                                    <p class="typePet" khunggio="@listctspa.KhungGio" serviceid="@listctspa.MaCT" priceroom="@listctspa.DonGia" priceformat="@String.Format("{0:0,0}", listctspa.DonGia)Đ" typeroom="@listctspa.DichVu.TenDV">@listctspa.DieuKien</p>
                                                 }
                                             }
                                         </div>
@@ -60,6 +161,38 @@
                         <div class="priceBlock">
                             <p class="priceText data_booking" id="price_service"></p>
                         </div>
+
+                        <label style="margin-top: 10px; font-size: 18px; color: #ffbf00; font-weight: 150;">CHỌN KHUNG GIỜ</label>
+                        <div class="time-slots btn-group" role="group" aria-label="Khung Giờ">
+                            <button type="button" class="time-slot" data-khunggio="08:00 - 09:00" onclick="selectKhungGio(this)">08:00 - 09:00</button>
+                            <button type="button" class="time-slot" data-khunggio="09:00 - 10:00" onclick="selectKhungGio(this)">09:00 - 10:00</button>
+                            <button type="button" class="time-slot" data-khunggio="10:00 - 11:00" onclick="selectKhungGio(this)">10:00 - 11:00</button>
+                            <button type="button" class="time-slot" data-khunggio="12:00 - 13:00" onclick="selectKhungGio(this)">12:00 - 13:00</button>
+                            <button type="button" class="time-slot" data-khunggio="13:00 - 14:00" onclick="selectKhungGio(this)">13:00 - 14:00</button>
+                            <button type="button" class="time-slot" data-khunggio="14:00 - 15:00" onclick="selectKhungGio(this)">14:00 - 15:00</button>
+                            <button type="button" class="time-slot" data-khunggio="15:00 - 16:00" onclick="selectKhungGio(this)">15:00 - 16:00</button>
+                            <button type="button" class="time-slot" data-khunggio="16:00 - 17:00" onclick="selectKhungGio(this)">16:00 - 17:00</button>
+                        </div>
+                        <input type="hidden" name="KhungGio" id="KhungGio" required />
+                        <!-- Thông báo -->
+                        <div id="notification"></div>
+                        <div class="form-group">
+                            <label style="margin-top: 10px; font-size: 18px; color: #ffbf00; font-weight: 150;" for="MAADMIN">Người Phụ Trách</label>
+                            <select class="form-control" id="MAADMIN" name="MAADMIN" required>
+                                <option value="">Chọn Nhân Viên Phụ Trách</option>
+                                @if (Model.ADMINs != null && Model.ADMINs.Any())
+                                {
+                                    foreach (var admin in Model.ADMINs) // Giả sử bạn đã truyền danh sách admin vào model
+                                    {
+                                        if (@admin.HOTEN != "ADMIN")
+                                        {
+
+                                            <option value="@admin.MAADMIN">@admin.HOTEN</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
                         <div class="btnOrder">
                             <button class="btnType_2 Desktop_1 btn-booking1 submit-direct-order spa-cho-meo" type="submit" data_type="booking" object_name="Order">Đặt dịch vụ ngay</button>
                         </div>
@@ -69,7 +202,7 @@
                         serviceblock = document.getElementsByClassName('serviceBlock');
                         typepet = document.getElementsByClassName('typePet');
                         var serviceid = document.getElementById("serviceid");
-
+                        var KhungGio = document.getElementById("KhungGio").value;
                         for (var i = 0; i < articles.length; i++) {
                             articles[i].addEventListener('click', redirect, false);
                         }
@@ -103,6 +236,21 @@
                             this.classList.add('active');
                             document.getElementById("price_service").innerHTML = this.getAttribute('priceformat');
                             serviceid.value = this.getAttribute('serviceid');
+
+                        }
+                        function selectKhungGio(button) {
+                            // Get the time value from the clicked button
+                            var khunggio = button.getAttribute('data-khunggio');
+
+                            // Set the value of the hidden input field
+                            document.getElementById('KhungGio').value = khunggio;
+
+                            // Optionally, you can change the button's style to indicate selection
+                            var buttons = document.querySelectorAll('.btn-group .btn');
+                            buttons.forEach(function (btn) {
+                                btn.classList.remove('active');
+                            });
+                            button.classList.add('active');
                         }
                     </script>
                 </div>
@@ -261,10 +409,10 @@
         </div>
     </div>
     @*<a class="specialBlock_11" data-target="#popup_registration_1" data-toggle="modal" id="sectionLPSpa_3">
-        <picture>
-            <img alt="fagopet" src="~/images/img_7.png">
-        </picture>
-    </a>*@
+            <picture>
+                <img alt="fagopet" src="~/images/img_7.png">
+            </picture>
+        </a>*@
     <div class="fagopetSP_12 generalPD" id="sectionLPSpa_4">
         <div class="container">
             <div class="titleBlock_6">
@@ -316,102 +464,6 @@
                     </div>
                 </div>
             </div>
-            @*<div class="btnContact">
-                <a class="btnFGP_1 contactCallPopUp" contacttext="Gọi điện" data-target="#popup_registration_5" data-toggle="modal" datahref="tel:0929894774" idgoogleget="btn_phone_id">
-                    <p class="btnText">Liên hệ tư vấn</p>
-                </a>
-            </div>*@
         </div>
     </div>
-    @*<div class="fagopetSP_15 bgSole" id="sectionLPSpa_7">
-        <div class="container">
-            <div class="row rowFix d-flex">
-                <div class="smallBlock smallBlock_1">
-                    <div class="titleBlock_3">
-                        <p class="titleText_1">Đội ngũ</p>
-                        <div class="underline"></div>
-                        <h2 class="titleText_2 marBot_0" style="color: #000000;">Đội ngũ Groomer của dịch vụ Grooming Spa cho Chó Mèo</h2>
-                    </div>
-                    <div class="content">
-                        <p class="text">Dịch vụ spa chó mèo, thú cưng có lượng nhu cầu ngày càng lớn.</p>
-                    </div>
-                    <div class="btnViewAll">
-                        <a class="btnType_2">XEM TẤT CẢ</a>
-                    </div>
-                </div>
-                <div class="smallBlock smallBlock_2">
-                    <div class="wrapBox">
-                        <div class="wrapImgPart">
-                            <div class="imgStaff">
-                                <img alt="fagopet" src="~/images/staff_1.png">
-                            </div>
-                        </div>
-                        <div class="textPart">
-                            <p class="text_1">CEO</p>
-                            <p class="text_2">Hoàng Tiến Cường</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="smallBlock smallBlock_2">
-                    <div class="wrapBox">
-                        <div class="wrapImgPart">
-                            <div class="imgStaff">
-                                <img alt="fagopet" src="~/images/staff_2.png">
-                            </div>
-                        </div>
-                        <div class="textPart">
-                            <p class="text_1">Groomer</p>
-                            <p class="text_2">Vũ Duy Hoàng</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="smallBlock smallBlock_2">
-                    <div class="wrapBoxf">
-                        <div class="wrapImgPart">
-                            <div class="imgStaff">
-                                <img alt="fagopet" src="~/images/staff_3.spng">
-                            </div>
-                        </div>
-                        <div class="textPart">
-                            <p class="text_1">SEO</p>
-                            <p class="text_2">Bùi Đức Nam</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
-    <div class="fagopetSP_16" id="sectionLPSpa_8">
-        <div class="container">
-            <div class="row rowFix d-flex">
-                <div class="rightBlock">
-                    <div class="titleBlock_3">
-                        <p class="titleText_1">Phản hồi từ khách hàng</p>
-                        <div class="underline"></div>
-                        <h2 class="titleText_2" style="color: #0c2333;">Khách hàng nói về dịch vụ Grooming spa cho chó mèo của Fago Pet</h2>
-                    </div>
-                    <div class="smallBlock">
-                        <div class="area_1">
-                            <div class="imgPart">
-                                <img alt="fagopet" src="~/images/cus_1.png">
-                            </div>
-                            <div class="textPart">
-                                <p class="text_1">Bạn Trần Ngọc Minh</p>
-                                <p class="text_2">Đến từ TP. HCM</p>
-                            </div>
-                        </div>
-                        <div class="area_2">
-                            <p class="text">Biết Fago Pet qua người bạn giới thiệu. Mình nuôi 1 con mèo Anh lông ngắn, 6 tháng tuổi, Fago Pet đã tư vấn cho mình cách lựa chọn đồ ăn và có hướng dẫn cách cho bé đi vệ sinh.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="leftBlock">
-                    <div class="imgPart">
-                        <img alt="fagopet" src="~/images/img_15.png">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
 </div>

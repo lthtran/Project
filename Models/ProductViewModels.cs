@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebsiteThuCungBento.Models
 {
-    public class ProductViewModel
+    public class ProductViewModels
     {
         DataClassesDataContext data = new DataClassesDataContext();
         public int? MASP { get; set; }

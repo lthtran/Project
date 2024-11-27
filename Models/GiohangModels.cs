@@ -45,7 +45,7 @@ using System.Web;
 
 namespace WebsiteThuCungBento.Models
 {
-    public class Giohang
+    public class GiohangModels
     {
         DataClassesDataContext data = new DataClassesDataContext();
 
@@ -62,12 +62,12 @@ namespace WebsiteThuCungBento.Models
         public Double iTONGTIEN { set; get; }
 
         // Parameterless constructor for deserialization
-        public Giohang()
+        public GiohangModels()
         {
         }
 
         // Constructor with parameters to load data when creating a new cart item
-        public Giohang(int MASP)
+        public GiohangModels(int MASP)
         {
             iMASP = MASP;
             SANPHAM sanpham = data.SANPHAMs.Single(n => n.MASP == iMASP);

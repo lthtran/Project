@@ -1,0 +1,37 @@
+﻿@model WebsiteThuCungBento.Models.DanhGiaDVModels
+@{
+    ViewBag.Title = "Đánh giá dịch vụ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<h2>Đánh giá dịch vụ</h2>
+<div class="container mt-5"> 
+    <h2 class="mb-4">Đánh giá dịch vụ</h2> 
+    @using (Html.BeginForm("Danhgiadichvu", "User", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    {
+        @Html.HiddenFor(model => model.SoDK) 
+        <div class="form-group"> 
+            @Html.LabelFor(model => model.DanhGia, new { @class = "form-label" }) 
+            @Html.DropDownListFor(model => model.DanhGia, new SelectList(Enumerable.Range(1, 5)), "Chọn điểm", new { @class = "form-control", @required = "required" }) 
+            @Html.ValidationMessageFor(model => model.DanhGia, "", new { @class = "invalid-feedback" }) </div> <div class="form-group"> 
+            @Html.LabelFor(model => model.BinhLuan, new { @class = "form-label" }) 
+            @Html.TextAreaFor(model => model.BinhLuan, new { @class = "form-control", @placeholder = "Nhập bình luận của bạn", @required = "required" }) 
+            @Html.ValidationMessageFor(model => model.BinhLuan, "", new { @class = "invalid-feedback" }) </div> <button type="submit" class="btn btn-primary">Gửi đánh giá</button>} </div>
+<script>
+    // JavaScript để hiển thị lỗi khi form không hợp lệ 
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>

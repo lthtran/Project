@@ -1,4 +1,5 @@
-﻿@{
+﻿@model WebsiteThuCungBento.ViewModels.CombinedViewModel
+@{
     ViewBag.Title = "Cửa hàng thú cưng";
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
@@ -6,12 +7,514 @@
 <script language="javascript" src="~/Scripts/owlcarousel.js">
 </script>
 
-<div>
+<style>
+    /* Container for video and SPA overlay */
+    .video-container {
+        position: relative;
+        width: 100%;
+        height: 500px;
+    }
+
+    /* SPA Section Overlay */
+    .spa-highlight-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Center the SPA section */
+        background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        width: 80%;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* SPA title styling */
+    .spa-title {
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    /* SPA description */
+    .spa-description {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #666;
+    }
+
+    /* CTA button styling */
+    .spa-button {
+        background-color: #f1ec81;
+        color: #000000;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        display: inline-block;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+        /* Button hover effect */
+        .spa-button:hover {
+            background-color: #e6e28c;
+            transform: scale(1.05);
+        }
+</style>
+<style>
+    /* CSS styling for the notification */
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #f44336; /* Màu đỏ cho thông báo lỗi */
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        font-family: Arial, sans-serif;
+    }
+</style>
+<style>
+/* Card styling */
+.booking-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.booking-header {
+    background: #ff9800;
+    color: white;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    text-align: center;
+}
+
+.booking-content {
+    padding: 24px;
+}
+
+/* Service selection styling */
+.service-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.service-tab {
+    padding: 12px 24px;
+    border: 2px solid #ff9800;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.service-tab.active {
+    background: #ff9800;
+    color: white;
+}
+
+/* Weight range styling */
+.weight-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.weight-option {
+    padding: 12px;
+    border: 2px solid #ff9800;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.weight-option.active {
+    background: #ff9800;
+    color: white;
+}
+
+/* Time slots styling */
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    margin: 5px 0;
+}
+
+.time-slot {
+    padding: 6px;
+    border: 1px solid #ffbf00;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.time-slot:hover {
+    background-color: #f0f0f0;
+}
+
+.time-slot.active, .time-slot.selected {
+    background-color: #ffbf00 !important;
+    color: #fff;
+    border-color: #ffbf00;
+}
+.underline {
+    display: block;
+    width: 55%; /* Hoặc tùy chỉnh theo ý muốn, ví dụ 100px */
+    height: 1px; /* Độ dày */
+    background-color: #ffbf00; /* Màu sắc */
+    margin: 20px auto; /* Căn giữa ngang và thêm khoảng cách trên dưới */
+}
+
+/* Admin */
+.form-group {
+    display: flex; /* Sử dụng Flexbox để căn giữa */
+    flex-direction: column; /* Đặt các phần tử con theo chiều dọc */
+    align-items: center; /* Căn giữa theo chiều ngang */
+    margin-top: 20px; /* Khoảng cách phía trên */
+}
+
+.form-group label {
+    margin-bottom: 10px; /* Khoảng cách giữa nhãn và khung chọn */
+    font-size: 16px;
+    color: #ffbf00;
+    font-weight: 150;
+}
+
+.form-group select {
+    width: 50%; /* Chiều rộng khung chọn, có thể tùy chỉnh */
+    padding: 10px; /* Thêm khoảng trống bên trong */
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 6px; /* Bo góc */
+    font-size: 16px; /* Kích thước chữ */
+}
+
+
+/* Staff selection styling */
+.staff-select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ff9800;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+/* Submit button styling */
+.submit-booking {
+    width: 40%;
+    padding: 10px;
+    background: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 25px;
+}
+
+.submit-booking:hover {
+    background: #f57c00;
+    transform: translateY(-2px);
+}
+
+/* Layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+/* Price display */
+.price-display {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff9800;
+    text-align: right;
+    margin: 20px 0;
+}
+
+/* Gift section */
+.gift-section {
+    background: #fff3e0;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 16px 0;
+}
+
+.gift-icon {
+    color: #ff9800;
+    margin-right: 8px;
+}
+</style>
+<div id="notification" class="notification" style="display: none;">
+</div>
+<script>
+    // Truyền giá trị TempData["ErrorMessage"] vào JavaScript
+    var errorMessage = "@TempData["ErrorMessage"]";
+
+    if (errorMessage && errorMessage !== "null") {
+        // Gán nội dung và hiển thị notification
+        document.getElementById("notification").textContent = errorMessage;
+        document.getElementById("notification").style.display = "block";
+
+        // Tự động ẩn sau 3 giây
+        setTimeout(function () {
+            document.getElementById("notification").style.display = "none";
+        }, 9000);
+    }
+</script>
+
+<style>
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #f44336;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        font-family: Arial, sans-serif;
+    }
+    .form-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .leftBlock, .rightBlock {
+        width: 48%; /* Cả hai bên chiếm 48% chiều rộng */
+    }
+
+    .leftBlock {
+        padding-right: 20px;
+    }
+
+    .rightBlock {
+        padding-left: 20px;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+        .btn-group button {
+            flex: 1;
+            min-width: 120px;
+        }
+</style>
+<script>
+    // Lấy giá trị TempData["ErrorMessage"] và chuyển sang chuỗi JavaScript
+    var errorMessage = "@(TempData["ErrorMessage"] ?? "")"; // Sử dụng ?? để đảm bảo giá trị không bị null
+
+    // Hàm để giải mã các ký tự HTML thành văn bản
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
+    // Kiểm tra nếu errorMessage có giá trị, thì hiển thị notification
+    if (errorMessage) {
+        // Giải mã ký tự HTML trong errorMessage
+        var decodedMessage = decodeHtml(errorMessage);
+
+        // Gán nội dung đã giải mã và hiển thị notification
+        document.getElementById("notification").textContent = decodedMessage;
+        document.getElementById("notification").style.display = "block";
+
+        // Tự động ẩn sau 9 giây
+        setTimeout(function () {
+            document.getElementById("notification").style.display = "none";
+        }, 9000);
+    }
+</script>
+<div class="video-container">
+    <!-- Video Slide -->
     <video src="~/img/slider-image/videoban.mp4" id="bgvid1" playsinline autoplay muted loop style="width: 100%; height: 500px; object-fit: cover;">
         <source src="~/img/slider-image/videoban.mp4" type="video/mp4">
     </video>
-</div>
 
+    <!-- SPA Section Overlay -->
+    <div class="spa-highlight-overlay">
+        <div class="fagopetSP_10" id="sectionLPSpa_1">
+            <div class="area_2">
+                <div class="container">
+                    <div class="row rowFix d-flex">
+                        <form class="product-form" action="/User/DangKyDichVu" method="post" novalidate="novalidate">
+                            <div class="form-container">
+                                <!-- Bên trái: Chọn dịch vụ và thông tin chi tiết -->
+                                <div class="leftBlock">
+                                    <label style="margin-top: 10px;font-size: 16px; color: #ffbf00; font-weight: 150" for="">CHỌN DỊCH VỤ</label>
+                                    <input type="text" hidden name="serviceid" id="serviceid" />
+                                    <div class="selectServiceBlock">
+                                        @foreach (var listspa in Model.ListDV.listDV)
+                                        {
+                                            <p class="serviceTab @if (Model.ListDV.listDV.First() == listspa) { <text> active </text> }">@listspa.TenDV</p>
+                                        }
+                                    </div>
+
+                                    @foreach (var listspa in Model.ListDV.listDV)
+                                    {
+                                        string[] listcombo = listspa.ComboDV.Split(',');
+                                        <div class="serviceBlock @if (Model.ListDV.listDV.First() == listspa) { <text> active </text> } " servicetype="@listspa.TenDV">
+                                            @foreach (var combo in listcombo)
+                                            {
+                                                <p class="dotText">@combo</p>
+                                            }
+                                            <div class="giftBlock">
+                                                <p class="giftText">Chải - Tỉa gọn lông mặt tay chân</p>
+                                            </div>
+                                            <div class="underline"></div>
+                                            <div class="fagopetSP_9">
+                                                <div class="selectBlock">
+                                                    <p class="text_1">CÂN NẶNG CỦA BÉ</p>
+                                                    <div class="wrapFlex">
+                                                        @foreach (var listctspa in Model.ListDV.listCTDV)
+                                                        {
+                                                            if (listctspa.MaDV == listspa.MaDV)
+                                                            {
+                                                                <p class="typePet" khunggio="@listctspa.KhungGio" serviceid="@listctspa.MaCT" priceroom="@listctspa.DonGia" priceformat="@String.Format("{0:0,0}", listctspa.DonGia)Đ" typeroom="@listctspa.DichVu.TenDV">@listctspa.DieuKien</p>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="priceBlock">
+                                        <p class="priceText data_booking" id="price_service"></p>
+                                    </div>
+
+                                </div>
+
+                                <!-- Bên phải: Khung giờ và người phụ trách -->
+
+                                <div class="rightBlock">
+                                    <label style="margin-top: 10px; font-size: 16px; color: #ffbf00; font-weight: 150;">CHỌN KHUNG GIỜ</label>
+                                    <div class="time-slots btn-group" role="group" aria-label="Khung Giờ">
+                                        <button type="button" class="time-slot" data-khunggio="08:00 - 09:00" onclick="selectKhungGio(this)">08:00 - 09:00</button>
+                                        <button type="button" class="time-slot" data-khunggio="09:00 - 10:00" onclick="selectKhungGio(this)">09:00 - 10:00</button>
+                                        <button type="button" class="time-slot" data-khunggio="10:00 - 11:00" onclick="selectKhungGio(this)">10:00 - 11:00</button>
+                                        <button type="button" class="time-slot" data-khunggio="12:00 - 13:00" onclick="selectKhungGio(this)">12:00 - 13:00</button>
+                                        <button type="button" class="time-slot" data-khunggio="13:00 - 14:00" onclick="selectKhungGio(this)">13:00 - 14:00</button>
+                                        <button type="button" class="time-slot" data-khunggio="14:00 - 15:00" onclick="selectKhungGio(this)">14:00 - 15:00</button>
+                                        <button type="button" class="time-slot" data-khunggio="15:00 - 16:00" onclick="selectKhungGio(this)">15:00 - 16:00</button>
+                                        <button type="button" class="time-slot" data-khunggio="16:00 - 17:00" onclick="selectKhungGio(this)">16:00 - 17:00</button>
+                                    </div>
+
+                                    <input type="hidden" name="KhungGio" id="KhungGio" required />
+                                    <div id="notification"></div>
+
+                                    <div class="underline"></div>
+
+                                    <div class="form-group">
+                                        <label style="margin-top: 10px;font-size: 16px; color: #ffbf00; font-weight: 150" for="MAADMIN">NGƯỜI PHỤ TRÁCH</label>
+                                        <select class="form-control" id="MAADMIN" name="MAADMIN" required>
+                                            <option value="">Chọn Nhân Viên Phụ Trách</option>
+                                            @if (Model.ListDV.ADMINs != null && Model.ListDV.ADMINs.Any())
+                                            {
+                                                foreach (var admin in Model.ListDV.ADMINs)
+                                                {
+                                                    if (@admin.HOTEN != "ADMIN")
+                                                    {
+                                                        <option value="@admin.MAADMIN">Nhân viên @admin.HOTEN</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <!--<div class="btnOrder">-->
+                                    @*<button class="btn btnType_2 Desktop_1 btn-booking1 submit-direct-order spa-cho-meo bg-warning" style="margin-top: 100px" type="submit" data_type="booking" object_name="Order"><span style="font-weight:400">ĐẶT DỊCH VỤ NGAY</span></button>*@
+                                    <!--</div>-->
+                                    <button type="submit" class="submit-booking">
+                                        ĐẶT DỊCH VỤ NGAY
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <script>
+                            articles = document.getElementsByClassName('serviceTab');
+                            serviceblock = document.getElementsByClassName('serviceBlock');
+                            typepet = document.getElementsByClassName('typePet');
+                            var serviceid = document.getElementById("serviceid");
+                            var KhungGio = document.getElementById("KhungGio").value;
+                            for (var i = 0; i < articles.length; i++) {
+                                articles[i].addEventListener('click', redirect, false);
+                            }
+                            //xử lý khi ng dùng chọn dịch vụ
+                            function redirect() {
+                                for (var i = 0; i < articles.length; i++) {
+                                    if (articles[i].classList.contains('active')) {
+                                        articles[i].classList.remove('active');
+                                    }
+                                }
+                                this.classList.add('active');
+                                for (var i = 0; i < serviceblock.length; i++) {
+                                    if (serviceblock[i].getAttribute('servicetype') == this.innerText) {
+                                        serviceblock[i].classList.add('active');
+
+                                    }
+                                    else {
+                                        serviceblock[i].classList.remove('active');
+                                    }
+                                }
+                                document.getElementById("price_service").innerHTML = "";
+                            }
+                            //thêm sự kiện click cho phần tử typePet
+                            for (var i = 0; i < typepet.length; i++) {
+                                typepet[i].addEventListener('click',
+                                    selecttypepet, false);
+                            }
+                            // Hàm xử lý khi người dùng chọn loại thú cưng
+                            function selecttypepet() {
+                                for (var i = 0; i < typepet.length; i++) {
+                                    if (typepet[i].classList.contains('active')) {
+                                        typepet[i].classList.remove('active');
+                                    }
+                                }
+                                this.classList.add('active');
+                                document.getElementById("price_service").innerHTML = this.getAttribute('priceformat');
+                                serviceid.value = this.getAttribute('serviceid');
+                            }
+
+                            function selectKhungGio(button) {
+                                // Lấy tất cả các nút khung giờ
+                                const timeSlots = document.querySelectorAll(".time-slot");
+
+                                // Xóa lớp 'selected' hoặc 'active' từ tất cả các nút
+                                timeSlots.forEach((slot) => {
+                                    slot.classList.remove("selected", "active");
+                                });
+
+                                // Thêm lớp 'selected' hoặc 'active' vào nút được nhấp
+                                button.classList.add("selected");
+
+                                // Cập nhật giá trị cho ô input ẩn
+                                document.getElementById("KhungGio").value = button.getAttribute("data-khunggio");
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="underlineBlock"></div>
+        </div>
+    </div>
+</div>
 
 <div id="PageContainer" class="is-moved-by-drawer">
     <main class="main-content" role="main">
@@ -24,57 +527,14 @@
                         height: 100%;
                     }
                 </style>
-                @*
-                    <section id="home-banners">
-                         <div class="wrapper">
-                             <div class="inner">
-                                 <div class="grid">
-
-                                         <div class="grid__item large--one-quarter medium--one-quarter small--one-half">
-                                         <div class="hb-img">
-                                             <a href="https://localhost:44335/User/SPTheoloai/1">
-                                                 <img src="~/img/cho2.png" alt="Sản phẩm cho chó" />
-                                                 Thú cưng chó
-                                             </a>
-                                         </div>
-                                     </div>
-
-                                     <div class="grid__item large--one-quarter medium--one-quarter small--one-half">
-                                         <div class="hb-img">
-                                             <a href="https://localhost:44335/User/SPTheoloai/2">
-                                                 <img src="~/img/meo.png" alt="Quần áo cho chó & mèo" />
-                                                 Thú cưng mèo
-                                             </a>
-                                         </div>
-                                     </div>
-                                     <div class="grid__item large--one-quarter medium--one-quarter small--one-half float-right">
-                                         <div class="hb-img">
-                                             <a href="https://localhost:44335/User/SPTheothuonghieu/9">
-                                                 <img src="~/img/chuong.png" alt="Sức khỏe thú cưng" />
-                                                 Chuồng nuôi
-                                             </a>
-                                         </div>
-                                     </div>
-                                     <div class="grid__item large--one-quarter medium--one-quarter small--one-half float-right">
-                                         <div class="hb-img">
-                                             <a href="https://localhost:44335/User/SPTheothuonghieu/8">
-                                                 <img src="~/img/xu.png" alt="Sản phẩm cho mèo" />
-                                                 Thức ăn
-                                             </a>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </section>*@
-
+                
                 <section id="home-collections">
                     <div id="cateProductFagomom">
                         <div class="secMainContent">
                             <div class="container">
                                 @*<div class="stylizedIcon">
-                                    <img alt="item" src="~/images/item_1MM.png">
-                                </div>*@
+                                        <img alt="item" src="~/images/item_1MM.png">
+                                    </div>*@
                                 <div class="titleBlock_1">
                                     <a href="#">
                                         <h1 class="title">Thú Cưng Nổi Bật</h1>
@@ -82,7 +542,7 @@
                                 </div>
                                 <div class="productBlock">
                                     <div class="row">
-                                        @foreach (var i in Model)
+                                        @foreach (var i in Model.Products)
 
                                         {
                                             if (i.SOLUONG > 0)
@@ -95,8 +555,8 @@
                                                             </div>
                                                         </a>
                                                         <a href="@Url.Action("Chitiet", "User", new { id = i.MASP })" style="color: #cd5c5c;">
-                                                            <div class="textPart" style="color: #cd5c5c;">
-                                                                <p class="titleProduct" title="@i.TENSP" style=" color: #f0ffff; font-weight: bold; font-size: 25px; text-shadow: 1px 1px 0 blue, -1px -1px 0 blue, 1px -1px 0 blue, -1px 1px 0 blue;">@i.TENSP</p>
+                                                            <div class="textPart" style="color: black;">
+                                                                <p class="titleProduct" title="@i.TENSP" style=" color: #000000; font-weight: bold; font-size: 20px;">@i.TENSP</p>
                                                             </div>
                                                         </a>
                                                         <div class="btnAddCart">
@@ -108,7 +568,6 @@
                                                     </div>
                                                 </div>
                                             }
-
                                         }
                                     </div>
                                 </div>
@@ -120,9 +579,7 @@
             </main>
         </div>
 
-
         <link href="~/Content/sanpham.css" rel="stylesheet" />
-
 
         <div id="modalAddComplete">
         </div>
@@ -147,7 +604,6 @@
                     modalAddComplete.style.display = "none";
                 }
             }
-
         </script>
         <script language="javascript" src="~/Scripts/ajax-cart5eef.js"></script>
 
@@ -160,14 +616,10 @@
         <script language="javascript" src="~/Scripts/script5eef.js"></script>
         <script language="javascript" src="~/Scripts/timber5eef.js"></script>
 
-
         <link rel="stylesheet" href="~/Content/jquery.fancybox.min.css" />
         <script language="javascript" src="~/Scripts/jquery.fancybox.min.js"></script>
 
         <script language="javascript" src="~/Scripts/handlebars.min5eef.js"></script>
-
-
-
 
         <!-- Custom script -->
         <script>
@@ -178,7 +630,6 @@
             };
         </script>
 
-
         <script>
             $(document).ready(function () {
                 $().fancybox({
@@ -188,10 +639,6 @@
                 });
             });
         </script>
-
-
-
-
         <script>
             // Set the date we're counting down to
             var countDownDate = new Date("September 15, 2024 13:59:59").getTime();
@@ -228,8 +675,6 @@
             }, 1000);
         </script>
 
-
-
         <script language="javascript" src="~/Scripts/hoverchangeimage.js"></script>
 
         <script>
@@ -238,27 +683,17 @@
             });
         </script>
 
-
-
-
         <script>
             $(".mobile-btnSearch > a").click(function () {
                 $(".mobile-search-wrapper").toggle();
             });
         </script>
 
-
-
-
         <!-- Back to top -->
         <script language="javascript" src="~/Scripts/backtotop.js"></script>
 
         <!-- Validate quantity form & trigger zoom -->
         <script language="javascript" src="~/Scripts/triggerzoom.js"></script>
-
-
-
-
 
         <!-- popup loaded -->
         <script>
@@ -273,10 +708,8 @@
                 };
             })
         </script>
-
         <!-- quick view -->
         <link href="~/Content/QuickView.css" rel="stylesheet" />
-
 
     </main>
 </div>

@@ -135,6 +135,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminPQController.cs" />
     <Compile Include="Controllers\BaoLoiController.cs" />
+    <Compile Include="Controllers\DanhGiaDVController.cs" />
     <Compile Include="Controllers\GioHangController.cs" />
     <Compile Include="Controllers\HinhController.cs" />
     <Compile Include="Controllers\KhachHangController.cs" />
@@ -154,26 +155,29 @@
     </Compile>
     <Compile Include="Helpers\Common.cs" />
     <Compile Include="Helpers\VnPayLibrary.cs" />
-    <Compile Include="Models\DangKy.cs" />
-    <Compile Include="Models\DangKyModel.cs" />
-    <Compile Include="Models\DangNhapModel.cs" />
+    <Compile Include="Models\DangKyDVModels.cs" />
+    <Compile Include="Models\DangKyModels.cs" />
+    <Compile Include="Models\DangNhapModels.cs" />
+    <Compile Include="Models\DanhGiaDVModels.cs" />
     <Compile Include="Models\DataClasses.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\DoiMKadmin.cs" />
-    <Compile Include="Models\Giohang.cs" />
-    <Compile Include="Models\KTDinhdangngay.cs" />
-    <Compile Include="Models\LienheModel.cs" />
-    <Compile Include="Models\MahoaMD5.cs" />
-    <Compile Include="Models\ProductViewModel.cs" />
-    <Compile Include="Models\QuenMKModel.cs" />
-    <Compile Include="Models\ResetPassword.cs" />
-    <Compile Include="Models\DANHGIA.cs" />
+    <Compile Include="Models\DoiMKadminModels.cs" />
+    <Compile Include="Models\GiohangModels.cs" />
+    <Compile Include="Models\KTDinhdangngayModels.cs" />
+    <Compile Include="Models\LienheModels.cs" />
+    <Compile Include="Models\MahoaMD5Models.cs" />
+    <Compile Include="Models\ProductViewModels.cs" />
+    <Compile Include="Models\QuenMKModels.cs" />
+    <Compile Include="Models\ResetPasswordModels.cs" />
+    <Compile Include="Models\DanhGiaModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IVnPayService.cs" />
     <Compile Include="Services\VnPayService.cs" />
+    <Compile Include="ViewModels\CombinedViewModel.cs" />
+    <Compile Include="ViewModels\CreateAppointmentViewModel.cs" />
     <Compile Include="ViewModels\ListDVViewModel.cs" />
     <Compile Include="ViewModels\VnPaymentResponseModel.cs" />
   </ItemGroup>
@@ -1358,6 +1362,10 @@
     <Content Include="Views\Review\_Review.cshtml" />
     <Content Include="Views\Review\_load_Review.cshtml" />
     <Content Include="Views\Review\NoReview.cshtml" />
+    <Content Include="Views\User\Danhgiadichvu.cshtml" />
+    <Content Include="Views\DanhGiaDV\Danhgiadichvu.cshtml" />
+    <Content Include="Views\DanhGiaDV\XemDanhGia.cshtml" />
+    <Content Include="Views\User\XemDanhGia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

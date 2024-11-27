@@ -1,11 +1,19 @@
-﻿@model WebsiteThuCungBento.Models.DangKyModel
+﻿@model WebsiteThuCungBento.Models.DangKyModels
 
 @{
     ViewBag.Title = "Đăng Ký ";
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
+<script language="javascript" src="~/Scripts/eyepass.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script language="javascript" src="~/Scripts/dangkyform.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+@*<script language="javascript" src="~/Scripts/dangkyform.js"></script>*@
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <!-- Trở lại đầu trang-->
 @*<section id="breadcrumb-wrapper3" class="breadcrumb-w-img">
@@ -188,12 +196,23 @@
         </main>
     </div>*@
 
-
+<style>
+    #togglePassword {
+        z-index: 20;
+    }
+    #toggleConfirmPassword {
+        z-index: 20;
+    }
+</style>
 <div id="PageContainer" class="is-moved-by-drawer" style="display:flex; justify-content:center; align-items:center; padding: 1rem;">
     <main class="main-content" role="main" style="width: 100%; max-width: 600px; background-color: #f9f9f9; border-radius: 10px; padding: 2rem; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);">
         <h1 style="text-align: center; font-size: 25px; margin-bottom: 20px;">Đăng ký</h1>
         <form accept-charset="UTF-8" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px;">
             @Html.AntiForgeryToken()
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <div class="alert alert-danger">@error.ErrorMessage</div>
+            }
 
             <!-- Two Column Section -->
             <div style="display: flex; flex-wrap: wrap; gap: 20px;">
@@ -202,7 +221,7 @@
                 <div class="form-group" style="flex: 1;">
                     <label for="hoten">Họ tên</label>
                     <div class="input-group">
-                        <input type="text" id="hoten" name="hoten" placeholder="Enter your full name" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Enter your full name as it appears on legal documents." />
+                        <input type="text" id="hoten" name="hoten" placeholder="Nhập họ tên" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Vui lòng nhập đầy đủ họ tên." />
                     </div>
                     <span class="text-danger">@Html.ValidationMessageFor(model => model.hoten)</span>
                 </div>
@@ -211,7 +230,7 @@
                 <div class="form-group" style="flex: 1;">
                     <label for="dienthoai">Số điện thoại</label>
                     <div class="input-group">
-                        <input type="text" id="dienthoai" name="dienthoai" placeholder="Enter your phone number" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" onkeypress="return isNumberKey(event)" title="Please enter a valid phone number." />
+                        <input type="text" id="dienthoai" name="dienthoai" placeholder="Nhập số điện thoại" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" onkeypress="return isNumberKey(event)" title="Vui lòng nhập số điện thoại của bạn." />
                     </div>
                     <span class="text-danger">@Html.ValidationMessageFor(model => model.dienthoai)</span>
                 </div>
@@ -225,7 +244,7 @@
                 <div class="form-group" style="flex: 1;">
                     <label for="tendn">Tên đăng nhập</label>
                     <div class="input-group">
-                        <input type="text" id="tendn" name="tendn" placeholder="Enter your username" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Username must be unique and contain 4-16 characters." />
+                        <input type="text" id="tendn" name="tendn" placeholder="Nhập tên đăng nhập" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Tên đăng nhập phải chứa từ 4-16 kí tự." />
                     </div>
                     <span class="text-danger">@Html.ValidationMessageFor(model => model.tendn)</span>
                 </div>
@@ -234,7 +253,7 @@
                 <div class="form-group" style="flex: 1;">
                     <label for="email">Email</label>
                     <div class="input-group">
-                        <input type="email" id="email" name="email" placeholder="Enter your email" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Please enter a valid email address." />
+                        <input type="email" id="email" name="email" placeholder="Nhập email" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Vui lòng nhập email." />
                     </div>
                     <span class="text-danger">@Html.ValidationMessageFor(model => model.email)</span>
                 </div>
@@ -248,7 +267,7 @@
                 <div class="form-group" style="flex: 1;">
                     <label for="matkhau">Mật khẩu</label>
                     <div class="input-group" style="position: relative;">
-                        <input type="password" id="matkhau" name="matkhau" placeholder="Enter your password" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Password must be 6-20 characters long." />
+                        <input type="password" id="matkhau" name="matkhau" placeholder="Nhập mật khẩu" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Độ dài mật khẩu chứa 6-20 kí tự." />
                         <i class="fa fa-eye" id="togglePassword" style="position: absolute; right: 12px; top: 12px; cursor: pointer;"></i>
                     </div>
                     <span class="text-danger">@Html.ValidationMessageFor(model => model.matkhau)</span>
@@ -258,7 +277,7 @@
                 <div class="form-group" style="flex: 1;">
                     <label for="hinhanh">Ảnh đại diện</label>
                     <div class="input-group">
-                        <input type="file" id="hinhanh" name="hinhanh" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" accept="image/jpeg,image/png" title="Upload a profile picture in JPEG or PNG format." />
+                        <input type="file" id="hinhanh" name="hinhanh" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" accept="image/jpeg,image/png" title="Upload hình ảnh với định dạng JPEG hoặc PNG." />
                     </div>
                     <span class="text-danger">@Html.ValidationMessageFor(model => model.hinhanh)</span>
                 </div>
@@ -270,7 +289,7 @@
                 <div class="form-group" style="flex: 1;">
                     <label for="xacnhanmatkhau">Xác nhận mật khẩu</label>
                     <div class="input-group" style="position: relative;">
-                        <input type="password" id="xacnhanmatkhau" name="xacnhanmatkhau" placeholder="Confirm your password" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Please re-enter the same password to confirm." />
+                        <input type="password" id="xacnhanmatkhau" name="xacnhanmatkhau" placeholder="Xác nhận mật khẩu" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Vui lòng nhập lại mật khẩu." />
                         <i class="fa fa-eye" id="toggleConfirmPassword" style="position: absolute; right: 12px; top: 12px; cursor: pointer;"></i>
                     </div>
                     <span class="text-danger">@Html.ValidationMessageFor(model => model.xacnhanmatkhau)</span>
@@ -279,7 +298,7 @@
                 <div class="form-group" style="flex: 1;">
                     <label for="ngaysinh">Ngày sinh</label>
                     <div class="input-group">
-                        <input type="date" id="ngaysinh" name="ngaysinh" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Please select your date of birth." />
+                        <input type="date" id="ngaysinh" name="ngaysinh" class="form-control" style="padding: 12px; border-radius: 8px; width: 100%;" title="Vui lòng chọn năm sinh của bạn." />
                     </div>
                     <span class="text-danger">@Html.ValidationMessageFor(model => model.ngaysinh)</span>
                 </div>
@@ -290,8 +309,8 @@
             <!-- Address Field (Full Width) -->
             <div class="form-group">
                 <label for="diachi">Địa chỉ</label>
-                <div class="input-group col-md-8">
-                    <textarea id="diachi" name="diachi" placeholder="Enter your address" class="form-control" rows="2" style="padding: 10px; border-radius: 8px; width: 100%;" title="Please enter your full address including city and postal code."></textarea>
+                <div class="input-group col-md-12">
+                    <textarea id="diachi" name="diachi" placeholder="Nhập địa chỉ" class="form-control" rows="1" style="padding: 10px; border-radius: 8px; width: 100%; max-width: 600px" title="Vui lòng nhập đầy đủ địa chỉ."></textarea>
                 </div>
                 <span class="text-danger">@Html.ValidationMessageFor(model => model.diachi)</span>
             </div>
@@ -305,28 +324,30 @@
         </form>
     </main>
 </div>
-
 <!-- Script to Toggle Password Visibility -->
 <script>
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#matkhau');
-    togglePassword.addEventListener('click', function (e) {
-        // Toggle the password field type
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        // Toggle the eye icon class
-        this.classList.toggle('fa-eye-slash');
+    document.addEventListener('DOMContentLoaded', function () {
+        // Xử lý ẩn/hiện mật khẩu
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#matkhau');
+
+        togglePassword.addEventListener('click', function () {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Xử lý ẩn/hiện xác nhận mật khẩu
+        const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+        const confirmPassword = document.querySelector('#xacnhanmatkhau');
+
+        toggleConfirmPassword.addEventListener('click', function () {
+            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
     });
 
-    const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
-    const confirmPassword = document.querySelector('#xacnhanmatkhau');
-    toggleConfirmPassword.addEventListener('click', function (e) {
-        // Toggle the confirm password field type
-        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-        confirmPassword.setAttribute('type', type);
-        // Toggle the eye icon class
-        this.classList.toggle('fa-eye-slash');
-    });
 </script>
 
 
@@ -335,6 +356,10 @@
     .fa-eye, .fa-eye-slash {
         font-size: 18px;
         color: #000000;
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        cursor: pointer;
     }
 
     .form-control {

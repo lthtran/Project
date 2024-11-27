@@ -23,15 +23,14 @@ namespace WebsiteThuCungBento.Controllers
 
         public object CommonConstants { get; private set; }
         // GET: User
-        public ActionResult index()
+        public ActionResult Index(int count = 8)
         {
-
+            // Truy vấn dữ liệu cho Products
             var allacc = (from a in data.SANPHAMs
                           join b in data.THUONGHIEUs on a.MATH equals b.MATH
                           join c in data.LOAIs on a.MALOAI equals c.MALOAI
                           join d in data.MAUSACs on a.MAMAUSAC equals d.MAMAUSAC
-
-                          select new ProductViewModel
+                          select new ProductViewModels
                           {
                               MASP = a.MASP,
                               TENSP = a.TENSP,
@@ -44,17 +43,31 @@ namespace WebsiteThuCungBento.Controllers
                               SOLUONG = (int)a.SOLUONG,
                               MOTA = a.MOTA,
                               TENMAUSAC = d.TENMAUSAC,
-                              LOGO = b.LOGO
-                          }).OrderBy(x => x.MASP).Take(count: 8).ToList(); /*Lấy ra 6 sản phẩm đầu tiên hiển thị ở sản phẩm nổi bật*/
-           
-            return View(allacc);
+                              LOGO = b.LOGO ?? "default-logo.png"
+                          }).OrderBy(x => x.MASP).Take(count).ToList();
+
+            // Truy vấn dữ liệu cho ListDV (Dịch vụ hoặc thông tin liên quan)
+            var listDV = new ListDVViewModel
+            {
+                // Giả sử bạn đã có logic để truy vấn và điền dữ liệu vào ListDVViewModel
+                // Ví dụ: listDV = data.DichVus.ToList();
+                listDV = data.DichVus.ToList(),
+                listCTDV = data.ChiTietDichVus.ToList(),
+                ADMINs = data.ADMINs.ToList(),
+            };
+
+            // Tạo ViewModel kết hợp
+            var viewModel = new CombinedViewModel
+            {
+                Products = allacc,
+                ListDV = listDV
+                
+            };
+
+            return View(viewModel);
         }
 
-        public ActionResult blogs()
-        {
-            return View();
-        }
-
+        
 
         #region Lấy sản phẩm
         public ActionResult sanpham(int? page)
@@ -69,7 +82,7 @@ namespace WebsiteThuCungBento.Controllers
                           join c in data.LOAIs on a.MALOAI equals c.MALOAI
                           join d in data.MAUSACs on a.MAMAUSAC equals d.MAMAUSAC
 
-                          select new ProductViewModel
+                          select new ProductViewModels
                           {
                               MASP = a.MASP,
                               TENSP = a.TENSP,
@@ -115,7 +128,7 @@ namespace WebsiteThuCungBento.Controllers
                          join d in data.MAUSACs on a.MAMAUSAC equals d.MAMAUSAC
                          join h in data.HINHs on a.MASP equals h.MASP
                          where a.MASP == id
-                         select new ProductViewModel
+                         select new ProductViewModels
                          {
                              MASP = a.MASP,
                              TENSP = a.TENSP,
@@ -129,7 +142,6 @@ namespace WebsiteThuCungBento.Controllers
                              MOTA = a.MOTA,
                              TENMAUSAC = d.TENMAUSAC,
                              HINH1 = h.HINH1,
-                             //THANHTOANON = a.THANHTOANON
                          };
             return View(detail.SingleOrDefault());
         }
@@ -202,56 +214,103 @@ namespace WebsiteThuCungBento.Controllers
         #region Kiểm tra số ký tự lớn hơn 0
         public bool kiemtratendn(string tendn)
         {
-            return data.KHACHHANGs.Count(x => x.TENDNKH == tendn) > 0;
+            return data.KHACHHANGs.Any(x => x.TENDNKH == tendn);
         }
+
         #endregion
 
 
         public bool kiemtraemail(string email)
         {
-            return data.KHACHHANGs.Count(x => x.EMAIL == email) > 0;
+            return data.KHACHHANGs.Any(x => x.EMAIL == email);
         }
 
 
         #region Đăng ký tài khoản người dùng
         [HttpPost]
-        public ActionResult dangky(DangKyModel model)
+        //public ActionResult dangky(DangKyModels model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (kiemtratendn(model.tendn))
+        //        {
+        //            ModelState.AddModelError("", "Tên đăng nhập đã tồn tại");
+        //        }
+        //        else if (kiemtraemail(model.email))
+        //        {
+        //            ModelState.AddModelError("", "Email đã tồn tại");
+        //        }
+        //        else
+        //        {
+        //            var mahoa_matkhau = MahoaMD5Models.GetMD5(model.matkhau);
+        //            var kh = new KHACHHANG();
+        //            kh.HOTENKH = model.hoten;
+        //            kh.TENDNKH = model.tendn;
+        //            kh.MATKHAUKH = mahoa_matkhau;
+        //            kh.EMAIL = model.email;
+        //            kh.DIACHI = model.diachi;
+        //            kh.DIENTHOAI = model.dienthoai;
+        //            kh.HINHANH = model.hinhanh;
+        //            kh.NGAYSINH = model.ngaysinh;
+        //            data.KHACHHANGs.InsertOnSubmit(kh);
+        //            data.SubmitChanges();
+        //            return RedirectToAction("dangnhap");
+        //        }
+        //    }
+        //    return View(model);
+        //}
+        public ActionResult dangky(DangKyModels model)
         {
             if (ModelState.IsValid)
             {
+                // Kiểm tra tính hợp lệ của tên đăng nhập
                 if (kiemtratendn(model.tendn))
                 {
-                    ModelState.AddModelError("", "Tên đăng nhập đã tồn tại");
+                    ModelState.AddModelError("", "Tên đăng nhập đã tồn tại.");
                 }
                 else if (kiemtraemail(model.email))
                 {
-                    ModelState.AddModelError("", "Email đã tồn tại");
+                    ModelState.AddModelError("", "Email đã tồn tại.");
                 }
                 else
                 {
-                    var mahoa_matkhau = MahoaMD5.GetMD5(model.matkhau);
-                    var kh = new KHACHHANG();
-                    kh.HOTENKH = model.hoten;
-                    kh.TENDNKH = model.tendn;
-                    kh.MATKHAUKH = mahoa_matkhau;
-                    kh.EMAIL = model.email;
-                    kh.DIACHI = model.diachi;
-                    kh.DIENTHOAI = model.dienthoai;
-                    kh.HINHANH = model.hinhanh;
-                    kh.NGAYSINH = model.ngaysinh;
+                    // Mã hóa mật khẩu
+                    var mahoa_matkhau = MahoaMD5Models.GetMD5(model.matkhau);
+
+                    // Tạo khách hàng mới
+                    var kh = new KHACHHANG
+                    {
+                        HOTENKH = model.hoten,
+                        TENDNKH = model.tendn,
+                        MATKHAUKH = mahoa_matkhau,
+                        EMAIL = model.email,
+                        DIACHI = model.diachi,
+                        DIENTHOAI = model.dienthoai,
+                        HINHANH = model.hinhanh,
+                        NGAYSINH = model.ngaysinh
+                    };
+
+                    // Thêm khách hàng vào cơ sở dữ liệu
                     data.KHACHHANGs.InsertOnSubmit(kh);
                     data.SubmitChanges();
+
+                    // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
+                    TempData["SuccessMessage"] = "Đăng ký thành công. Vui lòng đăng nhập.";
                     return RedirectToAction("dangnhap");
                 }
             }
+
+            // Nếu có lỗi, giữ nguyên model để hiển thị lại form
             return View(model);
         }
+
         #endregion
 
 
         [HttpGet]
         public ActionResult dangnhap()
         {
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View();
         }
 
@@ -279,9 +338,9 @@ namespace WebsiteThuCungBento.Controllers
         //    }
         //    return View(model);
         //}
-        public ActionResult dangnhap(DangNhapModel model)
+        public ActionResult dangnhap(DangNhapModels model)
         {
-            var mahoa_matkhaudangnhap = MahoaMD5.GetMD5(model.matkhau);
+            var mahoa_matkhaudangnhap = MahoaMD5Models.GetMD5(model.matkhau);
 
             if (ModelState.IsValid)
             {
@@ -533,7 +592,7 @@ namespace WebsiteThuCungBento.Controllers
 
         #region Chức năng quên mật khẩu
         [HttpPost]
-        public ActionResult QuenMK(QuenMKModel quenMK)
+        public ActionResult QuenMK(QuenMKModels quenMK)
         {
             if (ModelState.IsValid)
             {
@@ -579,7 +638,7 @@ namespace WebsiteThuCungBento.Controllers
             KHACHHANG kh = data.KHACHHANGs.SingleOrDefault(n => n.KHOIPHUCMATKHAU == id);
             if (kh != null)
             {
-                ResetPassword model = new ResetPassword();
+                ResetPasswordModels model = new ResetPasswordModels();
                 model.Resetcode = id;
                 return View(model);
             }
@@ -593,7 +652,7 @@ namespace WebsiteThuCungBento.Controllers
         #region Thay đổi mật khẩu thành công
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword(ResetPassword model)
+        public ActionResult ResetPassword(ResetPasswordModels model)
         {
             var message = "";
             if (ModelState.IsValid)
@@ -602,7 +661,7 @@ namespace WebsiteThuCungBento.Controllers
                 if (kh != null)
                 {
                     //kh.MATKHAUKH = model.NewPassword;
-                    kh.MATKHAUKH = MahoaMD5.GetMD5(model.NewPassword);
+                    kh.MATKHAUKH = MahoaMD5Models.GetMD5(model.NewPassword);
                     kh.KHOIPHUCMATKHAU = "";
                     UpdateModel(kh);
                     data.SubmitChanges();
@@ -664,7 +723,7 @@ namespace WebsiteThuCungBento.Controllers
 
 
         [HttpPost]
-        public ActionResult Lienhe(LienheModel lienhe)
+        public ActionResult Lienhe(LienheModels lienhe)
         {
             if (ModelState.IsValid)
             {
@@ -688,6 +747,7 @@ namespace WebsiteThuCungBento.Controllers
             {
                 listDV = data.DichVus.Where(n => n.LoaiDV == 0).ToList(),
                 listCTDV = data.ChiTietDichVus.ToList(),
+                ADMINs = data.ADMINs.ToList()
             };
             return View(model);
         }
@@ -697,6 +757,7 @@ namespace WebsiteThuCungBento.Controllers
             {
                 listDV = data.DichVus.Where(n => n.LoaiDV == 1).ToList(),
                 listCTDV = data.ChiTietDichVus.ToList(),
+                ADMINs = data.ADMINs.ToList()
             };
             return View(model);
         }
@@ -708,7 +769,7 @@ namespace WebsiteThuCungBento.Controllers
             }
             else
             {
-                List<DangKy> lstDangKy = Session["DonDK"] as List<DangKy>;
+                List<DangKyDVModels> lstDangKy = Session["DonDK"] as List<DangKyDVModels>;
                 return View(lstDangKy);
             }
         }
@@ -717,7 +778,7 @@ namespace WebsiteThuCungBento.Controllers
         {
             DangKyDichVu dkdv = new DangKyDichVu();
             KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
-            List<DangKy> lstDangKy = Session["DonDK"] as List<DangKy>;
+            List<DangKyDVModels> lstDangKy = Session["DonDK"] as List<DangKyDVModels>;
             if (kh != null)
             {
                 dkdv.MaKH = kh.MAKH;
@@ -730,10 +791,14 @@ namespace WebsiteThuCungBento.Controllers
                 dkdv.Hoten = collection["customer_name"];
                 dkdv.SDT = collection["customer_phone"];
                 dkdv.Diachi = collection["address"];
+
             }
             foreach (var i in lstDangKy)
             {
                 dkdv.MaCT = i.iMACT;
+                dkdv.KhungGio = i.iKHUNGGIO;
+                dkdv.MAADMIN = i?.iMAADMIN;
+                dkdv.TENNV = i.iTENNV;
             }
             dkdv.NgayDangKy = DateTime.Now;
             dkdv.TongTien = Convert.ToInt32(collection["tongtien"]);
@@ -744,40 +809,148 @@ namespace WebsiteThuCungBento.Controllers
             Session["Giohang"] = null;
             return RedirectToAction("XacNhanDonHang", "GioHang");
         }
-
-        public ActionResult DangKyDichVu(FormCollection f)
+        public ActionResult DangKyDichVu_khachsan(FormCollection f)
         {
             Session["DonDK"] = null;
-
             int iMaCT = int.Parse(f["serviceid"].ToString());
-
-            List<DangKy> lstDangKy = Session["DonDK"] as List<DangKy>;
+            var item = data.ChiTietDichVus.SingleOrDefault(n => n.MaCT == iMaCT);
+            List<DangKyDVModels> lstDangKy = Session["DonDK"] as List<DangKyDVModels>;
             if (lstDangKy == null)
             {
-                lstDangKy = new List<DangKy>();
+                lstDangKy = new List<DangKyDVModels>();
                 Session["DonDK"] = lstDangKy;
                 Session.Timeout = 60;
             }
-            DangKy dondk = lstDangKy.Find(n => n.iMACT == iMaCT);
+            DangKyDVModels dondk = lstDangKy.Find(n => n.iMACT == iMaCT);
             if (dondk == null)
             {
-                dondk = new DangKy(iMaCT);
+                dondk = new DangKyDVModels(iMaCT);
+                lstDangKy.Add(dondk);
+            }
+            return Redirect("TrangDangKy");
+            
+        }
+        public ActionResult DangKyDichVu(FormCollection f)
+        {
+            Session["DonDK"] = null;
+            if(string.IsNullOrEmpty(f["serviceid"]))
+            {
+                // Nếu đã có người đăng ký ca này, hiển thị thông báo và không tiếp tục
+                TempData["ErrorMessage"] = "Vui Lòng Chọn Cân Nặng Của Bé!";
+                return RedirectToAction("spathucung");
+            }
+            if (string.IsNullOrEmpty(f["MAADMIN"]))
+            {
+                // Nếu đã có người đăng ký ca này, hiển thị thông báo và không tiếp tục
+                TempData["ErrorMessage"] = "Vui Lòng Chọn Người phụ trách dịch vụ này!";
+                return RedirectToAction("spathucung");
+            }
+            if (string.IsNullOrEmpty(f["KhungGio"]))
+            {
+                // Nếu đã có người đăng ký ca này, hiển thị thông báo và không tiếp tục
+                TempData["ErrorMessage"] = "Vui Lòng Chọn Khung Giờ Dịch Vụ!";
+                return RedirectToAction("spathucung");
+            }
+
+            int iMaCT = int.Parse(f["serviceid"].ToString());
+            int MAADMIN = int.Parse(f["MAADMIN"].ToString());
+            var item = data.ChiTietDichVus.SingleOrDefault(n => n.MaCT == iMaCT);
+            string TENNV = data.ADMINs.FirstOrDefault(n => n.MAADMIN == MAADMIN)?.HOTEN;
+            DateTime today = DateTime.Today;
+
+            if (TENNV == null)
+            {
+                TENNV = "Chưa có tên";  // Hoặc bạn có thể để mặc định khác
+            }
+            string KhungGio = f["KhungGio"];
+            var existingBooking = data.DangKyDichVus
+             .Where(d => d.MAADMIN == MAADMIN
+                    && d.KhungGio == KhungGio
+                    && d.NgayDangKy == today) // Chỉ kiểm tra ngày hôm nay
+             .FirstOrDefault();
+
+            if (existingBooking != null)
+            {
+
+                // Nếu đã có người đăng ký ca này, hiển thị thông báo và không tiếp tục
+                TempData["ErrorMessage"] = "Nhân viên này đã có lịch đăng ký trong ca này hôm nay. Vui Lòng chọn nhân viên khác";
+                return RedirectToAction("spathucung"); // Hoặc chuyển hướng đến trang khác
+            }
+            List<DangKyDVModels> lstDangKy = Session["DonDK"] as List<DangKyDVModels>;
+            if (lstDangKy == null)
+            {
+                lstDangKy = new List<DangKyDVModels>();
+                Session["DonDK"] = lstDangKy;
+                Session.Timeout = 60;
+                foreach(var i in lstDangKy)
+                {
+                    i.iTENNV = TENNV;
+                    i.iKHUNGGIO = KhungGio;
+                    i.iMAADMIN = MAADMIN;
+                    i.iTENNV = TENNV;
+                }
+            }
+            DangKyDVModels dondk = lstDangKy.Find(n => n.iMACT == iMaCT);
+            if (dondk == null)
+            {
+                dondk = new DangKyDVModels(iMaCT);
+                dondk.iKHUNGGIO = KhungGio;
+                dondk.iMAADMIN = MAADMIN;
+                dondk.iTENNV = TENNV;
                 lstDangKy.Add(dondk);
             }
             return Redirect("TrangDangKy");
         }
+        //public ActionResult ListServiceRegis()
+        //{
+        //    KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
+        //    if (Session["Taikhoan"] == null || Session["Taikhoan"].ToString() == "")
+        //    {
+        //        return RedirectToAction("dangnhap", "User");
+        //    }
+        //    else
+        //    {
+        //        return View(data.DangKyDichVus.Where(i => i.KHACHHANG.TENDNKH == kh.TENDNKH).ToList().OrderByDescending(n => n.NgayDangKy));
+        //    }
+        //}
+
         public ActionResult ListServiceRegis()
         {
+            // Lấy thông tin khách hàng từ Session
             KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
-            if (Session["Taikhoan"] == null || Session["Taikhoan"].ToString() == "")
+
+            // Kiểm tra nếu khách hàng chưa đăng nhập
+            if (kh == null || string.IsNullOrEmpty(kh.TENDNKH))
             {
                 return RedirectToAction("dangnhap", "User");
             }
-            else
+
+            // Lấy danh sách đăng ký dịch vụ của khách hàng và sắp xếp theo ngày đăng ký giảm dần
+            var danhSachDangKy = data.DangKyDichVus
+                                       .Where(i => i.KHACHHANG.TENDNKH == kh.TENDNKH)
+                                       .OrderByDescending(n => n.NgayDangKy)
+                                       .ToList();
+
+            // Lấy tên nhân viên cho từng đăng ký dịch vụ
+            foreach (var item in danhSachDangKy)
             {
-                return View(data.DangKyDichVus.Where(i => i.KHACHHANG.TENDNKH == kh.TENDNKH).ToList().OrderByDescending(n => n.NgayDangKy));
+                // Tìm tên nhân viên từ bảng ADMINs dựa trên MAADMIN
+                var admin = data.ADMINs.FirstOrDefault(n => n.MAADMIN == item.MAADMIN);
+
+                if (admin != null)
+                {
+                    item.TENNV = admin.HOTEN;  // Gán tên nhân viên vào thuộc tính TENNV của DangKyDichVu
+                }
+                else
+                {
+                    item.TENNV = "Không xác định";  // Nếu không có thông tin nhân viên, gán giá trị mặc định
+                }
             }
+
+            // Truyền danh sách đăng ký dịch vụ vào View
+            return View(danhSachDangKy);
         }
+
 
         //public ActionResult DONDATHANG(FormCollection f)
         //{
@@ -856,5 +1029,106 @@ namespace WebsiteThuCungBento.Controllers
             }
             return Json(new { Success = isSuccess });
         }
+
+        [HttpGet]
+
+        public ActionResult AutomationSearch(string searchString)
+        {
+            var products = data.SANPHAMs
+                             .Where(p => p.TENSP.Contains(searchString))
+                             .Select(p => new
+                             {
+                                 name = p.TENSP,
+                                 imageUrl = p.HINHANH,
+                                 url = Url.Action("Chitiet", "User", new { id = p.MASP })
+                             }).ToList();
+
+            return Json(products, JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: User/Danhgiadichvu
+        public ActionResult Danhgiadichvu(int id)
+        {
+            var model = new DanhGiaDVModels
+            {
+                SoDK = id
+            };
+            return View(model);
+        }
+        [HttpGet]
+        public ActionResult XemDanhGia(int id)
+        {
+            using (var db = new DataClassesDataContext())
+            {
+                var danhGia = db.DanhGiaDichVus.FirstOrDefault(d => d.SoDK == id);
+                if (danhGia != null)
+                {
+                    var model = new DanhGiaDVModels
+                    {
+                        MaDanhGia = danhGia.MaDanhGia,
+                        SoDK = danhGia.SoDK,
+                        DanhGia = danhGia.DanhGia,
+                        BinhLuan = danhGia.BinhLuan,
+                        NgayDanhGia = danhGia.NgayDanhGia,
+                        DaDanhGia = true
+                    };
+                    return Json(new { Success = true, Data = model }, JsonRequestBehavior.AllowGet);
+                }
+                return Json(new { Success = false, Message = "Không tìm thấy đánh giá!" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Danhgiadichvu(DanhGiaDVModels model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage).ToList();
+                return Json(new { Success = false, Message = "Dữ liệu không hợp lệ", Errors = errors });
+            }
+            if (ModelState.IsValid)
+            {
+
+                using (var db = new DataClassesDataContext())
+                {
+                    // Kiểm tra xem người dùng đã đánh giá chưa
+                    var existingRating = db.DanhGiaDichVus.FirstOrDefault(d => d.SoDK == model.SoDK);
+                    if (existingRating == null)
+                    {
+                        try
+                        {
+                            var danhGia = new DanhGiaDichVu
+                            {
+                                SoDK = model.SoDK,
+                                DanhGia = model.DanhGia,
+                                BinhLuan = model.BinhLuan,
+                                NgayDanhGia = DateTime.Now
+                            };
+                            db.DanhGiaDichVus.InsertOnSubmit(danhGia);
+
+                            // Cập nhật trạng thái của dịch vụ đăng ký
+                            var dangKyDichVu = db.DangKyDichVus.FirstOrDefault(d => d.SoDK == model.SoDK);
+                            if (dangKyDichVu != null)
+                            {
+                                dangKyDichVu.TinhTrang = 3; // Đã Đánh Giá
+                            }
+                            db.SubmitChanges();
+                            return Json(new { Success = true, Message = "Đánh giá thành công!" });
+                        }
+                        catch (Exception ex)
+                        {
+                            return Json(new { Success = false, Message = "Có lỗi xảy ra: " + ex.Message });
+                        }
+                    }
+                    else
+                    {
+                        return Json(new { Success = false, Message = "Bạn đã đánh giá dịch vụ này rồi!" });
+                    }
+                }
+            }
+            return Json(new { Success = false, Message = "Dữ liệu không hợp lệ!" });
+        }
+
     }
 }

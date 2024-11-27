@@ -3,11 +3,37 @@
     ViewBag.Title = "Đơn Đăng Ký Dịch Vụ";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('keyup', function () {
+            var value = $(this).val().toLowerCase().trim();
 
+            if (value === "") {
+                // Nếu ô tìm kiếm trống, hiển thị lại tất cả các hàng
+                $('#serviceTable .service-row').show();
+            } else {
+                // Nếu có nhập, lọc và chỉ hiển thị hàng phù hợp
+                $('#serviceTable .service-row').each(function () {
+                    var rowText = $(this).text().toLowerCase(); // Lấy toàn bộ nội dung của dòng
+                    $(this).toggle(rowText.indexOf(value) > -1); // Hiển thị nếu khớp, ẩn nếu không
+                });
+            }
+        });
+    });
+
+</script>
 <h2 style="padding-top:10px">Đơn Đăng Ký Dịch Vụ</h2>
 
-<table class="table">
+<div class="row mb-3" style="padding-left: 26px">
+    <div class="col-md-4">
+        <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm thông tin đơn đăng ký...">
+    </div>
+</div>
+<table class="table" id="serviceTable">
     <tr>
+        <th>
+            @Html.DisplayName("Mã Đơn")
+        </th>
         <th>
             @Html.DisplayName("Tên Dịch Vụ")
         </th>
@@ -16,6 +42,12 @@
         </th>
         <th>
             @Html.DisplayName("Ngày Đặt")
+        </th>
+        <th>
+            @Html.DisplayName("Thời Gian")
+        </th>
+        <th>
+            @Html.DisplayName("Phụ Trách")
         </th>
         <th>
             @Html.DisplayName("Thông tin khách hàng")
@@ -36,7 +68,10 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="service-row">
+            <td>
+                @item.SoDK
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ChiTietDichVu.DichVu.TenDV)
             </td>
@@ -49,6 +84,12 @@
             </td>
             <td>
                 @String.Format("{0: dd/MM/yyyy}", item.NgayDangKy)
+            </td>
+            <td>
+                @item.KhungGio
+            </td>
+            <td>
+                @item.TENNV
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Hoten)<br />
@@ -67,7 +108,7 @@
                 }
                 else if (item.TinhTrang == 2)
                 {
-                    <text>Đã Hủy <i class="fa-solid fa-square-check"></i></text>
+                    <text>Đã Hủy</text>
                 }
                 else
                 {
