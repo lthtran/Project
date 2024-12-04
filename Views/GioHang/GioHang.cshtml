@@ -53,33 +53,36 @@
                     {
                         <div class="number">
                             @*<div class="buttons_added">
-                                    Số lượng:
-                                    <input class="minus is-form btn btn-sm mb-3 mt-3" type="button" value="-">
-                                    <input aria-label="quantity" class="input-qty" max="100" min="1" name="txtSoLuong" type="number" value="@item.iSOLUONG">
-                                    <input class="plus is-form btn btn-sm mb-3 mt-3" type="button" value="+">
-                             </div>*@
+                                Số lượng:
+                                <input class="minus is-form btn btn-sm mb-3 mt-3" type="button" value="-">
+                                <input aria-label="quantity" class="input-qty" max="100" min="1" name="txtSoLuong" type="number" value="@item.iSOLUONG">
+                                <input class="plus is-form btn btn-sm mb-3 mt-3" type="button" value="+">
+                            </div>*@
                             <div class="buttons_added" style="display: flex; align-items: center;">
                                 Số lượng:
-                                <input class="minus is-form btn btn-sm mb-3 mt-3" style="margin-right:2px" type="button" value="-">
-                                <input aria-label="quantity" class="input-qty" max="100" min="1" name="txtSoLuong" type="number" value="@item.iSOLUONG">
-                                <input class="plus is-form btn btn-sm mb-3 mt-3"  style="margin-left:2px" type="button" value="+">
-                            </div>
-                            @*<i class="fa fa-times"></i>*@ Đơn giá: <span class="textPrice">@String.Format("{0:0,0}", item.dDONGIA)</span>
+                                <button class="minus btn btn-sm mb-3 mt-3" data-id="@item.iMASP">-</button>
+                                <input aria-label="quantity" class="input-qty" max="100" min="1"
+                                       data-id="@item.iMASP" value="@item.iSOLUONG" type="number" name="txtSoLuong">
+                                <button class="plus btn btn-sm mb-3 mt-3" data-id="@item.iMASP">+</button>
+                            </div>  
+
+                            @*<i class="fa fa-times"></i>*@
+                            Đơn giá: <span class="textPrice">@String.Format("{0:0,0}", item.dDONGIA)</span>
                         </div>
                         <div class="total_price">
                             Thành tiền: <span class="textPrice sumprice33512298"> @String.Format("{0:0,0}", item.dTHANHTIEN)</span>
                         </div>
                         <div class="btnCart">
-                            <button class="btnClick btnDel" style="color: white !important;">
+                            <button class="btnClick btnDel" style="color: red !important;">
                                 <span>
                                     @Html.ActionLink("X", "XoaGiohang", new { @iMaSp = item.iMASP })
                                 </span>
                             </button>
                         </div>
                         <div class="buyNext">
-                            <button type="submit" class="btn-sm">
+                            @*<button type="submit" class="btn-sm">
                                 <i class="fa-solid fa-rotate"></i>
-                            </button>
+                            </button>*@
                             <a size="50" style="font-size:13px" href="@Url.Action("Chitiet", "User", new { id = item.iMASP})"> Xem chi tiết </a>
                         </div>
                     }
@@ -118,7 +121,107 @@
     </div>
 </div>
 
+<script>
+    @*$(document).on('click', '.minus, .plus', function () {
+        var button = $(this);
+        var input = button.siblings('.input-qty');
+        var currentValue = parseInt(input.val());
+        var newValue = button.hasClass('minus') ? currentValue - 1 : currentValue + 1;
+        var max = parseInt(input.attr('max'));
+        var min = parseInt(input.attr('min'));
+        var productId = input.data('id');
 
+        if (newValue >= min && newValue <= max) {
+            input.val(newValue);
+
+            // Gửi AJAX để cập nhật
+            updateCart(productId, newValue);
+        }
+    });
+
+    function updateCart(productId, quantity) {
+        $.ajax({
+            url: '@(Url.Action("CapnhatGiohang", "GioHang"))',
+            type: 'POST',
+            data: { iMaSP: productId, soLuong: quantity },
+            success: function (response) {
+                if (response.error) {
+                    alert(response.error);
+                } else {
+                    // Cập nhật giá trị thành tiền
+                    $('input[data-id="' + productId + '"]').closest('.numberPrice').find('.textPrice').text(new Intl.NumberFormat().format(response.thanhTien) + " VNĐ");
+                    // Cập nhật tổng tiền và số lượng
+                    $('.sumItemCart .sumPrice').first().text(new Intl.NumberFormat().format(response.tongSoLuong));
+                    $('.sumItemCart .sumPrice').last().text(new Intl.NumberFormat().format(response.tongTien) + " VNĐ");
+                }
+            },
+            error: function () {
+                alert('Có lỗi xảy ra khi cập nhật giỏ hàng!');
+            }
+        });
+    }*@
+    $(document).on('keypress', '.input-qty', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            // Cập nhật số lượng khi nhấn Enter
+            var input = $(this);
+            var productId = input.data('id');
+            var newValue = parseInt(input.val());
+            updateCart(productId, newValue);
+        }
+    });
+    $(document).on('click', '.minus, .plus', function (e) {
+        e.preventDefault(); // Prevent default button behavior
+        var button = $(this);
+        var input = button.siblings('.input-qty');
+        var currentValue = parseInt(input.val());
+        var newValue = button.hasClass('minus') ? currentValue - 1 : currentValue + 1;
+        var max = parseInt(input.attr('max'));
+        var min = parseInt(input.attr('min'));
+        var productId = input.data('id');
+
+        if (newValue >= min && newValue <= max) {
+            // Prevent immediate form submission
+            input.val(newValue);
+
+            // Send AJAX to update cart
+            updateCart(productId, newValue);
+            //console.log("tran khung", newValue, productId)
+        } else {
+            // Optional: Show an error message if quantity is out of bounds
+            alert(newValue < min ? "Số lượng tối thiểu là 1" : "Số lượng vượt quá tồn kho");
+        }
+    });
+
+    function updateCart(productId, quantity) {
+    $.ajax({
+        url: '@(Url.Action("CapnhatGiohang", "GioHang"))',
+        type: 'POST',
+        data: { productId, quantity },
+        //dataType: 'json', // Explicitly specify JSON
+        success: function (response) {
+            if (response.error) {
+                // Show error message and revert quantity
+                alert(response.error);
+                $('input[data-id="' + productId + '"]').val(response.maxQuantity || response.minQuantity);
+            } else {
+                // Update total price for this item
+                var itemTotalPrice = response.thanhTien;
+                $('input[data-id="' + productId + '"]').closest('.numberPrice')
+                    .find('.sumprice33512298').text(new Intl.NumberFormat().format(itemTotalPrice) + " VNĐ");
+
+                // Update total quantity and total price
+                $('.sumItemCart .sumPrice').first().text(new Intl.NumberFormat().format(response.tongSoLuong));
+                $('.sumItemCart .sumPrice').last().text(new Intl.NumberFormat().format(response.tongTien) + " VNĐ");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", status, error);
+            alert('Có lỗi xảy ra khi cập nhật giỏ hàng!');
+        }
+    });
+}
+</script>
 
 <script>
     $(".hc-search-wrapper > a").click(function () {
@@ -184,7 +287,7 @@
     /* ]]> */
     </b:tag >
 </style>
-<script>
+@*<script>
     $('input.input-qty').each(function () {
         var $this = $(this),
             qty = $this.parent().find('.is-form'),
@@ -203,4 +306,7 @@
             $this.attr('value', d).val(d)
         })
     })
-</script>
+</script>*@
+
+
+    

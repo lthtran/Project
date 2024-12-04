@@ -25,11 +25,25 @@ namespace WebsiteThuCungBento.Controllers
         // GET: User
         public ActionResult Index(int count = 8)
         {
-            // Truy vấn dữ liệu cho Products
+            // Tính số lượng bán cho từng sản phẩm
+            var bestSellingProductIds = (from cthd in data.CTDONDATHANGs
+                                         group cthd by cthd.MASP into g
+                                         select new
+                                         {
+                                             MASP = g.Key,
+                                             TotalSold = g.Sum(x => x.SOLUONG)
+                                         })
+                                        .OrderByDescending(x => x.TotalSold)
+                                        .Take(count)
+                                        .Select(x => x.MASP)
+                                        .ToList();
+
+            // Lấy thông tin chi tiết sản phẩm dựa trên danh sách sản phẩm nổi bật
             var allacc = (from a in data.SANPHAMs
                           join b in data.THUONGHIEUs on a.MATH equals b.MATH
                           join c in data.LOAIs on a.MALOAI equals c.MALOAI
                           join d in data.MAUSACs on a.MAMAUSAC equals d.MAMAUSAC
+                          where bestSellingProductIds.Contains(a.MASP)
                           select new ProductViewModels
                           {
                               MASP = a.MASP,
@@ -44,13 +58,11 @@ namespace WebsiteThuCungBento.Controllers
                               MOTA = a.MOTA,
                               TENMAUSAC = d.TENMAUSAC,
                               LOGO = b.LOGO ?? "default-logo.png"
-                          }).OrderBy(x => x.MASP).Take(count).ToList();
+                          }).ToList();
 
-            // Truy vấn dữ liệu cho ListDV (Dịch vụ hoặc thông tin liên quan)
+            // Truy vấn dữ liệu cho ListDV
             var listDV = new ListDVViewModel
             {
-                // Giả sử bạn đã có logic để truy vấn và điền dữ liệu vào ListDVViewModel
-                // Ví dụ: listDV = data.DichVus.ToList();
                 listDV = data.DichVus.ToList(),
                 listCTDV = data.ChiTietDichVus.ToList(),
                 ADMINs = data.ADMINs.ToList(),
@@ -61,13 +73,11 @@ namespace WebsiteThuCungBento.Controllers
             {
                 Products = allacc,
                 ListDV = listDV
-                
             };
 
             return View(viewModel);
         }
 
-        
 
         #region Lấy sản phẩm
         public ActionResult sanpham(int? page)
@@ -122,12 +132,24 @@ namespace WebsiteThuCungBento.Controllers
         #region Lấy chi tiết sản phẩm
         public ActionResult Chitiet(int id)
         {
-            var detail = from a in data.SANPHAMs
-                         join b in data.THUONGHIEUs on a.MATH equals b.MATH
-                         join c in data.LOAIs on a.MALOAI equals c.MALOAI
-                         join d in data.MAUSACs on a.MAMAUSAC equals d.MAMAUSAC
-                         join h in data.HINHs on a.MASP equals h.MASP
-                         where a.MASP == id
+            // First, check if the product exists
+            var product = data.SANPHAMs.FirstOrDefault(a => a.MASP == id);
+            if (product == null)
+            {
+                // Redirect to error page or product list if no product is found
+                return RedirectToAction("index", "User");
+            }
+
+            // Perform left joins to handle cases where related records might be missing
+            var detail = from a in data.SANPHAMs.Where(x => x.MASP == id)
+                         join b in data.THUONGHIEUs on a.MATH equals b.MATH into brandGroup
+                         from brand in brandGroup.DefaultIfEmpty()
+                         join c in data.LOAIs on a.MALOAI equals c.MALOAI into categoryGroup
+                         from category in categoryGroup.DefaultIfEmpty()
+                         join d in data.MAUSACs on a.MAMAUSAC equals d.MAMAUSAC into colorGroup
+                         from color in colorGroup.DefaultIfEmpty()
+                         join h in data.HINHs on a.MASP equals h.MASP into imageGroup
+                         from image in imageGroup.DefaultIfEmpty()
                          select new ProductViewModels
                          {
                              MASP = a.MASP,
@@ -136,14 +158,23 @@ namespace WebsiteThuCungBento.Controllers
                              HINHANH = a.HINHANH,
                              MATH = a.MATH,
                              MALOAI = a.MALOAI,
-                             TENTH = b.TENTH,
-                             TENLOAI = c.TENLOAI,
-                             SOLUONG = (int)a.SOLUONG,
+                             TENTH = brand != null ? brand.TENTH : "Không xác định",
+                             TENLOAI = category != null ? category.TENLOAI : "Không xác định",
+                             SOLUONG = (int)(a.SOLUONG ?? 0),
                              MOTA = a.MOTA,
-                             TENMAUSAC = d.TENMAUSAC,
-                             HINH1 = h.HINH1,
+                             TENMAUSAC = color != null ? color.TENMAUSAC : "Không xác định",
+                             HINH1 = image != null ? image.HINH1 : null
                          };
-            return View(detail.SingleOrDefault());
+
+            var result = detail.FirstOrDefault();
+
+            if (result == null)
+            {
+                // Log the error or handle as needed
+                return RedirectToAction("index", "User");
+            }
+
+            return View(result);
         }
         #endregion
 

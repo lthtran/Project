@@ -84,6 +84,12 @@ namespace WebsiteThuCungBento.Controllers
                         fileUpload.SaveAs(path);
                     }
                     sanpham.HINHANH = fileName;
+                    // Nếu SOLUONG là NULL, gán mặc định giá trị 0
+                    if (sanpham.SOLUONG == null)
+                    {
+                        sanpham.SOLUONG = 0;
+                    }
+
                     data.SANPHAMs.InsertOnSubmit(sanpham);
                     data.SubmitChanges();
                     return RedirectToAction("Index", "SanPham");

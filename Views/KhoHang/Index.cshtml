@@ -4,23 +4,52 @@
     ViewBag.Title = "Kho hàng sản phẩm";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('keyup', function () {
+            var value = $(this).val().toLowerCase().trim();
 
+            if (value === "") {
+                // Nếu ô tìm kiếm trống, hiển thị lại tất cả các hàng
+                $('#serviceTable .service-row').show();
+            } else {
+                // Nếu có nhập, lọc và chỉ hiển thị hàng phù hợp
+                $('#serviceTable .service-row').each(function () {
+                    var rowText = $(this).text().toLowerCase(); // Lấy toàn bộ nội dung của dòng
+                    $(this).toggle(rowText.indexOf(value) > -1); // Hiển thị nếu khớp, ẩn nếu không
+                });
+            }
+        });
+    });
+
+</script>
 <h2>TRANG QUẢN LÝ KHO HÀNG</h2>
 
 <h5 style="width:100%; padding-top:10px">
     <u>
-        <i class="fas fa-plus-circle" style="margin-left:25px; font-size: 20px;"></i>
+        <i class="fas fa-plus-circle" style="margin-left:23px; font-size: 20px;"></i>
         @Html.ActionLink("THÊM MỚI SỐ LƯỢNG SẢN PHẨM NHẬP KHO", "Create")
     </u>
 </h5>
+<div class="row mb-3" style="padding-left: 30px">
+    <div class="col-md-4">
+        <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm ngày nhập hoặc sản phẩm...">
+    </div>
+</div>
 
-<table class="table">
+<table class="table" id="serviceTable">
     <tr>
+        <th>
+            Mã phiếu nhập kho:
+        </th>
         <th>
             Ngày nhập:
         </th>
         <th>
             Mã sản phẩm:
+        </th>
+        <th>
+            Tên sản phẩm:
         </th>
         <th>
             Số lượng:
@@ -32,12 +61,18 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="service-row">
+            <td>
+                @Html.DisplayFor(modelItem => item.MAPHIEUNK)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NGAYNK)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MASP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SANPHAM.TENSP)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SOLUONG)

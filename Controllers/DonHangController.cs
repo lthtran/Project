@@ -164,7 +164,32 @@ namespace WebsiteThuCungBento.Controllers
                 return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message });
             }
         }
+        [HttpGet]
+        public JsonResult XemDanhGia(int id)
+        {
+            using (var db = new DataClassesDataContext())
+            {
+                // Tìm đánh giá dựa trên SoDK
+                var danhGia = db.DanhGiaDichVus
+                                .Where(dg => dg.SoDK == id)
+                                .Select(dg => new
+                                {
+                                    DanhGia = dg.DanhGia,  // Số sao đánh giá
+                                    BinhLuan = dg.BinhLuan,  // Bình luận của khách hàng
+                                    NgayDanhGia = dg.NgayDanhGia // Ngày đánh giá
+                                })
+                                .FirstOrDefault();
 
+                if (danhGia != null)
+                {
+                    return Json(new { Success = true, Data = danhGia }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { Success = false, Message = "Không tìm thấy đánh giá cho đơn này." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
 
         //public ActionResult XacnhanXoaDon(int id)
         //{

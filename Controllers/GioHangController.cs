@@ -203,16 +203,74 @@ namespace WebsiteThuCungBento.Controllers
         }
 
         //Cap nhat Giỏ hàng
-        public ActionResult CapnhatGiohang(int iMaSP, FormCollection f)
+
+        [HttpPost]
+        public ActionResult CapnhatGiohang(int productId, int quantity)
         {
+            // Lấy danh sách giỏ hàng
             List<GiohangModels> dsGiohang = Laygiohang();
-            GiohangModels sanpham = dsGiohang.SingleOrDefault(n => n.iMASP == iMaSP);
+            // Tìm sản phẩm trong giỏ hàng
+            GiohangModels sanpham = dsGiohang.SingleOrDefault(n => n.iMASP == productId);
+
             if (sanpham != null)
             {
-                sanpham.iSOLUONG = int.Parse(f["txtSoluong"].ToString());
+                // Kiểm tra số lượng hợp lệ
+                if (quantity > 0 && quantity <= sanpham.CONLAI)
+                {
+                    sanpham.iSOLUONG = quantity;
+                    // Lưu lại danh sách giỏ hàng vào session
+                    //Session["GioHang"] = dsGiohang;
+                    string userId = "";
+
+                    if (Session["Taikhoan"] != null)
+                    {
+                        KHACHHANG user = (KHACHHANG)Session["Taikhoan"];
+                        userId = user.MAKH.ToString(); // Use User ID or username
+                    }
+                    var serializer = new JavaScriptSerializer();
+                    string json = serializer.Serialize(dsGiohang);
+                    HttpCookie cartCookie = new HttpCookie("Giohang_" + userId, Server.UrlEncode(json))
+                    {
+                        Expires = DateTime.Now.AddDays(7) // Giữ giỏ hàng trong 7 ngày
+                    };
+                    Response.Cookies.Add(cartCookie);
+
+                }
+                else if (quantity > sanpham.CONLAI)
+                {
+                    return Json(new { error = "Số lượng vượt quá tồn kho!", maxQuantity = sanpham.CONLAI });
+                }
+                else
+                {
+                    return Json(new { error = "Số lượng không hợp lệ!", minQuantity = 1 });
+                }
             }
-            return RedirectToAction("Giohang");
+
+            // Tính tổng tiền và số lượng trong giỏ hàng
+            double tongTien = dsGiohang.Sum(sp => sp.dTHANHTIEN);
+            int tongSoLuong = dsGiohang.Sum(sp => sp.iSOLUONG);
+
+            // Trả về dữ liệu dưới dạng JSON
+            return Json(new
+            {
+                thanhTien = sanpham?.dTHANHTIEN ?? 0,
+                tongTien,
+                tongSoLuong
+            });
         }
+
+
+        //public ActionResult CapnhatGiohang(int iMaSP, FormCollection f)
+        //{
+        //    List<GiohangModels> dsGiohang = Laygiohang();
+        //    GiohangModels sanpham = dsGiohang.SingleOrDefault(n => n.iMASP == iMaSP);
+        //    if (sanpham != null)
+        //    {
+        //        sanpham.iSOLUONG = int.Parse(f["txtSoluong"].ToString());
+        //    }
+        //    return RedirectToAction("Giohang");
+        //}
+
         //Xoa Giohang
         //public ActionResult XoaGiohang(int iMaSP)
         //{

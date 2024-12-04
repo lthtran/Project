@@ -18,13 +18,12 @@ namespace WebsiteThuCungBento.Models
         public String TENTH { get; set; }
         public String TENLOAI { get; set; }
         public int? SOLUONG { get; set; }
+        public int SOLUONGBAN { get; set; }
         public string MOTA { get; set; }
         public String TENMAUSAC { get; set; }
         public int? TENKICHTHUOC { get; set; }
         public string HINH1 { get; set; }
         public string LOGO { get; set; }
-        //public string THANHTOANON { get; set; }
-
 
         public int GIAMGIA { get; set; }
 

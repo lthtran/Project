@@ -204,7 +204,7 @@ namespace WebsiteThuCungBento.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Lỗi khi xóa: Tài khoản có thể đang được sử dụng, vui lòng xóa chức năng của tài khoản trước khi xóa hoàn toàn."  });
+                return Json(new { success = false, message = "Tài khoản có thể đang được sử dụng."  });
             }
         }
 

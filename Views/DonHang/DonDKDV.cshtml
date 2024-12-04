@@ -165,8 +165,249 @@
                         Duyệt Đơn
                     </button>
                 }
+                else if (item.TinhTrang == 3)
+                { <button class="btn btn-info" onclick="viewRating(@item.SoDK)">
+                        Xem Đánh Giá <i class="fa-regular fa-eye"></i>
+                    </button>
+                }
             </td>
         </tr>
     }
 
 </table>
+<!-- Modal xem đánh giá -->
+<div class="modal fade" id="viewRatingModal" tabindex="-1" role="dialog" aria-labelledby="viewRatingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h1 class="modal-title" id="viewRatingModalLabel">CHI TIẾT ĐÁNH GIÁ</h1>
+
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="font-weight-bold">Chất lượng dịch vụ:</label>
+                    <div class="rating-stars text-center view-only">
+                        <!-- Stars will be filled by JavaScript -->
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Bình luận:</label>
+                    <div id="viewComment" class="border p-3 rounded"></div>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Ngày đánh giá:</label>
+                    <div id="viewDate" class="text-muted"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    
+    .rating-stars {
+        display: flex;
+        justify-content: center !important;
+        font-size: 30px; /* Kích thước ngôi sao */
+        color: #ccc; /* Màu mặc định của sao */
+        cursor: pointer;
+    }
+
+        .rating-stars .star {
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+
+            .rating-stars .star.selected,
+            .rating-stars .star:hover,
+            .rating-stars .star.hovered {
+                color: #f39c12; /* Màu vàng cho sao đã chọn hoặc đang hover */
+            }
+
+
+    .modal-footer {
+        border-top: none;
+        padding: 10px 20px;
+        text-align: right;
+    }
+
+    .view-only .star {
+        cursor: default;
+        pointer-events: none;
+    }
+
+    #viewComment {
+        background-color: #f8f9fa;
+        min-height: 50px;
+    }
+
+    #viewRatingModal {
+        /*        display: block ;*/
+        visibility: visible !important;
+        opacity: 1 !important;
+/*        padding-top: 200px;*/
+    }
+</style>
+@*<script>
+    function viewRating(SoDK) {
+    // Gọi AJAX để lấy thông tin đánh giá (nếu cần) hoặc hiển thị modal trực tiếp
+    $.ajax({
+        url: '@Url.Action("XemDanhGia", "User")',
+        method: 'GET',
+        data: { id: SoDK },
+        success: function(response) {
+            if (response.Success) {
+                // Hiển thị chi tiết đánh giá (nếu có)
+                $('.view-only').empty();
+                for (let i = 1; i <= 5; i++) {
+                    let star = $('<span class="star">★</span>');
+                    if (i <= response.Data.DanhGia) {
+                        star.addClass('selected');
+                    }
+                    $('.view-only').append(star);
+                }
+
+                $('#viewComment').text(response.Data.BinhLuan);
+                $('#viewDate').text(new Date(response.Data.NgayDanhGia).toLocaleDateString('vi-VN'));
+
+                $('#viewRatingModal').modal('show');
+            } else {
+                // Trường hợp không lấy được dữ liệu đánh giá
+                alert('Không có dữ liệu đánh giá!');
+            }
+        },
+        error: function() {
+            alert('Có lỗi xảy ra khi tải đánh giá!');
+        }
+    });
+}
+
+
+</script>*@
+<script>
+function viewRating(SoDK) {
+    $.ajax({
+        url: '@Url.Action("XemDanhGia", "User")',
+        method: 'GET',
+        data: { id: SoDK },
+        success: function (response) {
+            if (response.Success) {
+                // Hiển thị đánh giá sao
+                $('.view-only').empty();
+                for (let i = 1; i <= 5; i++) {
+                    let star = $('<span class="star">★</span>');
+                    if (i <= response.Data.DanhGia) {
+                        star.addClass('selected');
+                    }
+                    $('.view-only').append(star);
+                }
+
+                // Hiển thị bình luận và ngày đánh giá
+                $('#viewComment').text(response.Data.BinhLuan);
+                let timestamp = response.Data.NgayDanhGia.match(/\d+/)[0]; // Trích xuất chỉ số thời gian
+
+                // Chuyển đổi timestamp thành đối tượng Date
+                let dateObject = new Date(parseInt(timestamp));
+
+                // Định dạng ngày theo chuẩn Việt Nam
+                $('#viewDate').text(dateObject.toLocaleDateString('vi-VN', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                }));
+
+
+                $('#viewRatingModal').modal('show');
+
+            } else {
+                alert(response.Message);
+            }
+        },
+        error: function () {
+            alert('Có lỗi xảy ra khi tải đánh giá!');
+        }
+    });
+}
+    $(document).ready(function () {
+
+        function showRatingModal(id) {
+            $('#SoDK').val(id);
+            resetRatingForm();
+            $('#ratingModal').modal('show');
+        }
+
+        function viewRating(id) {
+            $.ajax({
+                url: '@Url.Action("XemDanhGia", "User")',
+                method: 'GET',
+                data: { id: id },
+                success: function (response) {
+                    if (response.Success) {
+                        // Hiển thị đánh giá sao
+                        $('.view-only').empty();
+                        for (let i = 1; i <= 5; i++) {
+                            let star = $('<span class="star">★</span>');
+                            if (i <= response.Data.DanhGia) {
+                                star.addClass('selected');
+                            }
+                            $('.view-only').append(star);
+                        }
+
+                        // Hiển thị bình luận và ngày đánh giá
+                        $('#viewComment').text(response.Data.BinhLuan);
+                        $('#viewDate').text(new Date(response.Data.NgayDanhGia).toLocaleDateString('vi-VN'));
+
+                        $('#viewRatingModal').modal('show');
+                    } else {
+                        alert(response.Message);
+                    }
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi tải đánh giá!');
+                }
+            });
+        }
+
+        function resetRatingForm() {
+            $('#DanhGia').val(0);
+            $('#BinhLuan').val('');
+            $('.star').removeClass('selected hovered');
+            $('#starMessage').hide();
+        }
+
+        // Xử lý submit form đánh giá
+        $('#ratingForm').submit(function (e) {
+            e.preventDefault();
+            if ($('#DanhGia').val() == 0) {
+                alert('Vui lòng chọn số sao đánh giá!');
+                return;
+            }
+            var soDK = $(this).find('#SoDK').val(); // Lấy giá trị SoDK từ input ẩn
+            var danhGia = $(this).find('input[name="DanhGia"]').val(); // Lấy giá trị từ input đánh giá
+            var binhLuan = $(this).find('textarea[name="BinhLuan"]').val(); // Lấy giá trị từ textarea
+            var myModal = new bootstrap.Modal(document.getElementById('ratingModal'));
+            $.ajax({
+                url: '@Url.Action("Danhgiadichvu", "User")',
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.Success) {
+                        alert(response.Message);
+                        window.location.reload();
+                    } else {
+                        alert(response.Message);
+                    }
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi gửi đánh giá!');
+                }
+            });
+        });
+    });
+</script>

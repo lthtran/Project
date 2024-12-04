@@ -31,6 +31,32 @@ namespace WebsiteThuCungBento.Controllers
                 return View(kho.Single());
             }
         }
+        //[HttpGet]
+        //public ActionResult Create()
+        //{
+        //    if (Session["Taikhoanadmin"] == null)
+        //        return RedirectToAction("dangnhap", "Admin");
+        //    else
+        //    {
+        //        ViewBag.MASP = new SelectList(data.SANPHAMs.ToList().OrderBy(n => n.TENSP), "MASP", "TENSP");
+        //        return View();
+        //    }
+        //}
+        //[HttpPost]
+        //public ActionResult Create(PHIEUNHAPKHO kho)
+        //{
+        //    if (Session["Taikhoanadmin"] == null)
+        //        return RedirectToAction("dangnhap", "Admin");
+        //    else
+        //    {
+        //        ViewBag.MASP = new SelectList(data.SANPHAMs.ToList().OrderBy(n => n.TENSP), "MASP", "TENSP");
+        //        data.PHIEUNHAPKHOs.InsertOnSubmit(kho);
+        //        SANPHAM sanpham = data.SANPHAMs.Single(n => n.MASP == kho.MASP);
+        //        sanpham.SOLUONG = sanpham.SOLUONG + kho.SOLUONG;
+        //        data.SubmitChanges();
+        //        return RedirectToAction("Index", "KhoHang");
+        //    }
+        //}
         [HttpGet]
         public ActionResult Create()
         {
@@ -38,10 +64,52 @@ namespace WebsiteThuCungBento.Controllers
                 return RedirectToAction("dangnhap", "Admin");
             else
             {
-                ViewBag.MASP = new SelectList(data.SANPHAMs.ToList().OrderBy(n => n.TENSP), "MASP", "TENSP");
+                // Lấy danh sách sản phẩm kèm số lượng tồn kho
+                ViewBag.MASP = data.SANPHAMs
+                    .ToList()
+                    .OrderBy(n => n.TENSP)
+                    .Select(sp => new SelectListItem
+                    {
+                        Value = sp.MASP.ToString(),
+                        Text = $"{sp.TENSP} (Còn lại: {sp.SOLUONG})"
+                    });
+
                 return View();
             }
         }
+
+        //[HttpPost]
+        //public ActionResult Create(PHIEUNHAPKHO kho)
+        //{
+        //    if (Session["Taikhoanadmin"] == null)
+        //        return RedirectToAction("dangnhap", "Admin");
+        //    else
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            data.PHIEUNHAPKHOs.InsertOnSubmit(kho);
+
+        //            // Cập nhật số lượng sản phẩm trong kho
+        //            SANPHAM sanpham = data.SANPHAMs.Single(n => n.MASP == kho.MASP);
+        //            sanpham.SOLUONG = sanpham.SOLUONG + kho.SOLUONG;
+
+        //            data.SubmitChanges();
+        //            return RedirectToAction("Index", "KhoHang");
+        //        }
+
+        //        // Nếu có lỗi, tái tạo ViewBag.MASP
+        //        ViewBag.MASP = data.SANPHAMs
+        //            .ToList()
+        //            .OrderBy(n => n.TENSP)
+        //            .Select(sp => new SelectListItem
+        //            {
+        //                Value = sp.MASP.ToString(),
+        //                Text = $"{sp.TENSP} (Còn lại: {sp.SOLUONG})"
+        //            });
+
+        //        return View(kho);
+        //    }
+        //}
         [HttpPost]
         public ActionResult Create(PHIEUNHAPKHO kho)
         {
@@ -49,14 +117,39 @@ namespace WebsiteThuCungBento.Controllers
                 return RedirectToAction("dangnhap", "Admin");
             else
             {
-                ViewBag.MASP = new SelectList(data.SANPHAMs.ToList().OrderBy(n => n.TENSP), "MASP", "TENSP");
-                data.PHIEUNHAPKHOs.InsertOnSubmit(kho);
-                SANPHAM sanpham = data.SANPHAMs.Single(n => n.MASP == kho.MASP);
-                sanpham.SOLUONG = sanpham.SOLUONG + kho.SOLUONG;
-                data.SubmitChanges();
-                return RedirectToAction("Index", "KhoHang");
+                // Kiểm tra số lượng phải lớn hơn 0
+                if (kho.SOLUONG <= 0)
+                {
+                    ModelState.AddModelError("SOLUONG", "Số lượng phải lớn hơn 0.");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // Thêm phiếu nhập kho vào cơ sở dữ liệu
+                    data.PHIEUNHAPKHOs.InsertOnSubmit(kho);
+
+                    // Cập nhật số lượng sản phẩm trong kho
+                    SANPHAM sanpham = data.SANPHAMs.Single(n => n.MASP == kho.MASP);
+                    sanpham.SOLUONG = sanpham.SOLUONG + kho.SOLUONG;
+
+                    data.SubmitChanges();
+                    return RedirectToAction("Index", "KhoHang");
+                }
+
+                // Nếu có lỗi, tái tạo ViewBag.MASP để hiển thị danh sách
+                ViewBag.MASP = data.SANPHAMs
+                    .ToList()
+                    .OrderBy(n => n.TENSP)
+                    .Select(sp => new SelectListItem
+                    {
+                        Value = sp.MASP.ToString(),
+                        Text = $"{sp.TENSP} (Còn lại: {sp.SOLUONG})"
+                    });
+
+                return View(kho);
             }
         }
+
         [HttpGet]
         public ActionResult Edit(int id)
         {

@@ -4,7 +4,25 @@
     ViewBag.Title = "Trang quản lý khách hàng";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('keyup', function () {
+            var value = $(this).val().toLowerCase().trim();
 
+            if (value === "") {
+                // Nếu ô tìm kiếm trống, hiển thị lại tất cả các hàng
+                $('#serviceTable .service-row').show();
+            } else {
+                // Nếu có nhập, lọc và chỉ hiển thị hàng phù hợp
+                $('#serviceTable .service-row').each(function () {
+                    var rowText = $(this).text().toLowerCase(); // Lấy toàn bộ nội dung của dòng
+                    $(this).toggle(rowText.indexOf(value) > -1); // Hiển thị nếu khớp, ẩn nếu không
+                });
+            }
+        });
+    });
+
+</script>
 <h2>TRANG QUẢN LÝ KHÁCH HÀNG </h2>
 
 <h5 style="width:100%; padding-top:10px">
@@ -14,8 +32,13 @@
         @Html.ActionLink("THÊM MỚI KHÁCH HÀNG", "Create")
     </u>
 </h5>
+<div class="row mb-3" style="padding-left: 30px">
+    <div class="col-md-4">
+        <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm khách hàng...">
+    </div>
+</div>
 
-<table class="table">
+<table class="table" id="serviceTable">
     <tr>
         <th>
             Họ tên
@@ -45,7 +68,7 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="service-row">
             <td>
                 @Html.DisplayFor(modelItem => item.HOTENKH)
             </td>

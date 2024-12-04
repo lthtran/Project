@@ -97,11 +97,17 @@ namespace WebsiteThuCungBento.Controllers
             return slDonHang;
         }
 
+        //public decimal ThongKeTongDoanhThu()
+        //{
+        //    decimal TongDoanhThu = decimal.Parse(data.CTDONDATHANGs.Sum(n => n.SOLUONG * n.DONGIA).ToString());
+        //    return TongDoanhThu;
+        //}
         public decimal ThongKeTongDoanhThu()
         {
-            decimal TongDoanhThu = decimal.Parse(data.CTDONDATHANGs.Sum(n => n.SOLUONG * n.DONGIA).ToString());
+            decimal TongDoanhThu = decimal.Parse(data.CTDONDATHANGs.Sum(n => (n.DONGIA - n.SANPHAM.DONGIAMUA) * n.SOLUONG).ToString());
             return TongDoanhThu;
         }
+
 
         public decimal ThongKeDoanhThuThang(int Thang, int Nam)
         {
