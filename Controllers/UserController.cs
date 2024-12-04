@@ -807,9 +807,11 @@ namespace WebsiteThuCungBento.Controllers
         [HttpPost]
         public ActionResult TrangDangKy(FormCollection collection)
         {
+            DateTime? ngayDangKy = TempData["NgayDangKy"] as DateTime?;
             DangKyDichVu dkdv = new DangKyDichVu();
             KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
             List<DangKyDVModels> lstDangKy = Session["DonDK"] as List<DangKyDVModels>;
+
             if (kh != null)
             {
                 dkdv.MaKH = kh.MAKH;
@@ -831,9 +833,19 @@ namespace WebsiteThuCungBento.Controllers
                 dkdv.MAADMIN = i?.iMAADMIN;
                 dkdv.TENNV = i.iTENNV;
             }
-            dkdv.NgayDangKy = DateTime.Now;
+           
             dkdv.TongTien = Convert.ToInt32(collection["tongtien"]);
             dkdv.TinhTrang = 0;
+            if (ngayDangKy.HasValue)
+            {
+                // Sử dụng ngayDangKy ở đây
+                dkdv.NgayDangKy = ngayDangKy.Value;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Ngày đăng ký không hợp lệ!";
+                return RedirectToAction("TrangDangKy");
+            }
             data.DangKyDichVus.InsertOnSubmit(dkdv);
             data.SubmitChanges();
 
@@ -870,6 +882,11 @@ namespace WebsiteThuCungBento.Controllers
                 TempData["ErrorMessage"] = "Vui Lòng Chọn Cân Nặng Của Bé!";
                 return RedirectToAction("spathucung");
             }
+            if (string.IsNullOrEmpty(f["NgayDangKy"]))
+            {
+                TempData["ErrorMessage"] = "Vui Lòng Chọn Ngày Đăng Ký!";
+                return RedirectToAction("spathucung");
+            }
             if (string.IsNullOrEmpty(f["MAADMIN"]))
             {
                 // Nếu đã có người đăng ký ca này, hiển thị thông báo và không tiếp tục
@@ -887,7 +904,7 @@ namespace WebsiteThuCungBento.Controllers
             int MAADMIN = int.Parse(f["MAADMIN"].ToString());
             var item = data.ChiTietDichVus.SingleOrDefault(n => n.MaCT == iMaCT);
             string TENNV = data.ADMINs.FirstOrDefault(n => n.MAADMIN == MAADMIN)?.HOTEN;
-            DateTime today = DateTime.Today;
+            DateTime ndk = DateTime.Parse(f["NgayDangKy"]); // Lấy Ngày Đăng Ký từ form
 
             if (TENNV == null)
             {
@@ -897,7 +914,7 @@ namespace WebsiteThuCungBento.Controllers
             var existingBooking = data.DangKyDichVus
              .Where(d => d.MAADMIN == MAADMIN
                     && d.KhungGio == KhungGio
-                    && d.NgayDangKy == today) // Chỉ kiểm tra ngày hôm nay
+                    && d.NgayDangKy == ndk) // Chỉ kiểm tra ngày hôm nay
              .FirstOrDefault();
 
             if (existingBooking != null)
@@ -930,7 +947,25 @@ namespace WebsiteThuCungBento.Controllers
                 dondk.iTENNV = TENNV;
                 lstDangKy.Add(dondk);
             }
-            return Redirect("TrangDangKy");
+            DangKyDichVu dkdv = new DangKyDichVu();
+
+            if (DateTime.TryParse(f["NgayDangKy"], out DateTime ngayDangKy))
+            {
+                KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
+                if (kh == null)
+                {
+                    return Redirect("dangnhap"); // Hoặc chuyển hướng đến trang khác
+                }
+                dkdv.MaCT = dondk.iMACT;
+                dkdv.MaKH = kh.MAKH;
+                TempData["NgayDangKy"] = ngayDangKy; // Lưu vào TempData
+                return RedirectToAction("TrangDangKy");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Ngày đăng ký không hợp lệ!";
+                return RedirectToAction("TrangDangKy");
+            }
         }
         //public ActionResult ListServiceRegis()
         //{

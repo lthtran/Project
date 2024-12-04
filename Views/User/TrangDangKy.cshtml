@@ -39,10 +39,23 @@
                                 <div class="detailPay" id="method_payment">
                                     <p class="text1">Thanh toán</p>
                                     <div class="form-check form-check-inline form-checkFix" style="display: flex;">
-                                        <input checked="checked" class="form-check-input update_price" id="thanhToanKGH" name="payment_method" type="radio" value="cod">
+                                        <input class="form-check-input update_price"
+                                               id="thanhToanKGH"
+                                               name="payment_method"
+                                               type="radio"
+                                               value="cod">
                                         <label class="form-check-label" for="thanhToanKGH">Thanh toán tiền mặt tại quầy.</label>
                                     </div>
-                                    <p class="text2">Thanh toán tiền mặt cho đơn vị tại quầy.</p>
+                                    <br />
+                                    <div class="form-check form-check-inline form-checkFix" style="display: flex;">
+                                        <input class="form-check-input update_price"
+                                               id="thanhToanVNP"
+                                               name="payment_method"
+                                               type="radio"
+                                               value="vnpay">
+                                        <label class="form-check-label" for="thanhToanVNP">Thanh toán qua VNPay.</label>
+                                    </div>
+
                                 </div>
                                 <a class="text-primary" href="https://localhost:44335/User/spathucung">
                                     <i class="fa-solid fa-chevron-left"></i>
@@ -108,6 +121,7 @@
                                             <p class="total">TỔNG CỘNG</p>
                                             <p class="priceTotal" id="subtotal">@String.Format("{0:0,0}", item.iTONGTIEN)đ</p>
                                             <input type="number" hidden name="tongtien" value="@item.iTONGTIEN" />
+                                            <input type="hidden" id="hidden_total" name="tongtien" value="@item.iTONGTIEN" />
                                         </div>
                                     </div>
                                 }
@@ -122,3 +136,20 @@
         </div>
     </div>
 }
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lắng nghe sự kiện thay đổi trên radio button
+        document.querySelectorAll('input[name="payment_method"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                const form = document.getElementById('orderAMARE');
+                if (this.value === 'cod') {
+                    // Nếu chọn thanh toán tiền mặt, sử dụng form hành động "TrangDangKy"
+                    form.action = '/User/TrangDangKy';
+                } else if (this.value === 'vnpay') {
+                    // Nếu chọn thanh toán qua VNPay, thay đổi form hành động
+                    form.action = '/PaymentService/CreatePaymentUrl';
+                }
+            });
+        });
+    });
+</script>

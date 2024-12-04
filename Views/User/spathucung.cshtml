@@ -45,6 +45,17 @@
             color: #fff;
             border-color: #ffbf00;
         }
+        .time-slot.disabled {
+    background-color: #ccc;  /* Màu nền khi vô hiệu hóa */
+    color: #999;  /* Làm mờ màu chữ */
+    cursor: not-allowed;  /* Thay đổi con trỏ khi di chuột qua */
+    opacity: 0.5;  /* Làm mờ toàn bộ nút */
+}
+
+.time-slot.selected {
+    background-color: #ffbf00;  /* Màu nền khi chọn */
+    color: #fff;  /* Màu chữ khi chọn */
+}
 </style>
 <div id="notification" class="notification" style="display: none;">
 </div>
@@ -121,7 +132,7 @@
                         </div>
                     </div>
 
-                    <form class="leftBlock product-form" action="/User/DangKyDichVu" method="post" novalidate="novalidate">
+                    <form id="DangKyDichVu" class="leftBlock product-form" action="/User/DangKyDichVu" method="post" novalidate="novalidate">
                         <input type="text" hidden name="serviceid" id="serviceid" />
                         <div class="selectServiceBlock">
                             @foreach (var listspa in Model.listDV)
@@ -161,8 +172,13 @@
                         <div class="priceBlock">
                             <p class="priceText data_booking" id="price_service"></p>
                         </div>
-
+                        <div class="form-group">
+                            <label for="NgayDangKy">Ngày Đăng Ký:</label>
+                            <input type="date" id="NgayDangKy" name="NgayDangKy" />
+                            <div id="errorContainer" style="color: red; display: none;"></div>
+                        </div>
                         <label style="margin-top: 10px; font-size: 18px; color: #ffbf00; font-weight: 150;">CHỌN KHUNG GIỜ</label>
+
                         <div class="time-slots btn-group" role="group" aria-label="Khung Giờ">
                             <button type="button" class="time-slot" data-khunggio="08:00 - 09:00" onclick="selectKhungGio(this)">08:00 - 09:00</button>
                             <button type="button" class="time-slot" data-khunggio="09:00 - 10:00" onclick="selectKhungGio(this)">09:00 - 10:00</button>
@@ -174,6 +190,7 @@
                             <button type="button" class="time-slot" data-khunggio="16:00 - 17:00" onclick="selectKhungGio(this)">16:00 - 17:00</button>
                         </div>
                         <input type="hidden" name="KhungGio" id="KhungGio" required />
+
                         <!-- Thông báo -->
                         <div id="notification"></div>
                         <div class="form-group">
@@ -198,59 +215,150 @@
                         </div>
                     </form>
                     <script>
-                        articles = document.getElementsByClassName('serviceTab');
-                        serviceblock = document.getElementsByClassName('serviceBlock');
-                        typepet = document.getElementsByClassName('typePet');
-                        var serviceid = document.getElementById("serviceid");
-                        var KhungGio = document.getElementById("KhungGio").value;
-                        for (var i = 0; i < articles.length; i++) {
-                            articles[i].addEventListener('click', redirect, false);
+                        document.getElementById("DangKyDichVu").addEventListener("submit", function (e) {
+                            var ngayDangKy = document.getElementById('NgayDangKy').value; // Lấy giá trị ngày đăng ký
+                            if (!ngayDangKy) {
+                                e.preventDefault(); // Nếu không có ngày đăng ký thì ngừng submit
+                                alert("Vui lòng chọn ngày đăng ký!");
+                            }
+                        });
+                        // Hàm để tính ngày hôm qua
+                        function getYesterday() {
+                            let today = new Date();
+                            today.setDate(today.getDate());
+                            return today.toISOString().split('T')[0]; // Định dạng YYYY-MM-DD
                         }
-                        function redirect() {
+
+                        // Hàm để tính ngày tối đa (30 ngày sau)
+                        function getMaxDate() {
+                            let today = new Date();
+                            today.setDate(today.getDate() + 7);
+                            return today.toISOString().split('T')[0]; // Định dạng YYYY-MM-DD
+                        }
+
+                        // Gán giá trị min và max cho input date khi trang tải
+                        window.onload = function () {
+                            document.getElementById('NgayDangKy').min = getYesterday(); // Ngày không được là hôm qua
+                            document.getElementById('NgayDangKy').max = getMaxDate(); // Ngày không được vượt quá 30 ngày
+                            document.getElementById('NgayDangKy').addEventListener('change', function () {
+                                // Kiểm tra nếu là ngày hôm nay, ràng buộc không cho chọn giờ quá muộn
+                                checkTimeSlots();
+                            });
+                        };
+                        // Hàm kiểm tra khung giờ khi ngày đăng ký thay đổi
+                        // Hàm kiểm tra khung giờ khi ngày đăng ký thay đổi
+                        function checkTimeSlots() {
+                            var selectedDate = document.getElementById('NgayDangKy').value; // Lấy giá trị ngày đăng ký
+                            var today = new Date();
+                            var now = today.getHours() + ":" + today.getMinutes(); // Lấy giờ hiện tại
+
+                            // Nếu ngày đăng ký là hôm nay
+                            if (selectedDate === today.toISOString().split('T')[0]) {
+                                var timeSlots = document.querySelectorAll('.time-slot');
+                                timeSlots.forEach(function (slot) {
+                                    var slotTime = slot.getAttribute('data-khunggio').split(' - ')[0]; // Lấy giờ bắt đầu khung giờ
+
+                                    // Chuyển giờ khung giờ và giờ hiện tại sang định dạng dễ so sánh
+                                    if (compareTimes(slotTime, now)) {
+                                        // Nếu giờ khung giờ nhỏ hơn giờ hiện tại, vô hiệu hóa nút
+                                        slot.disabled = true;
+                                        slot.classList.add('disabled');
+                                    } else {
+                                        // Nếu giờ khung giờ hợp lệ, kích hoạt nút
+                                        slot.disabled = false;
+                                        slot.classList.remove('disabled');
+                                    }
+                                });
+                            } else {
+                                // Nếu là ngày mai hoặc ngày sau, cho phép chọn tất cả khung giờ
+                                var timeSlots = document.querySelectorAll('.time-slot');
+                                timeSlots.forEach(function (slot) {
+                                    slot.disabled = false;
+                                    slot.classList.remove('disabled');
+                                });
+                            }
+                        }
+
+                        // Hàm so sánh giờ (giờ khung giờ vs giờ hiện tại)
+                        function compareTimes(time1, time2) {
+                            var t1 = time1.split(':');
+                            var t2 = time2.split(':');
+                            return (parseInt(t1[0]) < parseInt(t2[0])) || (parseInt(t1[0]) === parseInt(t2[0]) && parseInt(t1[1]) < parseInt(t2[1]));
+                        }
+
+                        function selectKhungGio(button) {
+                            // Lấy tất cả các nút khung giờ
+                            const timeSlots = document.querySelectorAll(".time-slot");
+
+                            // Xóa lớp 'selected' hoặc 'active' từ tất cả các nút
+                            timeSlots.forEach((slot) => {
+                                slot.classList.remove("selected", "active");
+                            });
+
+                            // Thêm lớp 'selected' hoặc 'active' vào nút được nhấp
+                            button.classList.add("selected");
+
+                            // Cập nhật giá trị cho ô input ẩn
+                            document.getElementById("KhungGio").value = button.getAttribute("data-khunggio");
+                        }
+                            articles = document.getElementsByClassName('serviceTab');
+                            serviceblock = document.getElementsByClassName('serviceBlock');
+                            typepet = document.getElementsByClassName('typePet');
+                            var serviceid = document.getElementById("serviceid");
+                            var KhungGio = document.getElementById("KhungGio").value;
+                            for (var i = 0; i < articles.length; i++) {
+                                articles[i].addEventListener('click', redirect, false);
+                        }
+                            //xử lý khi ng dùng chọn dịch vụ
+                            function redirect() {
                             for (var i = 0; i < articles.length; i++) {
                                 if (articles[i].classList.contains('active')) {
-                                    articles[i].classList.remove('active');
+                                articles[i].classList.remove('active');
                                 }
                             }
                             this.classList.add('active');
                             for (var i = 0; i < serviceblock.length; i++) {
                                 if (serviceblock[i].getAttribute('servicetype') == this.innerText) {
-                                    serviceblock[i].classList.add('active');
+                                serviceblock[i].classList.add('active');
 
                                 }
-                                else {
-                                    serviceblock[i].classList.remove('active');
+                            else {
+                                serviceblock[i].classList.remove('active');
                                 }
                             }
                             document.getElementById("price_service").innerHTML = "";
                         }
-                        for (var i = 0; i < typepet.length; i++) {
-                            typepet[i].addEventListener('click', selecttypepet, false);
+                            //thêm sự kiện click cho phần tử typePet
+                            for (var i = 0; i < typepet.length; i++) {
+                                typepet[i].addEventListener('click',
+                                    selecttypepet, false);
                         }
-                        function selecttypepet() {
+                            // Hàm xử lý khi người dùng chọn loại thú cưng
+                            function selecttypepet() {
                             for (var i = 0; i < typepet.length; i++) {
                                 if (typepet[i].classList.contains('active')) {
-                                    typepet[i].classList.remove('active');
+                                typepet[i].classList.remove('active');
                                 }
                             }
                             this.classList.add('active');
                             document.getElementById("price_service").innerHTML = this.getAttribute('priceformat');
                             serviceid.value = this.getAttribute('serviceid');
-
                         }
-                        function selectKhungGio(button) {
-                            // Get the time value from the clicked button
-                            var khunggio = button.getAttribute('data-khunggio');
 
-                            // Set the value of the hidden input field
-                            document.getElementById('KhungGio').value = khunggio;
+                            function selectKhungGio(button) {
+                            // Lấy tất cả các nút khung giờ
+                            const timeSlots = document.querySelectorAll(".time-slot");
 
-                            // Optionally, you can change the button's style to indicate selection
-                            var buttons = document.querySelectorAll('.btn-group .btn');
-                            buttons.forEach(function (btn) {
-                                btn.classList.remove('active');
+                            // Xóa lớp 'selected' hoặc 'active' từ tất cả các nút
+                            timeSlots.forEach((slot) => {
+                                slot.classList.remove("selected", "active");
                             });
-                            button.classList.add('active');
+
+                            // Thêm lớp 'selected' hoặc 'active' vào nút được nhấp
+                            button.classList.add("selected");
+
+                            // Cập nhật giá trị cho ô input ẩn
+                            document.getElementById("KhungGio").value = button.getAttribute("data-khunggio");
                         }
                     </script>
                 </div>

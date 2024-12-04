@@ -84,31 +84,6 @@ public class PaymentController : Controller
             // Do not submit changes here, just save required info for payment
         };
         TempData["PendingOrder"] = tempOrder;
-        // Create order object but do not commit changes yet
-        //DONDATHANG ddh = new DONDATHANG
-        //{
-        //    MAKH = kh.MAKH,
-        //    NGAYDAT = DateTime.Now,
-        //    NGAYGIAO = DateTime.Now.AddDays(7), // Default delivery date
-        //    TINHTRANGDH = false, // Order not confirmed yet
-        //    DATHANHTOAN = false, // Payment not done yet
-        //    TONGTIEN = (decimal)TongTien(gh) // Total amount from cart
-        //};
-
-        // Save order to database but not commit yet
-        //data.DONDATHANGs.InsertOnSubmit(ddh);
-        //data.SubmitChanges();
-
-        // Generate VNPAY payment URL
-        //var paymentModel = new VnPaymentRequestModel
-        //{
-        //    Amount = TongTien(gh),
-        //    CreateDate = DateTime.Now,
-        //    Description = $"{kh.HOTENKH} {kh.DIENTHOAI} {kh.DIACHI}",
-        //    FullName = kh.HOTENKH,
-        //    OrderId = ddh.MADH.ToString(), // Pass the order ID
-        //    ReturnUrl = Url.Action("PaymentCallback", "Payment") // Callback after payment
-        //};
         var paymentModel = new VnPaymentRequestModel
         {
             Amount = TongTien(gh),
@@ -258,8 +233,6 @@ public class PaymentController : Controller
         // Optionally, also clear the session
     }
 }
-
-
 
 //https://localhost:44335/giohang/PaymentCallBack?
 //      //vnp_Amount=900000000&vnp_BankCode=NCB&

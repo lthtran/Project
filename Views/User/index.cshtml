@@ -316,6 +316,17 @@
             flex: 1;
             min-width: 120px;
         }
+         .time-slot.disabled {
+     background-color: #ccc; /* Màu nền khi vô hiệu hóa */
+     color: #999; /* Làm mờ màu chữ */
+     cursor: not-allowed; /* Thay đổi con trỏ khi di chuột qua */
+     opacity: 0.5; /* Làm mờ toàn bộ nút */
+ }
+
+ .time-slot.selected {
+     background-color: #ffbf00; /* Màu nền khi chọn */
+     color: #fff; /* Màu chữ khi chọn */
+ }
 </style>
 <script>
     // Lấy giá trị TempData["ErrorMessage"] và chuyển sang chuỗi JavaScript
@@ -405,18 +416,26 @@
                                 <!-- Bên phải: Khung giờ và người phụ trách -->
 
                                 <div class="rightBlock">
-                                    <label style="margin-top: 10px; font-size: 16px; color: #ffbf00; font-weight: 150;">CHỌN KHUNG GIỜ</label>
-                                    <div class="time-slots btn-group" role="group" aria-label="Khung Giờ">
-                                        <button type="button" class="time-slot" data-khunggio="08:00 - 09:00" onclick="selectKhungGio(this)">08:00 - 09:00</button>
-                                        <button type="button" class="time-slot" data-khunggio="09:00 - 10:00" onclick="selectKhungGio(this)">09:00 - 10:00</button>
-                                        <button type="button" class="time-slot" data-khunggio="10:00 - 11:00" onclick="selectKhungGio(this)">10:00 - 11:00</button>
-                                        <button type="button" class="time-slot" data-khunggio="12:00 - 13:00" onclick="selectKhungGio(this)">12:00 - 13:00</button>
-                                        <button type="button" class="time-slot" data-khunggio="13:00 - 14:00" onclick="selectKhungGio(this)">13:00 - 14:00</button>
-                                        <button type="button" class="time-slot" data-khunggio="14:00 - 15:00" onclick="selectKhungGio(this)">14:00 - 15:00</button>
-                                        <button type="button" class="time-slot" data-khunggio="15:00 - 16:00" onclick="selectKhungGio(this)">15:00 - 16:00</button>
-                                        <button type="button" class="time-slot" data-khunggio="16:00 - 17:00" onclick="selectKhungGio(this)">16:00 - 17:00</button>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="NgayDangKy" class="form-label">NGÀY ĐĂNG KÝ:</label>
+                                            <input type="date" id="NgayDangKy" name="NgayDangKy" />
+                                            <div id="errorContainer" style="color: red; display: none;"></div>
+                                        </div>
                                     </div>
-
+                                    <div class="form-column">
+                                        <label style="margin-top: 10px; font-size: 16px; color: #ffbf00; font-weight: 150;" class="form-label">CHỌN KHUNG GIỜ</label>
+                                        <div class="time-slots btn-group" role="group" aria-label="Khung Giờ">
+                                            <button type="button" class="time-slot" data-khunggio="08:00 - 09:00" onclick="selectKhungGio(this)">08:00 - 09:00</button>
+                                            <button type="button" class="time-slot" data-khunggio="09:00 - 10:00" onclick="selectKhungGio(this)">09:00 - 10:00</button>
+                                            <button type="button" class="time-slot" data-khunggio="10:00 - 11:00" onclick="selectKhungGio(this)">10:00 - 11:00</button>
+                                            <button type="button" class="time-slot" data-khunggio="12:00 - 13:00" onclick="selectKhungGio(this)">12:00 - 13:00</button>
+                                            <button type="button" class="time-slot" data-khunggio="13:00 - 14:00" onclick="selectKhungGio(this)">13:00 - 14:00</button>
+                                            <button type="button" class="time-slot" data-khunggio="14:00 - 15:00" onclick="selectKhungGio(this)">14:00 - 15:00</button>
+                                            <button type="button" class="time-slot" data-khunggio="15:00 - 16:00" onclick="selectKhungGio(this)">15:00 - 16:00</button>
+                                            <button type="button" class="time-slot" data-khunggio="16:00 - 17:00" onclick="selectKhungGio(this)">16:00 - 17:00</button>
+                                        </div>
+                                    </div>
                                     <input type="hidden" name="KhungGio" id="KhungGio" required />
                                     <div id="notification"></div>
 
@@ -448,6 +467,83 @@
                             </div>
                         </form>
                         <script>
+                            // Hàm để tính ngày hôm qua
+                            function getYesterday() {
+                                let today = new Date();
+                                today.setDate(today.getDate());
+                                return today.toISOString().split('T')[0]; // Định dạng YYYY-MM-DD
+                            }
+
+                            // Hàm để tính ngày tối đa (30 ngày sau)
+                            function getMaxDate() {
+                                let today = new Date();
+                                today.setDate(today.getDate() + 7);
+                                return today.toISOString().split('T')[0]; // Định dạng YYYY-MM-DD
+                            }
+
+                            // Gán giá trị min và max cho input date khi trang tải
+                            window.onload = function () {
+                                document.getElementById('NgayDangKy').min = getYesterday(); // Ngày không được là hôm qua
+                                document.getElementById('NgayDangKy').max = getMaxDate(); // Ngày không được vượt quá 30 ngày
+                                document.getElementById('NgayDangKy').addEventListener('change', function () {
+                                    // Kiểm tra nếu là ngày hôm nay, ràng buộc không cho chọn giờ quá muộn
+                                    checkTimeSlots();
+                                });
+                            };
+                            function checkTimeSlots() {
+                                var selectedDate = document.getElementById('NgayDangKy').value; // Lấy giá trị ngày đăng ký
+                                var today = new Date();
+                                var now = today.getHours() + ":" + today.getMinutes(); // Lấy giờ hiện tại
+
+                                // Nếu ngày đăng ký là hôm nay
+                                if (selectedDate === today.toISOString().split('T')[0]) {
+                                    var timeSlots = document.querySelectorAll('.time-slot');
+                                    timeSlots.forEach(function (slot) {
+                                        var slotTime = slot.getAttribute('data-khunggio').split(' - ')[0]; // Lấy giờ bắt đầu khung giờ
+
+                                        // Chuyển giờ khung giờ và giờ hiện tại sang định dạng dễ so sánh
+                                        if (compareTimes(slotTime, now)) {
+                                            // Nếu giờ khung giờ nhỏ hơn giờ hiện tại, vô hiệu hóa nút
+                                            slot.disabled = true;
+                                            slot.classList.add('disabled');
+                                        } else {
+                                            // Nếu giờ khung giờ hợp lệ, kích hoạt nút
+                                            slot.disabled = false;
+                                            slot.classList.remove('disabled');
+                                        }
+                                    });
+                                } else {
+                                    // Nếu là ngày mai hoặc ngày sau, cho phép chọn tất cả khung giờ
+                                    var timeSlots = document.querySelectorAll('.time-slot');
+                                    timeSlots.forEach(function (slot) {
+                                        slot.disabled = false;
+                                        slot.classList.remove('disabled');
+                                    });
+                                }
+                            }
+
+                            // Hàm so sánh giờ (giờ khung giờ vs giờ hiện tại)
+                            function compareTimes(time1, time2) {
+                                var t1 = time1.split(':');
+                                var t2 = time2.split(':');
+                                return (parseInt(t1[0]) < parseInt(t2[0])) || (parseInt(t1[0]) === parseInt(t2[0]) && parseInt(t1[1]) < parseInt(t2[1]));
+                            }
+
+                            function selectKhungGio(button) {
+                                // Lấy tất cả các nút khung giờ
+                                const timeSlots = document.querySelectorAll(".time-slot");
+
+                                // Xóa lớp 'selected' hoặc 'active' từ tất cả các nút
+                                timeSlots.forEach((slot) => {
+                                    slot.classList.remove("selected", "active");
+                                });
+
+                                // Thêm lớp 'selected' hoặc 'active' vào nút được nhấp
+                                button.classList.add("selected");
+
+                                // Cập nhật giá trị cho ô input ẩn
+                                document.getElementById("KhungGio").value = button.getAttribute("data-khunggio");
+                            }
                             articles = document.getElementsByClassName('serviceTab');
                             serviceblock = document.getElementsByClassName('serviceBlock');
                             typepet = document.getElementsByClassName('typePet');
